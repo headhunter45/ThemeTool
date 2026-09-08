@@ -8,10 +8,11 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 ## Visual Board Overview
 
-| 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged to Develop) |
+| 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged / Released) |
 | :--- | :--- | :--- | :--- |
-| **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine | *(None)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(PR to `develop`)* | *(None)* |
-| **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync | | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(PR to `develop`)* | |
+| **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme | *(None)* | *(None)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
+| **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine | | | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
+| **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync | | | |
 | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser | | | |
 
 ---
@@ -21,6 +22,9 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
+- [ ] **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)** — *Application Shell, UI Foundation & Light/Dark Theme*
+  - **Category**: UI / Shell
+  - **Summary**: Establish cohesive app shell, responsive layout, and persistent light/dark/system theme toggle.
 - [ ] **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)** — *Core Color Math & Shade Scale Engine*
   - **Category**: Core Engine
   - **Summary**: Implement color conversions and perceptual 50–950 tonal shade scale generation.
@@ -43,22 +47,21 @@ Tasks currently being coded in active task branches (`tasks/<id>-<description>` 
 ### 🧪 Testing
 Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
 
-- [ ] **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)** — *Project Scaffolding & Build Pipeline*
-  - **Branch**: `tasks/scaffolding-and-build`
-  - **Category**: Infrastructure
-  - **Status**: Pull Request to `develop` open / ready for review
-  - **Summary**: Initialize Vite + React 19 + TypeScript + Tailwind CSS with strict typing and test runner.
-- [ ] **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)** — *GitHub Pages Deployment Workflow*
-  - **Category**: DevOps
-  - **Status**: Pull Request to `develop` open / ready for review
-  - **Summary**: Configure GitHub Actions workflow (.github/workflows/deploy.yml) for Pages deployment.
+*(Currently empty).*
 
 ---
 
 ### ✅ Done
-Tasks whose code has been verified and successfully merged into the `develop` branch:
+Tasks whose code has been verified and merged into `develop` or deployed to production:
 
-*(Currently empty. When PR merges into `develop`, move its entry here).*
+- [x] **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)** — *Project Scaffolding & Build Pipeline*
+  - **Category**: Infrastructure
+  - **Status**: Released to Production
+  - **Summary**: Initialized Vite + React 19 + TypeScript + Tailwind CSS with strict typing and test runner.
+- [x] **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)** — *GitHub Pages Deployment Workflow*
+  - **Category**: DevOps
+  - **Status**: Released to Production
+  - **Summary**: Configured GitHub Actions workflow (.github/workflows/deploy.yml) for automated Pages deployment.
 
 ---
 
