@@ -26,7 +26,7 @@ The statuses function as an extended Kanban workflow:
 
 | ID | Title | Status | Category |
 | :--- | :--- | :--- | :--- |
-| **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `backlog` | Infrastructure |
+| **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `testing` | Infrastructure |
 | **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `backlog` | DevOps |
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `backlog` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `backlog` | Core Engine |
@@ -54,7 +54,7 @@ The statuses function as an extended Kanban workflow:
 ## Detailed Task Specifications
 
 ### TT-001: Project Scaffolding & Build Pipeline
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Infrastructure
 - **Title**: Project Scaffolding & Build Pipeline
 - **Description**: Initialize the project repository with Vite, React 19, TypeScript, Tailwind CSS, and Vitest. Configure TypeScript strict mode, path aliases (`@/*`), and linting/formatting rules. Ensure the app builds clean production bundles.
