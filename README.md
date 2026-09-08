@@ -1,4 +1,4 @@
-# Color Tool
+# Theme Tool
 
 This project will facilitate generating color palletes for websites and apps and converting between different formats.
 
