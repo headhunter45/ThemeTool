@@ -24,13 +24,12 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Path Aliasing */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
 
     /* Types */
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": ["vitest/globals"]
   },
   "include": ["src"]
 }
