@@ -12,6 +12,15 @@ interface ImportPaletteModalProps {
 
 const SAMPLE_COOLORS = 'https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8';
 const SAMPLE_COLORKIT = 'https://colorkit.co/palette/eebea0-ff8d83-ffa89f-ffc2bc-aaae80/';
+const SAMPLE_REALTIME = 'https://www.realtimecolors.com/?colors=050315-fbfbfe-2f27ce-dedcff-433bff';
+const SAMPLE_JSON = `{
+  "text": "#050315",
+  "background": "#fbfbfe",
+  "primary": "#2f27ce",
+  "secondary": "#dedcff",
+  "accent": "#433bff"
+}`;
+const SAMPLE_RAW_HEX = '#050315 #fbfbfe #2f27ce #dedcff #433bff';
 const SAMPLE_UICOLORS_URL = 'https://uicolors.app/generate/b49c2c?name=lucky';
 const SAMPLE_TAILWIND_3 = `'lucky': {
   '50': '#faf9ec',
@@ -90,6 +99,10 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
 
   const getSourceLabel = (source: string) => {
     switch (source) {
+      case 'realtimecolors':
+        return 'Realtime Colors Palette';
+      case 'json':
+        return 'JSON Theme Payload';
       case 'coolors':
         return 'Coolors.co Palette';
       case 'colorkit':
@@ -136,7 +149,7 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
                 Import Palette & Themes
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Paste a Coolors / ColorKit URL, or Tailwind 3/4 & UIColors code
+                Paste Coolors, ColorKit, Realtime Colors, Tailwind, UIColors, JSON, or Hex codes
               </p>
             </div>
           </div>
@@ -176,6 +189,14 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
               </button>
               <button
                 type="button"
+                onClick={() => setUrlInput(SAMPLE_REALTIME)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 transition-colors"
+              >
+                <Sparkles className="w-3 h-3 text-rose-500" />
+                Realtime Colors
+              </button>
+              <button
+                type="button"
                 onClick={() => setUrlInput(SAMPLE_TAILWIND_3)}
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 transition-colors"
               >
@@ -197,6 +218,22 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
               >
                 <Sparkles className="w-3 h-3 text-purple-500" />
                 UIColors URL
+              </button>
+              <button
+                type="button"
+                onClick={() => setUrlInput(SAMPLE_JSON)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 transition-colors"
+              >
+                <Sparkles className="w-3 h-3 text-teal-500" />
+                JSON Sample
+              </button>
+              <button
+                type="button"
+                onClick={() => setUrlInput(SAMPLE_RAW_HEX)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 transition-colors"
+              >
+                <Sparkles className="w-3 h-3 text-orange-500" />
+                Raw Hex Sample
               </button>
             </div>
           </div>

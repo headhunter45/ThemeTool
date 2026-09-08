@@ -150,6 +150,71 @@ describe('ImportPaletteModal', () => {
     expect(screen.getByTestId('active-primary').textContent).toBe('#b49c2c');
   });
 
+  it('populates Realtime Colors sample and imports correctly into semantic roles', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    fireEvent.click(screen.getByText('Realtime Colors'));
+
+    expect(screen.getByText(/Realtime Colors Palette/i)).toBeInTheDocument();
+    expect(screen.getByText(/5 colors detected/i)).toBeInTheDocument();
+    expect(screen.getByText('#050315')).toBeInTheDocument();
+    expect(screen.getByText('#2f27ce')).toBeInTheDocument();
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-text').textContent).toBe('#050315');
+    expect(screen.getByTestId('active-primary').textContent).toBe('#2f27ce');
+    expect(screen.getByTestId('active-secondary').textContent).toBe('#dedcff');
+  });
+
+  it('populates JSON sample and imports into palette correctly', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    fireEvent.click(screen.getByText('JSON Sample'));
+
+    expect(screen.getByText(/JSON Theme Payload/i)).toBeInTheDocument();
+    expect(screen.getByText('#2f27ce')).toBeInTheDocument();
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-primary').textContent).toBe('#2f27ce');
+    expect(screen.getByTestId('active-text').textContent).toBe('#050315');
+    expect(screen.getByTestId('active-secondary').textContent).toBe('#dedcff');
+  });
+
+  it('populates Raw Hex sample and imports into palette correctly', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    fireEvent.click(screen.getByText('Raw Hex Sample'));
+
+    expect(screen.getByText(/Raw Hex Color Set/i)).toBeInTheDocument();
+    expect(screen.getByText('#050315')).toBeInTheDocument();
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-text').textContent).toBe('#050315');
+    expect(screen.getByTestId('active-primary').textContent).toBe('#2f27ce');
+    expect(screen.getByTestId('active-secondary').textContent).toBe('#dedcff');
+  });
+
   it('shows error message on unrecognized URL or snippet', () => {
     render(
       <PaletteProvider>

@@ -1,6 +1,7 @@
 import {CustomColorSlot, PaletteColors, ROLE_METADATA} from '../palette/types';
 
-export type PaletteSource = 'coolors'|'colorkit'|'themetool'|'raw';
+export type PaletteSource =
+    'coolors'|'colorkit'|'realtimecolors'|'json'|'themetool'|'raw';
 
 export interface ParsedPaletteResult {
   colors: string[];
@@ -117,15 +118,30 @@ export function mapColorsToPalette(hexCodes: string[]):
   return {colors: resultColors, custom};
 }
 
+import {parsePaletteJson, parseRawHexDelimited, parseRealtimeColorsUrl} from './realtimeAndRawParser';
+
 /**
  * Universal palette parser that detects whether an input is a Coolors URL,
- * ColorKit URL, ThemeTool share URL/query, or raw dash-separated hex string.
+ * ColorKit URL, Realtime Colors URL, JSON payload, ThemeTool share URL/query,
+ * or raw delimited hex string.
  */
 export function parsePaletteUrl(input: string): ParsedPaletteResult|null {
   if (!input || typeof input !== 'string') return null;
   const trimmed = input.trim();
 
-  // 1. Coolors URL
+  // 1. Realtime Colors URL
+  if (/realtimecolors\.com/i.test(trimmed)) {
+    const colors = parseRealtimeColorsUrl(trimmed);
+    if (colors && colors.length > 0) {
+      return {
+        colors,
+        source: 'realtimecolors',
+        mapped: mapColorsToPalette(colors),
+      };
+    }
+  }
+
+  // 2. Coolors URL
   if (/coolors\.co/i.test(trimmed)) {
     const colors = parseCoolorsUrl(trimmed);
     if (colors && colors.length > 0) {
@@ -137,7 +153,7 @@ export function parsePaletteUrl(input: string): ParsedPaletteResult|null {
     }
   }
 
-  // 2. ColorKit URL
+  // 3. ColorKit URL
   if (/colorkit\.co/i.test(trimmed)) {
     const colors = parseColorKitUrl(trimmed);
     if (colors && colors.length > 0) {
@@ -149,7 +165,26 @@ export function parsePaletteUrl(input: string): ParsedPaletteResult|null {
     }
   }
 
-  // 3. ThemeTool URL or query with ?colors= or #colors=
+  // 4. JSON Payload
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    const jsonResult = parsePaletteJson(trimmed);
+    if (jsonResult) {
+      const colors = [
+        jsonResult.colors.text,
+        jsonResult.colors.background,
+        jsonResult.colors.primary,
+        jsonResult.colors.secondary,
+        jsonResult.colors.accent,
+      ];
+      return {
+        colors,
+        source: 'json',
+        mapped: jsonResult,
+      };
+    }
+  }
+
+  // 5. ThemeTool URL or query with ?colors= or #colors=
   if (/[?#&]colors=/i.test(trimmed)) {
     try {
       const match = trimmed.match(/[?#&]colors=([a-fA-F0-9\-#]+)/i);
@@ -168,26 +203,17 @@ export function parsePaletteUrl(input: string): ParsedPaletteResult|null {
     }
   }
 
-  // 4. Raw comma-separated hex codes
-  // e.g. #6f2dbd, #a663cc, #b298dc
-  const commaSeparated = trimmed.split(',').map((s) => s.trim());
-  if (commaSeparated.length > 1) {
-    const validHexes: string[] = [];
-    for (const item of commaSeparated) {
-      const hex = normalizeHexColor(item);
-      if (!hex) break;
-      validHexes.push(hex);
-    }
-    if (validHexes.length === commaSeparated.length) {
-      return {
-        colors: validHexes,
-        source: 'raw',
-        mapped: mapColorsToPalette(validHexes),
-      };
-    }
+  // 6. Delimited raw hex codes (space, newline, comma, semicolon)
+  const delimitedHexes = parseRawHexDelimited(trimmed);
+  if (delimitedHexes && delimitedHexes.length >= 2) {
+    return {
+      colors: delimitedHexes,
+      source: 'raw',
+      mapped: mapColorsToPalette(delimitedHexes),
+    };
   }
 
-  // 5. Raw dash-separated hex codes
+  // 7. Raw dash-separated hex codes (e.g. 050315-fbfbfe-2f27ce-dedcff-433bff)
   const slugColors = extractHexFromSlug(trimmed);
   if (slugColors && slugColors.length >= 2) {
     return {

@@ -31,8 +31,8 @@ The statuses function as an extended Kanban workflow:
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `testing` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `testing` | Importers |
-| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `testing` | Importers |
-| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `backlog` | Importers |
+| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `done` | Importers |
+| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `testing` | Importers |
 | **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `backlog` | UI / Shell |
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `backlog` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
@@ -51,6 +51,9 @@ The statuses function as an extended Kanban workflow:
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
+| **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `backlog` | UI / Shell |
+| **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `backlog` | UI / Shell |
+| **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `backlog` | UI / Shell |
 
 ---
 
@@ -110,7 +113,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying parsing of sample URLs from `README.md`.
 
 ### TT-006: UIColors (Tailwind 3 & 4) Format Parser
-- **Status**: `testing`
+- **Status**: `done`
 - **Category**: Importers
 - **Title**: UIColors (Tailwind 3 & 4) Format Parser
 - **Description**: Implement an import parser that accepts copy-pasted UIColors/Tailwind code blocks. Recognizes both Tailwind v3 JavaScript object syntax (`'50': '#faf9ec', ...`) and Tailwind v4 CSS variable definitions (`--color-lucky-50: #faf9ec; ...`). Extracts the base color (the `500` step) into the target semantic role (defaulting to Primary or user-selected role) and re-generates the full perceptual 50–950 shade scale using our calibrated OKLCH math engine.
@@ -122,7 +125,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying parsing of sample snippets from `README.md`.
 
 ### TT-007: Realtime Colors & Raw Format Importer
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Importers
 - **Title**: Realtime Colors & Raw Format Importer
 - **Description**: Extend the `ImportPaletteModal` to accept Realtime Colors URLs (`https://www.realtimecolors.com/?colors=...`), JSON objects (`{ "text": "...", "background": "...", "primary": "...", "secondary": "...", "accent": "..." }`), and unstructured raw text (comma-separated hex codes, space-separated hex codes, or array syntax).
@@ -322,3 +325,60 @@ The statuses function as an extended Kanban workflow:
   - One-click copy JSON code snippet and one-click `theme.json` file download.
   - Export modal includes an interactive viewer/link for the JSON Schema.
   - Automated unit tests validating exported JSON structures against the JSON Schema.
+
+### TT-026: Base Palette Selection Workflow
+- **Status**: `backlog`
+- **Category**: UI / Shell
+- **Title**: Base Palette Selection Workflow (Single Color, Presets, Import)
+- **Description**: Implement a tutorial-style base palette selection workflow placed directly under the header at the top of the main studio page. The section unites three setup mechanisms into a single row/section:
+  1. **Single Seed Color Picker & Generator**: Choose a single seed color (via color picker or hex input) and generate a complete, perceptually balanced 5-role semantic palette (Primary, Secondary, Accent, Background, Text) using OKLCH harmonic and contrast rules.
+  2. **Preset Selector**: Fast access to curated theme presets.
+  3. **Import Palette**: Quick access to import from external URLs (Coolors, ColorKit, Realtime Colors, UIColors) or code snippets (Tailwind, JSON, raw hex).
+  - **Explicit Confirmation**: The user must explicitly click a confirmation button (e.g. "Apply Base Palette") to commit their choice. Picking a color in the picker does not close the section or auto-commit destructively.
+  - **Collapsible Section Header**: Once a selection is confirmed, the section shrinks down to just its header bar summarizing the active base choice. Clicking the header expands or collapses the section at any time, allowing the user to return and re-select without friction.
+- **Acceptance Criteria**:
+  - Unified base selection section rendered under the header at the top of main content.
+  - Seed color palette generator derives 5 harmonious semantic roles from any single color input using OKLCH math.
+  - Single color, Presets, and Import controls arranged cohesively on one line.
+  - Dedicated "Apply Base Palette" confirmation button required to apply any choice.
+  - Color picker interactions do not close the section or auto-apply prematurely.
+  - Section collapses to an expandable summary header upon confirmation.
+  - Unit tests verifying single color palette generation and collapsible UI interaction.
+
+### TT-027: App Layout Restructure & System Architecture Navigation
+- **Status**: `backlog`
+- **Category**: UI / Shell
+- **Title**: App Layout Restructure, System Architecture Navigation & Public UI Cleanup
+- **Description**: Clean up internal development markers from the public user interface and re-organize the application layout to flow naturally like a step-by-step design studio:
+  1. **Remove Developer Artifacts**: Remove internal task ID badges and tracking labels (e.g., "TT-004 URL Synced", "TT-003 Live") from user-facing components.
+  2. **Dedicated System Architecture Tab**: Move the System Architecture module cards out of the main studio canvas into a dedicated "Architecture" view accessible via header tab navigation (switching between "Studio" and "Architecture").
+  3. **Sequential Studio Page Flow**: Restructure the primary Studio page into a logical top-to-bottom hierarchy:
+     - Step 1: Base Palette Selection (TT-026 collapsible banner).
+     - Step 2: Active Semantic Palette Bar (5 roles, locks, hex inputs, and action buttons).
+     - Step 3: Interactive Component & Platform Previews.
+- **Acceptance Criteria**:
+  - All "TT-*" badges and development status indicators removed from public studio view.
+  - Header tab navigation allows toggling between "Studio" and "Architecture".
+  - "Architecture" view cleanly presents the foundational modules and system pipeline.
+  - Studio view presents a focused, intuitive tutorial flow (Base -> Palette -> Previews).
+  - Unit tests updated to reflect cleaned UI labels and view switching.
+
+### TT-028: Contextual Color Inspector & On-Demand Shade Studio
+- **Status**: `backlog`
+- **Category**: UI / Shell
+- **Title**: Contextual Color Inspector & On-Demand Shade Studio
+- **Description**: Transform the static, always-visible Color Math & Shade Studio into an on-demand, contextual deep-dive tool:
+  1. **Hidden by Default**: Hide the raw color math conversions and shade tables from the main studio canvas by default to keep the interface focused.
+  2. **Trigger from Color Card**: Add an "Inspect" / "Shade Studio" button to each semantic color card in the `PaletteBar`.
+  3. **Contextual Inspector**: Clicking opens an inspector drawer or modal tied directly to the clicked color role, presenting:
+     - Calibrated 11-step tonal shade scale (50–950) with natural vs 500 anchor toggle.
+     - Perceptual color math conversions (RGB, HSL, OKLCH, relative luminance).
+     - WCAG contrast metrics against text and background.
+  4. **Expandable Tonal Scale**: Provide an expandable toggle for the tonal scale inside or alongside the inspector.
+- **Acceptance Criteria**:
+  - Standalone Color Math & Shade Studio removed from default page canvas.
+  - Each color card in `PaletteBar` features an "Inspect" action opening the contextual shade studio for that specific color.
+  - Inspector drawer/modal displays live OKLCH shade steps and color space conversions.
+  - Tonal scale expandable/collapsible with clean animation.
+  - Responsive, accessible, and supports Light/Dark theme modes.
+  - Unit tests verifying contextual trigger and color synchronization.

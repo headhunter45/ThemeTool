@@ -10,10 +10,12 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 | 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged / Released) |
 | :--- | :--- | :--- | :--- |
-| **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer | *(None)* | **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
-| **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor | | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
-| **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
-| **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | |
+| **[TT-026](Tasks.md#tt-026-base-palette-selection-workflow)**<br>Base Palette Selection Workflow | *(None currently active)* | **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer<br>*(Ready for PR / testing)* | **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser<br>*(Merged to `develop`)* |
+| **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)**<br>Layout Restructure & Architecture Tab | | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
+| **[TT-028](Tasks.md#tt-028-contextual-color-inspector--on-demand-shade-studio)**<br>Contextual Color Inspector | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
+| **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
+| **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection | | | |
+| **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview | | | |
 | **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter | | | |
 | **[TT-016](Tasks.md#tt-016-android-xml-resource-generator--zip-packager)**<br>Android XML Zip Packager | | | |
 | **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)**<br>iOS Swift & xcassets Exporter | | | |
@@ -28,9 +30,15 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
-- [ ] **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)** — *Realtime Colors & Raw Format Importer*
-  - **Category**: Importers
-  - **Summary**: Support Realtime Colors URLs, JSON payloads, and raw hex strings directly in the Import Palette modal.
+- [ ] **[TT-026](Tasks.md#tt-026-base-palette-selection-workflow)** — *Base Palette Selection Workflow (Single Color, Presets, Import)*
+  - **Category**: UI / Shell
+  - **Summary**: Top-of-page collapsible banner with single color seed palette generator, presets, and import with explicit confirmation button.
+- [ ] **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)** — *App Layout Restructure & System Architecture Navigation*
+  - **Category**: UI / Shell
+  - **Summary**: Strip internal TT-* badges, move System Architecture to a dedicated navigation tab, and establish clean tutorial-style studio flow.
+- [ ] **[TT-028](Tasks.md#tt-028-contextual-color-inspector--on-demand-shade-studio)** — *Contextual Color Inspector & On-Demand Shade Studio*
+  - **Category**: UI / Shell
+  - **Summary**: Hide standalone color math/shade studio; add inspect button on each color card to open contextual shade scale and conversions.
 - [ ] **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)** — *Interactive Palette Editor UI*
   - **Category**: UI / Shell
   - **Summary**: Undo/Redo history stack, custom color slot management, and quick semantic role swap tool.
@@ -64,18 +72,24 @@ Tasks that are fully defined, specified, and ready to be picked up immediately:
 ### 🚀 In-Progress
 Tasks currently being coded in active task branches (`tasks/<id>-<description>` with 1–5 words, branching off `develop` or a dependency task branch):
 
-*(Currently empty. When starting a task, move its entry here, create the task branch, and begin implementation).*
+*(No tasks currently in active development. Select next task from Backlog.)*
 
 ---
 
 ### 🧪 Testing
 Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
 
-- [ ] **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)** — *UIColors (Tailwind 3 & 4) Format Parser*
-  - **Branch**: `tasks/tt-006-uicolors-parser`
+- [ ] **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)** — *Realtime Colors & Raw Format Importer*
+  - **Branch**: `tasks/tt-007-realtime-colors-importer`
   - **Category**: Importers
-  - **Status**: Pull Request to `develop` open / ready for review
-  - **Summary**: Parse Tailwind 3 JS objects, Tailwind 4 CSS variables, and UIColors URLs, extracting the base 500 step and generating the full OKLCH shade scale.
+  - **Status**: Ready for review / testing
+  - **Summary**: Support Realtime Colors URLs, JSON payloads, and raw hex strings directly in the Import Palette modal.
+
+---
+
+### 🧪 Testing
+Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
+
 - [ ] **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)** — *Coolors & ColorKit URL Import Parser*
   - **Branch**: `tasks/tt-005-url-import-parser`
   - **Category**: Importers
@@ -97,6 +111,10 @@ Tasks where branch implementation is complete and a GitHub Pull Request to `deve
 ### ✅ Done
 Tasks whose code has been verified and merged into `develop` or deployed to production:
 
+- [x] **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)** — *UIColors (Tailwind 3 & 4) Format Parser*
+  - **Category**: Importers
+  - **Status**: Merged to `develop`
+  - **Summary**: Parsed Tailwind 3 JS objects, Tailwind 4 CSS variables, and UIColors URLs into active semantic roles.
 - [x] **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)** — *Project Scaffolding & Build Pipeline*
   - **Category**: Infrastructure
   - **Status**: Released to Production
