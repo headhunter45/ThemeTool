@@ -1,5 +1,6 @@
 import { CheckCircle2, Layers, Palette, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 import React from 'react';
+import { ShadeScaleExplorer } from './components/color/ShadeScaleExplorer';
 import { AppShell } from './components/layout/AppShell';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/Card';
 import { ThemeProvider } from './context/ThemeContext';
@@ -27,16 +28,16 @@ export const AppContent: React.FC = () => {
     {
       title: 'UI Shell & Theme',
       id: 'TT-024',
-      status: 'Active',
-      statusColor: 'indigo',
+      status: 'Production',
+      statusColor: 'emerald',
       icon: Layers,
       description: 'Application layout, responsive shell, and light/dark/system theme management.',
     },
     {
       title: 'Color Math & Shade Engine',
       id: 'TT-003',
-      status: 'Up Next',
-      statusColor: 'amber',
+      status: 'Active',
+      statusColor: 'indigo',
       icon: Palette,
       description: 'OKLCH/CIELAB conversions, perceptual 50–950 shade generation, and WCAG contrast.',
     },
@@ -73,6 +74,9 @@ export const AppContent: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Live Color Math & Shade Engine Studio */}
+        <ShadeScaleExplorer />
 
         {/* Foundation Modules Grid */}
         <div>
@@ -138,4 +142,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-

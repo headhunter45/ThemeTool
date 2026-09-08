@@ -28,7 +28,7 @@ The statuses function as an extended Kanban workflow:
 | :--- | :--- | :--- | :--- |
 | **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `released` | Infrastructure |
 | **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `released` | DevOps |
-| **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `backlog` | Core Engine |
+| **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `backlog` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `backlog` | Importers |
 | **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `triage` | Importers |
@@ -49,7 +49,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `planning` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
-| **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `testing` | UI / Shell |
+| **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 
 ---
 
@@ -78,7 +78,7 @@ The statuses function as an extended Kanban workflow:
   - GitHub Pages deployment permissions (`pages: write`, `id-token: write`) configured.
 
 ### TT-003: Core Color Math & Shade Scale Engine
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Core Engine
 - **Title**: Core Color Math & Shade Scale Engine
 - **Description**: Implement color utilities for format conversions (HEX, RGB, HSL, OKLCH), luminance calculation, and algorithmic generation of 50–950 tonal shade scales (11 shade steps matching Tailwind convention). Ensure smooth perceptual lightness distribution using OKLCH/CIELAB color spaces.
@@ -293,7 +293,7 @@ The statuses function as an extended Kanban workflow:
   - Required CI check status integrated into repository branch protection rules.
 
 ### TT-024: Application Shell, UI Foundation & Light/Dark Theme
-- **Status**: `testing`
+- **Status**: `released`
 - **Category**: UI / Shell
 - **Title**: Application Shell, UI Foundation & Light/Dark Theme
 - **Description**: Build the persistent top-level application shell and UI design system foundation supporting light and dark mode. Establish a unified layout containing a brand header (title, logo, GitHub repository link, status pill), theme toggle switch (supporting light, dark, and system preference with local storage persistence), responsive content container, and reusable UI card/panel primitives.

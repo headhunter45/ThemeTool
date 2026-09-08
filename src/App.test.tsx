@@ -42,5 +42,32 @@ describe('ThemeTool Shell & UI Integration', () => {
     fireEvent.click(lightButton);
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
-});
 
+  it('renders the Color Math & Shade Studio with conversions and 11 shade swatches', () => {
+    render(<App />);
+    expect(screen.getByText('Color Math & Shade Studio')).toBeInTheDocument();
+    expect(screen.getByText('HEX')).toBeInTheDocument();
+    expect(screen.getByText('RGB')).toBeInTheDocument();
+    expect(screen.getByText('HSL')).toBeInTheDocument();
+    expect(screen.getByText('OKLCH')).toBeInTheDocument();
+
+    // Check all 11 shade steps
+    ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'].forEach((step) => {
+      expect(screen.getByText(step)).toBeInTheDocument();
+    });
+  });
+
+  it('allows clicking presets and toggling anchor modes', () => {
+    render(<App />);
+    const emeraldPreset = screen.getByRole('button', { name: /Emerald/i });
+    fireEvent.click(emeraldPreset);
+
+    const input = screen.getByLabelText(/Hex color value/i) as HTMLInputElement;
+    expect(input.value).toBe('#10b981');
+
+    const anchorButton = screen.getByRole('button', { name: /Natural Anchor|Locked to 500/i });
+    expect(anchorButton).toBeInTheDocument();
+    fireEvent.click(anchorButton);
+    expect(screen.getByText('Locked to 500')).toBeInTheDocument();
+  });
+});
