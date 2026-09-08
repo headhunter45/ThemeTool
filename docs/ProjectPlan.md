@@ -107,11 +107,12 @@ Export production-ready theme code and assets tailored to each ecosystem:
 
 ## 4. Git Workflow & Release Strategy
 
-To ensure code quality and seamless tracking across task states:
-- **`feature/<task-id>-<description>`**: Branch created for each task moving to `in-progress`.
-- **Pull Request to `develop`**: Branch ready for review moves task to `testing`.
-- **Merge into `develop`**: Task moves to `done`. Automatic deployment to staging / dev preview.
-- **Merge `develop` into `main`**: Task moves to `released`. Deploys live to GitHub Pages (`headhunter45.github.io/themetool`).
+- **`tasks/<task-id>-<description>`**: Branch created for each task moving to `in-progress` (with 1 to 5 words describing the task).
+- **Branching Base**: Each task branch branches off a commit in `develop` or off another task branch to depend on that task.
+- **Pull Request to `develop`**: When implementation is ready for review and testing, open a GitHub Pull Request targeting `develop`. This moves the task to `testing`.
+- **Merge into `develop`**: Merging the PR moves the task to `done`.
+- **Merge `develop` into `main`**: Merging `develop` into `main` moves the task to `released` and deploys live to GitHub Pages (`headhunter45.github.io/themetool`).
+- **Destructive Git Commands**: Never executed automatically; the user will be prompted to run any destructive git operations manually.
 
 ---
 

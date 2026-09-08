@@ -42,16 +42,16 @@ Tasks that are fully defined, specified, and ready to be picked up immediately:
 ---
 
 ### 🚀 In-Progress
-Tasks currently being coded in active feature branches (`feature/<id>-<name>`):
+Tasks currently being coded in active task branches (`tasks/<id>-<description>` with 1–5 words, branching off `develop` or a dependency task branch):
 
-*(Currently empty. When starting a task, move its entry here and create branch).*
+*(Currently empty. When starting a task, move its entry here, create the task branch, and begin implementation).*
 
 ---
 
 ### 🧪 Testing
-Tasks where branch implementation is complete and ready for pull request review, verification, or automated tests:
+Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
 
-*(Currently empty. When a feature branch is ready for PR, move its entry here).*
+*(Currently empty. When a task branch is ready for PR to develop, move its entry here).*
 
 ---
 

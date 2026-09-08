@@ -15,7 +15,7 @@ The statuses function as an extended Kanban workflow:
 | **`backlog`** | Fully specified tasks that are ready to be picked up and worked on immediately. |
 | **`assigned`** | Tasks assigned to a developer (typically skipped in pair-programming workflows). |
 | **`in-progress`** | Actively being worked on. **The first step of working on any task is moving it to `in-progress`.** |
-| **`testing`** | Implementation is complete in a feature branch; ready for testing, verification, and pull request review. |
+| **`testing`** | Implementation is complete in a task branch (`tasks/*`); ready for testing, verification, and pull request to `develop`. |
 | **`done`** | Implementation complete, verified, and code has merged into the `develop` branch. |
 | **`released`** | Code has merged from `develop` into `main` and is deployed to production. |
 | **`cancelled`** | Work that was abandoned or deprecated, retained for historical tracking. |
@@ -68,11 +68,12 @@ The statuses function as an extended Kanban workflow:
 - **Status**: `backlog`
 - **Category**: DevOps
 - **Title**: GitHub Pages Deployment Workflow
-- **Description**: Create GitHub Actions workflow (`.github/workflows/deploy.yml`) to automatically build and deploy the app to GitHub Pages upon pushing to the `main` branch. Support base URL path configuration (`/themetool` or root `/`).
+- **Description**: Configure GitHub Pages deployment via GitHub Actions (Option A: single repository, no separate branch or `/docs` bundle commits). Create `.github/workflows/deploy.yml` using `actions/configure-pages`, `actions/upload-pages-artifact`, and `actions/deploy-pages`. Workflow triggers on pushes to `main`, compiles the app (`npm run build`), and deploys `dist/` directly to Pages.
 - **Acceptance Criteria**:
-  - GitHub Actions workflow config created for Pages deployment.
-  - Vite base path configured to work both locally (`/`) and on GitHub Pages (`/themetool/` or repo name).
-  - Build artifact upload and deployment step verified.
+  - GitHub Actions workflow config created at `.github/workflows/deploy.yml` using modern Pages action suite.
+  - Keeps repository clean: zero build artifacts committed into git or `docs/`.
+  - Vite `base` configured to support GitHub Pages path (`/themetool/` or repo name) while retaining local dev (`/`).
+  - GitHub Pages deployment permissions (`pages: write`, `id-token: write`) configured.
 
 ### TT-003: Core Color Math & Shade Scale Engine
 - **Status**: `backlog`
