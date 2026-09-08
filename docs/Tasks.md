@@ -31,7 +31,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `testing` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `testing` | Importers |
-| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `backlog` | Importers |
+| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `testing` | Importers |
 | **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `backlog` | Importers |
 | **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `backlog` | UI / Shell |
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `backlog` | UI / Shell |
@@ -110,7 +110,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying parsing of sample URLs from `README.md`.
 
 ### TT-006: UIColors (Tailwind 3 & 4) Format Parser
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Importers
 - **Title**: UIColors (Tailwind 3 & 4) Format Parser
 - **Description**: Implement an import parser that accepts copy-pasted UIColors/Tailwind code blocks. Recognizes both Tailwind v3 JavaScript object syntax (`'50': '#faf9ec', ...`) and Tailwind v4 CSS variable definitions (`--color-lucky-50: #faf9ec; ...`). Extracts the base color (the `500` step) into the target semantic role (defaulting to Primary or user-selected role) and re-generates the full perceptual 50–950 shade scale using our calibrated OKLCH math engine.

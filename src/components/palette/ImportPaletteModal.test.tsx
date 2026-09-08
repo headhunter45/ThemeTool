@@ -12,6 +12,7 @@ const TestContainer: React.FC = () => {
     <div>
       <button onClick={() => setIsOpen(true)}>Open Modal</button>
       <div data-testid="active-primary">{colors.primary}</div>
+      <div data-testid="active-secondary">{colors.secondary}</div>
       <div data-testid="active-text">{colors.text}</div>
       <ImportPaletteModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
@@ -30,13 +31,13 @@ describe('ImportPaletteModal', () => {
       </PaletteProvider>
     );
 
-    expect(screen.queryByText('Import Palette from URL')).not.toBeInTheDocument();
+    expect(screen.queryByText('Import Palette & Themes')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Open Modal'));
-    expect(screen.getByText('Import Palette from URL')).toBeInTheDocument();
+    expect(screen.getByText('Import Palette & Themes')).toBeInTheDocument();
 
     fireEvent.click(screen.getByLabelText('Close dialog'));
-    expect(screen.queryByText('Import Palette from URL')).not.toBeInTheDocument();
+    expect(screen.queryByText('Import Palette & Themes')).not.toBeInTheDocument();
   });
 
   it('populates Coolors sample and previews detected colors', () => {
@@ -89,7 +90,7 @@ describe('ImportPaletteModal', () => {
     expect(screen.getByTestId('active-text').textContent).toBe('#eebea0');
   });
 
-  it('shows error message on unrecognized URL', () => {
+  it('populates Tailwind 3 sample, previews OKLCH scale, and imports into Primary', () => {
     render(
       <PaletteProvider>
         <TestContainer />
@@ -97,9 +98,69 @@ describe('ImportPaletteModal', () => {
     );
 
     fireEvent.click(screen.getByText('Open Modal'));
-    const input = screen.getByPlaceholderText(/https:\/\/coolors\.co\/palette/i);
+    fireEvent.click(screen.getByText('Tailwind 3 Sample'));
+
+    expect(screen.getByText(/Tailwind v3 JS Object/i)).toBeInTheDocument();
+    expect(screen.getByText(/Base 500: #b49c2c/i)).toBeInTheDocument();
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-primary').textContent).toBe('#b49c2c');
+  });
+
+  it('populates Tailwind 4 sample, allows role selection, and imports into Secondary', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    fireEvent.click(screen.getByText('Tailwind 4 Sample'));
+
+    expect(screen.getByText(/Tailwind v4 CSS Variables/i)).toBeInTheDocument();
+
+    // Select secondary role
+    const roleSelect = screen.getByLabelText(/Assign base color to role:/i);
+    fireEvent.change(roleSelect, { target: { value: 'secondary' } });
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-secondary').textContent).toBe('#b49c2c');
+  });
+
+  it('populates UIColors URL sample and imports into active role', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    fireEvent.click(screen.getByText('UIColors URL'));
+
+    expect(screen.getByText(/UIColors\.app URL/i)).toBeInTheDocument();
+    expect(screen.getByText(/Base 500: #b49c2c/i)).toBeInTheDocument();
+
+    const importBtn = screen.getByText('Import to Palette');
+    fireEvent.click(importBtn);
+
+    expect(screen.getByTestId('active-primary').textContent).toBe('#b49c2c');
+  });
+
+  it('shows error message on unrecognized URL or snippet', () => {
+    render(
+      <PaletteProvider>
+        <TestContainer />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Modal'));
+    const input = screen.getByPlaceholderText(/Paste Coolors URL/i);
     fireEvent.change(input, { target: { value: 'https://google.com' } });
 
-    expect(screen.getByText('Unrecognized URL format')).toBeInTheDocument();
+    expect(screen.getByText('Unrecognized format')).toBeInTheDocument();
   });
 });

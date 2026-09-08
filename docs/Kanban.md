@@ -10,11 +10,10 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 | 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged / Released) |
 | :--- | :--- | :--- | :--- |
-| **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser | *(None)* | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
-| **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
-| **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
-| **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection | | | |
-| **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview | | | |
+| **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer | *(None)* | **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
+| **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor | | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
+| **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
+| **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | |
 | **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter | | | |
 | **[TT-016](Tasks.md#tt-016-android-xml-resource-generator--zip-packager)**<br>Android XML Zip Packager | | | |
 | **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)**<br>iOS Swift & xcassets Exporter | | | |
@@ -29,9 +28,6 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
-- [ ] **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)** — *UIColors (Tailwind 3 & 4) Format Parser*
-  - **Category**: Importers
-  - **Summary**: Parse Tailwind 3 JS objects and Tailwind 4 CSS variables, extract base 500 color, and generate full 50–950 OKLCH scale.
 - [ ] **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)** — *Realtime Colors & Raw Format Importer*
   - **Category**: Importers
   - **Summary**: Support Realtime Colors URLs, JSON payloads, and raw hex strings directly in the Import Palette modal.
@@ -75,6 +71,11 @@ Tasks currently being coded in active task branches (`tasks/<id>-<description>` 
 ### 🧪 Testing
 Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
 
+- [ ] **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)** — *UIColors (Tailwind 3 & 4) Format Parser*
+  - **Branch**: `tasks/tt-006-uicolors-parser`
+  - **Category**: Importers
+  - **Status**: Pull Request to `develop` open / ready for review
+  - **Summary**: Parse Tailwind 3 JS objects, Tailwind 4 CSS variables, and UIColors URLs, extracting the base 500 step and generating the full OKLCH shade scale.
 - [ ] **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)** — *Coolors & ColorKit URL Import Parser*
   - **Branch**: `tasks/tt-005-url-import-parser`
   - **Category**: Importers
