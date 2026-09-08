@@ -10,9 +10,8 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 | 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged to Develop) |
 | :--- | :--- | :--- | :--- |
-| **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow | *(None)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(PR to `develop`)* | *(None)* |
-| **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine | | | |
-| **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync | | | |
+| **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine | *(None)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(PR to `develop`)* | *(None)* |
+| **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync | | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(PR to `develop`)* | |
 | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser | | | |
 
 ---
@@ -22,9 +21,6 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
-- [ ] **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)** — *GitHub Pages Deployment Workflow*
-  - **Category**: DevOps
-  - **Summary**: Set up GitHub Actions CI/CD to deploy client-side app to GitHub Pages.
 - [ ] **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)** — *Core Color Math & Shade Scale Engine*
   - **Category**: Core Engine
   - **Summary**: Implement color conversions and perceptual 50–950 tonal shade scale generation.
@@ -52,6 +48,10 @@ Tasks where branch implementation is complete and a GitHub Pull Request to `deve
   - **Category**: Infrastructure
   - **Status**: Pull Request to `develop` open / ready for review
   - **Summary**: Initialize Vite + React 19 + TypeScript + Tailwind CSS with strict typing and test runner.
+- [ ] **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)** — *GitHub Pages Deployment Workflow*
+  - **Category**: DevOps
+  - **Status**: Pull Request to `develop` open / ready for review
+  - **Summary**: Configure GitHub Actions workflow (.github/workflows/deploy.yml) for Pages deployment.
 
 ---
 

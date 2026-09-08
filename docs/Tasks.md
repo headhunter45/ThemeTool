@@ -27,7 +27,7 @@ The statuses function as an extended Kanban workflow:
 | ID | Title | Status | Category |
 | :--- | :--- | :--- | :--- |
 | **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `testing` | Infrastructure |
-| **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `backlog` | DevOps |
+| **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `testing` | DevOps |
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `backlog` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `backlog` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `backlog` | Importers |
@@ -48,6 +48,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `planning` | Enhancements |
+| **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 
 ---
 
@@ -65,7 +66,7 @@ The statuses function as an extended Kanban workflow:
   - `npm run build` succeeds without warnings or type errors.
 
 ### TT-002: GitHub Pages Deployment Workflow
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: DevOps
 - **Title**: GitHub Pages Deployment Workflow
 - **Description**: Configure GitHub Pages deployment via GitHub Actions (Option A: single repository, no separate branch or `/docs` bundle commits). Create `.github/workflows/deploy.yml` using `actions/configure-pages`, `actions/upload-pages-artifact`, and `actions/deploy-pages`. Workflow triggers on pushes to `main`, compiles the app (`npm run build`), and deploys `dist/` directly to Pages.
@@ -279,3 +280,13 @@ The statuses function as an extended Kanban workflow:
   - One-click "Generate Dark Theme" button.
   - Dual theme preview mode.
   - Generates `res/values-night/` XML and Tailwind dark mode classes (`dark:` / CSS media query).
+
+### TT-023: Automated Continuous Integration (CI) Pipeline
+- **Status**: `planning`
+- **Category**: DevOps
+- **Title**: Automated Continuous Integration (CI) Pipeline
+- **Description**: Evaluate and configure an automated CI pipeline for pull requests and branch verification (e.g., GitHub Actions or alternate CI providers). The pipeline will execute linting, type-checking (`tsc`), automated unit tests (`vitest`), and build verification to ensure proposed changes meet quality standards before merging into `develop` or `main`.
+- **Acceptance Criteria**:
+  - Evaluation of CI provider options (GitHub Actions vs alternate external CI tools).
+  - Workflow or runner configuration created to execute test and build checks on pull requests without triggering deployments.
+  - Required CI check status integrated into repository branch protection rules.
