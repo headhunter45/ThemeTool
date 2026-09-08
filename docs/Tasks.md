@@ -26,8 +26,8 @@ The statuses function as an extended Kanban workflow:
 
 | ID | Title | Status | Category |
 | :--- | :--- | :--- | :--- |
-| **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `testing` | Infrastructure |
-| **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `testing` | DevOps |
+| **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `released` | Infrastructure |
+| **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `released` | DevOps |
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `backlog` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `backlog` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `backlog` | Importers |
@@ -49,13 +49,14 @@ The statuses function as an extended Kanban workflow:
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `planning` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
+| **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `backlog` | UI / Shell |
 
 ---
 
 ## Detailed Task Specifications
 
 ### TT-001: Project Scaffolding & Build Pipeline
-- **Status**: `testing`
+- **Status**: `released`
 - **Category**: Infrastructure
 - **Title**: Project Scaffolding & Build Pipeline
 - **Description**: Initialize the project repository with Vite, React 19, TypeScript, Tailwind CSS, and Vitest. Configure TypeScript strict mode, path aliases (`@/*`), and linting/formatting rules. Ensure the app builds clean production bundles.
@@ -66,7 +67,7 @@ The statuses function as an extended Kanban workflow:
   - `npm run build` succeeds without warnings or type errors.
 
 ### TT-002: GitHub Pages Deployment Workflow
-- **Status**: `testing`
+- **Status**: `released`
 - **Category**: DevOps
 - **Title**: GitHub Pages Deployment Workflow
 - **Description**: Configure GitHub Pages deployment via GitHub Actions (Option A: single repository, no separate branch or `/docs` bundle commits). Create `.github/workflows/deploy.yml` using `actions/configure-pages`, `actions/upload-pages-artifact`, and `actions/deploy-pages`. Workflow triggers on pushes to `main`, compiles the app (`npm run build`), and deploys `dist/` directly to Pages.
@@ -290,3 +291,14 @@ The statuses function as an extended Kanban workflow:
   - Evaluation of CI provider options (GitHub Actions vs alternate external CI tools).
   - Workflow or runner configuration created to execute test and build checks on pull requests without triggering deployments.
   - Required CI check status integrated into repository branch protection rules.
+
+### TT-024: Application Shell, UI Foundation & Light/Dark Theme
+- **Status**: `backlog`
+- **Category**: UI / Shell
+- **Title**: Application Shell, UI Foundation & Light/Dark Theme
+- **Description**: Build the persistent top-level application shell and UI design system foundation supporting light and dark mode. Establish a unified layout containing a brand header (title, logo, GitHub repository link, status pill), theme toggle switch (supporting light, dark, and system preference with local storage persistence), responsive content container, and reusable UI card/panel primitives.
+- **Acceptance Criteria**:
+  - Top navigation bar featuring ThemeTool branding and theme mode toggle (light / dark / system).
+  - Light and dark mode support fully styled with Tailwind CSS, switching dynamically without page reload and persisting to `localStorage`.
+  - Main responsive application container and design tokens (borders, surface backgrounds, text colors, card containers) providing a consistent visual foundation for all feature modules.
+  - Automated unit tests covering theme toggling and layout rendering.
