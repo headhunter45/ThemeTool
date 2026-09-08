@@ -12,7 +12,15 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 | :--- | :--- | :--- | :--- |
 | **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser | *(None)* | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
 | **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
-| **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
+| **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
+| **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection | | | |
+| **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview | | | |
+| **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter | | | |
+| **[TT-016](Tasks.md#tt-016-android-xml-resource-generator--zip-packager)**<br>Android XML Zip Packager | | | |
+| **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)**<br>iOS Swift & xcassets Exporter | | | |
+| **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)**<br>Shareable URL Generator | | | |
+| **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator | | | |
+| **[TT-025](Tasks.md#tt-025-standard-theme-json-exporter--json-schema-specification)**<br>Theme JSON & Schema | | | |
 
 ---
 
@@ -27,9 +35,33 @@ Tasks that are fully defined, specified, and ready to be picked up immediately:
 - [ ] **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)** — *Realtime Colors & Raw Format Importer*
   - **Category**: Importers
   - **Summary**: Support Realtime Colors URLs, JSON payloads, and raw hex strings directly in the Import Palette modal.
+- [ ] **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)** — *Interactive Palette Editor UI*
+  - **Category**: UI / Shell
+  - **Summary**: Undo/Redo history stack, custom color slot management, and quick semantic role swap tool.
+- [ ] **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)** — *Preview Target Selection & Visibility Controls*
+  - **Category**: UI / Shell
+  - **Summary**: Segmented target bar with "All" toggle pills and single-platform focus tabs with persistent state.
+- [ ] **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)** — *Material Design (M3) Component Preview*
+  - **Category**: Previews
+  - **Summary**: Authentic M3 design system preview (Top App Bar, FAB, buttons, cards, text fields, chips, switches).
+- [ ] **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)** — *Tailwind v3 and v4 Theme Exporter*
+  - **Category**: Exporters
+  - **Summary**: Generate downloadable Tailwind v4 `theme.css` and copyable Tailwind v3 `tailwind.config.js`.
+- [ ] **[TT-016](Tasks.md#tt-016-android-xml-resource-generator--zip-packager)** — *Android XML Resource Generator & Zip Packager*
+  - **Category**: Exporters
+  - **Summary**: Generate Material 3 Android XML and package `res/` tree into downloadable `.zip` via `jszip`.
+- [ ] **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)** — *iOS Swift & xcassets Exporter*
+  - **Category**: Exporters
+  - **Summary**: Generate `Theme.swift` code and downloadable `.xcassets` zip archive via `jszip`.
+- [ ] **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)** — *Shareable URL Generator with Configurable Base URL*
+  - **Category**: Exporters
+  - **Summary**: Export palette state as shareable URL with configurable base URL and localStorage persistence.
 - [ ] **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)** — *Accessibility & WCAG Contrast Validator*
   - **Category**: Quality
   - **Summary**: Dedicated Accessibility & Contrast Matrix dashboard card with AA/AAA badges and 1-click auto-fix.
+- [ ] **[TT-025](Tasks.md#tt-025-standard-theme-json-exporter--json-schema-specification)** — *Standard Theme JSON Exporter & JSON Schema Specification*
+  - **Category**: Exporters
+  - **Summary**: Downloadable `theme.json` export and formal `themetool.schema.json` for custom pipeline automation.
 
 ---
 

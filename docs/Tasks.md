@@ -33,23 +33,24 @@ The statuses function as an extended Kanban workflow:
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `testing` | Importers |
 | **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `backlog` | Importers |
 | **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `backlog` | Importers |
-| **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `triage` | UI / Shell |
-| **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `triage` | UI / Shell |
+| **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `backlog` | UI / Shell |
+| **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `backlog` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Component Previews | `triage` | Previews |
-| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `triage` | Previews |
+| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `backlog` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
-| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `triage` | Exporters |
-| **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `triage` | Exporters |
-| **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `triage` | Exporters |
-| **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `triage` | Exporters |
+| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `backlog` | Exporters |
+| **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `backlog` | Exporters |
+| **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `backlog` | Exporters |
+| **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `backlog` | Exporters |
 | **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `backlog` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `triage` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
+| **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
 
 ---
 
@@ -132,79 +133,81 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying Realtime Colors URL and JSON format parsing.
 
 ### TT-008: Interactive Palette Editor UI
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: UI / Shell
 - **Title**: Interactive Palette Editor UI
-- **Description**: Design and build the primary palette manipulation bar. Each color card displays its semantic name, hex code, color swatch, lock toggle (to keep color when randomizing), shade preview dropdown, and native/custom color picker. Include a "Randomize / Generate" button and undo/redo capability.
+- **Description**: Enhance the palette editor with professional editing ergonomics: full Undo/Redo history stack for all palette actions, custom color slot management (adding, renaming, and deleting extra color slots beyond the 5 semantic roles), and a quick Role Swap tool to exchange hex values between any two semantic roles (e.g., swapping Primary <-> Secondary or Text <-> Background).
 - **Acceptance Criteria**:
-  - Responsive top/sidebar palette toolbar displaying all active colors.
-  - Clicking color opens interactive picker / hex editor.
-  - Lock button prevents color from changing during random generation.
-  - Randomize button generates visually balanced palettes for unlocked slots.
+  - Undo / Redo history state stack with toolbar action buttons and keyboard shortcuts (Cmd/Ctrl+Z, Cmd/Ctrl+Shift+Z).
+  - Add, edit name, and delete custom extra color slots with color pickers and hex inputs.
+  - Role Swap modal/dropdown allowing immediate exchange of colors between any two roles.
+  - Respects active role locks during randomize and bulk actions.
 
 ### TT-009: Preview Target Selection & Visibility Controls
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: UI / Shell
 - **Title**: Preview Target Selection & Visibility Controls
-- **Description**: Provide controls allowing the user to select which preview targets to inspect. Users can choose a single target (tabbed view) or toggle visibility checkboxes for individual targets (multi-grid view) so they only see the platforms they care about (e.g., only Tailwind and Android).
+- **Description**: Provide intuitive visibility and layout controls for preview targets. Support a segmented target bar offering an "All" view (with individual toggle pills to show or hide specific targets) as well as dedicated single-platform focus tabs (Tailwind, React, Angular, Material M3, Android, iOS) for zero-distraction inspection. Persist visibility state in `localStorage`.
 - **Acceptance Criteria**:
-  - Toggle between "Single Target" view and "Custom Grid" view.
-  - Show/hide checkboxes for Tailwind, React, Angular, Material, Android, iOS.
-  - Selected target preferences saved in session / local storage or URL state.
+  - Segmented control supporting "All" mode and single-platform focus tabs.
+  - Interactive toggle pills in "All" mode to show/hide individual platform cards.
+  - State persistence in `localStorage` so user selections are preserved across reloads.
+  - Fluid, responsive layout dynamically rearranging visible preview cards.
 
 ### TT-010: Tailwind Web Component Preview
 - **Status**: `triage`
 - **Category**: Previews
 - **Title**: Tailwind Web Component Preview
-- **Description**: Build a realistic standard web component preview styled using Tailwind CSS classes wired to the current palette. Includes a landing page hero section, navigation bar, primary/secondary buttons, badge pills, cards with text and media, form inputs, and alert boxes.
+- **Description**: Build a realistic web component preview styled using Tailwind CSS classes wired directly to the active palette. Using Material M3 components as a baseline design reference, provide web-optimized cards, hero headers, buttons, badge pills, form inputs, and interactive alerts.
 - **Acceptance Criteria**:
-  - Components visually react in real time to palette color changes.
+  - Components react in real time to palette color changes.
+  - Interactive controls (clickable buttons, toggles, form input focus states).
   - Adheres to semantic roles (Background, Text, Primary CTA, Secondary buttons, Accent alerts).
-  - Clean, modern layout matching high-quality web UI standards.
 
 ### TT-011: React & Angular Component Previews
 - **Status**: `triage`
 - **Category**: Previews
 - **Title**: React & Angular Component Previews
-- **Description**: Build component previews showcasing React-idiomatic components (cards, interactive tabs, modals) and Angular-idiomatic component structures.
+- **Description**: Build component previews showcasing React-idiomatic and Angular-idiomatic component structures, adopting the Material 3 component baseline to present interactive tabs, cards, form controls, and dialogs.
 - **Acceptance Criteria**:
   - Component views reflecting idiomatic web design system conventions.
-  - Live reactive updates when palette changes.
+  - Interactive controls with live reactive updates when palette changes.
 
 ### TT-012: Material Design (M3) Component Preview
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Previews
 - **Title**: Material Design (M3) Component Preview
-- **Description**: Build a Material 3 design system component preview. Includes Top App Bar, Floating Action Button (FAB), Filled Button, Outlined Button, Elevated Cards, Filter Chips, and Navigation Bar utilizing M3 color roles (primary, on-primary, primary-container, surface, etc.).
+- **Description**: Build a comprehensive, authentic Material 3 design system component preview based on official M3 specifications (https://m3.material.io/components). Includes Top App Bar, Navigation Bar / Rail, common buttons (Filled, Elevated, Tonal, Outlined, Text, FAB), Cards (Elevated, Filled, Outlined), Text Fields (Filled and Outlined with floating labels), Filter Chips, Badges, and Switches/Checkboxes.
 - **Acceptance Criteria**:
-  - Components match Material 3 elevation, rounding, and typography aesthetics.
-  - Correct role mapping from active palette to M3 tokens.
+  - Components accurately match official Material 3 geometry, elevations, and typography.
+  - Correct token mapping from active palette roles to M3 color roles (primary, on-primary, primary-container, surface, on-surface, outline).
+  - Interactive elements: clickable buttons, togglable switches/checkboxes, and typed inputs.
 
 ### TT-013: Android UI Approximation Preview
 - **Status**: `triage`
 - **Category**: Previews
 - **Title**: Android UI Approximation Preview
-- **Description**: Build a mobile device frame simulating an Android (Jetpack Compose / Material) app screen. Displays an Android status bar, top app bar, list views with avatars, FAB, and system navigation bar with palette theme applied.
+- **Description**: Build one or more realistic mobile device frames demonstrating an interactive Android app experience (Jetpack Compose / Material Design 3). Use multiple simulated device screens/frames to showcase distinct navigation patterns (e.g., Top App Bar + Bottom Navigation bar feed screen, and an interactive Form / Settings screen) with interactive controls demonstrating active theme colors in an authentic mobile context.
 - **Acceptance Criteria**:
-  - Visual mobile device frame resembling modern Android devices.
-  - Android-specific component styling (pill buttons, M3 ripple indicators, system bars).
-  - Responsive toggle to view in light or simulated dark theme.
+  - Realistic Android mobile device silhouettes with status bar and navigation bar.
+  - Multiple device screens displaying different navigation paradigms and interactive components.
+  - Interactive controls (buttons, switches, inputs) reacting live to theme changes.
 
 ### TT-014: iOS UI Approximation Preview
 - **Status**: `triage`
 - **Category**: Previews
 - **Title**: iOS UI Approximation Preview
-- **Description**: Build a mobile device frame simulating an Apple iOS (Human Interface Guidelines / SwiftUI) app screen. Displays dynamic island / notch, translucent navigation bar, grouped inset list style, iOS segmented control, rounded action buttons, and bottom tab bar.
+- **Description**: Build one or more realistic Apple iPhone mobile device frames demonstrating an interactive iOS app experience (Apple Human Interface Guidelines / SwiftUI). Displays dynamic island, translucent navigation bar, grouped inset list style, Cupertino segmented controls, rounded action buttons, and bottom tab bar with interactive states.
 - **Acceptance Criteria**:
-  - Visual mobile frame matching iOS proportions and typography (SF Pro styling).
-  - Inset grouped list, Cupertino-style segmented controls, and bottom navigation.
-  - Reactive color theming for accent/tint colors.
+  - Realistic iPhone mobile device frame matching iOS proportions and SF Pro typography aesthetics.
+  - Multiple device screens or navigation views with interactive Cupertino controls.
+  - Reactive color theming applied to system tint, backgrounds, and grouped surfaces.
 
 ### TT-015: Tailwind v3 and v4 Theme Exporter
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Exporters
 - **Title**: Tailwind v3 and v4 Theme Exporter
-- **Description**: Implement export functionality for Tailwind CSS. For Tailwind v4, generate a single `.css` theme file using `@theme` and `--color-*` variables, with a one-click download button and code snippet for importing and setting default theme classes. For Tailwind v3, generate `tailwind.config.js` theme extension code.
+- **Description**: Implement export functionality for Tailwind CSS. For Tailwind v4, generate a single `.css` theme file using `@theme` and `--color-*` variables, with a one-click download button and code snippet for importing and setting default theme classes. For Tailwind v3, generate `tailwind.config.js` theme extension code with configurable brand token prefix.
 - **Acceptance Criteria**:
   - Generates valid Tailwind v4 CSS containing all 50–950 shade steps and semantic tokens.
   - Generates valid Tailwind v3 JavaScript configuration object.
@@ -213,32 +216,32 @@ The statuses function as an extended Kanban workflow:
   - Clear usage instructions included in export drawer.
 
 ### TT-016: Android XML Resource Generator & Zip Packager
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Exporters
 - **Title**: Android XML Resource Generator & Zip Packager
-- **Description**: Generate native Android XML resource files. If multiple XML files are required (`res/values/colors.xml`, `res/values/themes.xml`, and `res/values-night/themes.xml`), bundle them into a downloadable `.zip` file preserving the exact `res/` directory hierarchy ready to drop into an Android Studio project. Also provide a copyable XML snippet for `colors.xml`.
+- **Description**: Generate native Android XML resource files targeting Material 3 (`Theme.Material3.DayNight.NoActionBar`). Bundles `res/values/colors.xml`, `res/values/themes.xml`, and `res/values-night/themes.xml` into a downloadable `.zip` archive using `jszip`, preserving the exact Android Studio `res/` hierarchy. Also provides copyable XML snippets.
 - **Acceptance Criteria**:
   - Formats valid `colors.xml` with color item tags.
-  - Generates `themes.xml` referencing color resources.
-  - In-browser ZIP archive generation creating `res/values/colors.xml` and related files.
+  - Generates `themes.xml` referencing color resources in Material 3 conventions.
+  - Client-side ZIP generation using `jszip` packaging `res/values/colors.xml` and related theme files.
   - One-click `.zip` file download named `android-theme-resources.zip`.
-  - Copyable single-file XML snippet.
+  - Copyable single-file XML snippet tabs.
 
 ### TT-017: iOS Swift & xcassets Exporter
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Exporters
 - **Title**: iOS Swift & xcassets Exporter
-- **Description**: Generate iOS theme assets. Produce a copyable Swift code file with a `Color` extension (SwiftUI) and `UIColor` extensions (UIKit), as well as a downloadable `.xcassets` color set folder structure.
+- **Description**: Generate iOS theme assets. Produce a copyable `Theme.swift` file with SwiftUI `Color` static constants (`Color.themePrimary`, `Color.themeBackground`, etc.) and UIKit `UIColor` extensions. Also generate a downloadable `.xcassets` color set folder structure packaged in a `.zip` file using `jszip` for Xcode Asset Catalogs.
 - **Acceptance Criteria**:
-  - Generates Swift code snippet implementing static color definitions.
-  - Optional `.zip` download containing `.colorset` folders with `Contents.json` for Xcode Asset Catalogs.
+  - Generates Swift code snippet implementing static color definitions for SwiftUI and UIKit.
+  - Generates `.zip` download using `jszip` containing `Colors.xcassets` folder with `.colorset` folders and `Contents.json`.
   - One-click copy and download functionality.
 
 ### TT-018: Shareable URL Generator with Configurable Base URL
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Exporters
 - **Title**: Shareable URL Generator with Configurable Base URL
-- **Description**: Create a shareable URL export modal/panel. The export encodes the full palette configuration into a shareable URL. Allow user to configure the Base URL (defaults to `https://headhunter45.github.io/ThemeTool/`, with option to change to custom domain or localhost).
+- **Description**: Create a shareable URL export modal/panel. The export encodes the full palette configuration into a shareable URL. Allow user to configure the Base URL (defaults to `https://headhunter45.github.io/ThemeTool/`, with quick toggle for `Current Domain` or `http://localhost:5173/`, and custom domain input). Persists Base URL preference in `localStorage`.
 - **Acceptance Criteria**:
   - Input field for Base URL with persistence to local storage.
   - Generated shareable URL updating reactively.
@@ -307,3 +310,15 @@ The statuses function as an extended Kanban workflow:
   - Light and dark mode support fully styled with Tailwind CSS, switching dynamically without page reload and persisting to `localStorage`.
   - Main responsive application container and design tokens (borders, surface backgrounds, text colors, card containers) providing a consistent visual foundation for all feature modules.
   - Automated unit tests covering theme toggling and layout rendering.
+
+### TT-025: Standard Theme JSON Exporter & JSON Schema Specification
+- **Status**: `backlog`
+- **Category**: Exporters
+- **Title**: Standard Theme JSON Exporter & JSON Schema Specification
+- **Description**: Provide a standardized JSON download output option and formal JSON Schema specification for custom automated pipeline processing, CI scripts, and third-party tooling. The JSON file encodes the full active theme (5 semantic roles, custom slots, and 11-step 50–950 shade scales in HEX, RGB, HSL, and OKLCH color models, alongside accessibility ratings and metadata). A formal JSON Schema (`schema/themetool.schema.json`) is maintained and validated.
+- **Acceptance Criteria**:
+  - Formally validated JSON Schema file at `schema/themetool.schema.json`.
+  - Generator producing conformant `theme.json` with semantic roles, custom slots, and full shade scales across color spaces.
+  - One-click copy JSON code snippet and one-click `theme.json` file download.
+  - Export modal includes an interactive viewer/link for the JSON Schema.
+  - Automated unit tests validating exported JSON structures against the JSON Schema.
