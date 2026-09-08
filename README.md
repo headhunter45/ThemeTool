@@ -46,4 +46,5 @@ We may want to work with other themable attributes later like gradients, images,
 
 When previewing the user should be able to select or hide targets. Like if they only want to see tailwind or android, then they shouldn't have to see the others. This can be something that switches between preview targets and shows them one at a time or something that allows the user to show or hide individual ones.
 
-For now assume the project name is ThemeTool and will be hosted as a github page for the user headhunter45 at either "headhunter45.github.io" or "headhunter45.github.io/themetool"
+Live Production URL: https://headhunter45.github.io/ThemeTool/
+Hosted as a GitHub Page for user `headhunter45` at `https://headhunter45.github.io/ThemeTool/`.

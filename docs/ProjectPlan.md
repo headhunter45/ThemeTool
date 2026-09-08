@@ -4,7 +4,7 @@
 
 **ThemeTool** (formerly ColorTool) is a web-based color palette generator, format converter, component previewer, and multi-target theme exporter. It bridges the gap between web designers, frontend developers (Tailwind, React, Angular, Material), and mobile engineers (Android, iOS) by allowing users to import, generate, preview, and export cohesive color themes across diverse platform conventions.
 
-The application is hosted as a client-side static web app on GitHub Pages for user `headhunter45` at `headhunter45.github.io/themetool` (with configurable base URL support).
+The application is hosted as a client-side static web app on GitHub Pages for user `headhunter45` at `https://headhunter45.github.io/ThemeTool/` (with configurable base URL support).
 
 ---
 
@@ -56,7 +56,7 @@ Export production-ready theme code and assets tailored to each ecosystem:
   - **Xcode Asset Catalog (`.xcassets`)**: Downloadable JSON / folder structure for Xcode color sets.
 - **Shareable App URL**:
   - Encodes the full active palette and settings in the URL hash or query parameters.
-  - Configurable base URL (defaults to `https://headhunter45.github.io/themetool`).
+  - Configurable base URL (defaults to `https://headhunter45.github.io/ThemeTool/`).
   - Copyable share link for one-click collaboration.
 
 ### 2.5 Future Scope & Extensibility
@@ -111,7 +111,7 @@ Export production-ready theme code and assets tailored to each ecosystem:
 - **Branching Base**: Each task branch branches off a commit in `develop` or off another task branch to depend on that task.
 - **Pull Request to `develop`**: When implementation is ready for review and testing, open a GitHub Pull Request targeting `develop`. This moves the task to `testing`.
 - **Merge into `develop`**: Merging the PR moves the task to `done`.
-- **Merge `develop` into `main`**: Merging `develop` into `main` moves the task to `released` and deploys live to GitHub Pages (`headhunter45.github.io/themetool`).
+- **Merge `develop` into `main`**: Merging `develop` into `main` moves the task to `released` and deploys live to GitHub Pages (`https://headhunter45.github.io/ThemeTool/`).
 - **Destructive Git Commands**: Never executed automatically; the user will be prompted to run any destructive git operations manually.
 
 ---
@@ -149,4 +149,4 @@ Export production-ready theme code and assets tailored to each ecosystem:
 - **Milestone 6: Polish, Testing & Release**
   - Responsive design optimization.
   - Accessibility and end-to-end verification.
-  - Documentation and release to `main` (`headhunter45.github.io/themetool`).
+  - Documentation and release to `main` (`https://headhunter45.github.io/ThemeTool/`).

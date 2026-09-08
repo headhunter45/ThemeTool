@@ -73,7 +73,7 @@ The statuses function as an extended Kanban workflow:
 - **Acceptance Criteria**:
   - GitHub Actions workflow config created at `.github/workflows/deploy.yml` using modern Pages action suite.
   - Keeps repository clean: zero build artifacts committed into git or `docs/`.
-  - Vite `base` configured to support GitHub Pages path (`/themetool/` or repo name) while retaining local dev (`/`).
+  - Vite `base` configured to support GitHub Pages path (`/ThemeTool/` or repo name) while retaining local dev (`/`).
   - GitHub Pages deployment permissions (`pages: write`, `id-token: write`) configured.
 
 ### TT-003: Core Color Math & Shade Scale Engine
@@ -234,7 +234,7 @@ The statuses function as an extended Kanban workflow:
 - **Status**: `triage`
 - **Category**: Exporters
 - **Title**: Shareable URL Generator with Configurable Base URL
-- **Description**: Create a shareable URL export modal/panel. The export encodes the full palette configuration into a shareable URL. Allow user to configure the Base URL (defaults to `https://headhunter45.github.io/themetool`, with option to change to custom domain or localhost).
+- **Description**: Create a shareable URL export modal/panel. The export encodes the full palette configuration into a shareable URL. Allow user to configure the Base URL (defaults to `https://headhunter45.github.io/ThemeTool/`, with option to change to custom domain or localhost).
 - **Acceptance Criteria**:
   - Input field for Base URL with persistence to local storage.
   - Generated shareable URL updating reactively.
