@@ -110,4 +110,35 @@ describe('PaletteContext', () => {
     expect(result.current.colors.secondary).toBe('#444444');
     expect(result.current.colors.accent).toBe('#555555');
   });
+
+  it('imports full palette atomically and stores custom slots', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <PaletteProvider>{children}</PaletteProvider>
+    );
+
+    const { result } = renderHook(() => usePalette(), { wrapper });
+
+    act(() => {
+      result.current.importPalette(
+        {
+          text: '#6f2dbd',
+          background: '#a663cc',
+          primary: '#b298dc',
+          secondary: '#b8d0eb',
+          accent: '#b9faf8',
+        },
+        [
+          { id: 'custom-1', name: 'Custom 6', hex: '#123456' },
+        ]
+      );
+    });
+
+    expect(result.current.colors.text).toBe('#6f2dbd');
+    expect(result.current.colors.background).toBe('#a663cc');
+    expect(result.current.colors.primary).toBe('#b298dc');
+    expect(result.current.colors.secondary).toBe('#b8d0eb');
+    expect(result.current.colors.accent).toBe('#b9faf8');
+    expect(result.current.custom).toHaveLength(1);
+    expect(result.current.custom[0].hex).toBe('#123456');
+  });
 });

@@ -28,6 +28,7 @@ export interface PaletteContextType {
   toggleLock: (role: SemanticRole) => void;
   randomizeUnlocked: () => void;
   applyPreset: (presetId: string) => void;
+  importPalette: (newColors: Partial<PaletteColors>, custom?: CustomColorSlot[]) => void;
   resetToDefault: () => void;
   shareableUrl: string;
 }
@@ -205,6 +206,17 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     }));
   };
 
+  const importPalette = (newColors: Partial<PaletteColors>, custom?: CustomColorSlot[]) => {
+    setState((prev) => ({
+      ...prev,
+      colors: {
+        ...prev.colors,
+        ...newColors,
+      },
+      ...(custom !== undefined && { custom }),
+    }));
+  };
+
   const resetToDefault = () => {
     setState({
       colors: DEFAULT_COLORS,
@@ -254,6 +266,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
         toggleLock,
         randomizeUnlocked,
         applyPreset,
+        importPalette,
         resetToDefault,
         shareableUrl,
       }}

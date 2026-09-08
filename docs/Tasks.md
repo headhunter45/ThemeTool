@@ -98,7 +98,7 @@ The statuses function as an extended Kanban workflow:
   - Navigating to or refreshing a URL with encoded palette loads the palette state accurately.
 
 ### TT-005: Coolors & ColorKit URL Import Parser
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Importers
 - **Title**: Coolors & ColorKit URL Import Parser
 - **Description**: Create a URL parser that accepts URLs from Coolors (e.g., `https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8`) and ColorKit (e.g., `https://colorkit.co/palette/eebea0-ff8d83-ffa89f-ffc2bc-aaae80/`), extracts the hex color values, and populates the active palette.
