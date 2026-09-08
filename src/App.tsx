@@ -1,8 +1,10 @@
-import { CheckCircle2, Layers, Palette, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
+import { CheckCircle2, Layers, Link2, Palette, Sparkles, Terminal } from 'lucide-react';
 import React from 'react';
 import { ShadeScaleExplorer } from './components/color/ShadeScaleExplorer';
 import { AppShell } from './components/layout/AppShell';
+import { PaletteBar } from './components/palette/PaletteBar';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/Card';
+import { PaletteProvider } from './context/PaletteContext';
 import { ThemeProvider } from './context/ThemeContext';
 
 export const AppContent: React.FC = () => {
@@ -18,14 +20,6 @@ export const AppContent: React.FC = () => {
       description: 'Vite 6, React 19, TypeScript strict mode, Tailwind CSS v4, and Vitest suite.',
     },
     {
-      title: 'Pages Deployment',
-      id: 'TT-002',
-      status: 'Production',
-      statusColor: 'emerald',
-      icon: ShieldCheck,
-      description: 'Automated GitHub Pages workflow building and publishing dist on pushes to main.',
-    },
-    {
       title: 'UI Shell & Theme',
       id: 'TT-024',
       status: 'Production',
@@ -36,10 +30,18 @@ export const AppContent: React.FC = () => {
     {
       title: 'Color Math & Shade Engine',
       id: 'TT-003',
-      status: 'Active',
-      statusColor: 'indigo',
+      status: 'Testing',
+      statusColor: 'emerald',
       icon: Palette,
       description: 'OKLCH/CIELAB conversions, perceptual 50–950 shade generation, and WCAG contrast.',
+    },
+    {
+      title: 'Palette State & URL Sync',
+      id: 'TT-004',
+      status: 'Active',
+      statusColor: 'indigo',
+      icon: Link2,
+      description: '5 semantic roles with live bi-directional URL query & hash state synchronization.',
     },
   ];
 
@@ -75,7 +77,10 @@ export const AppContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Live Color Math & Shade Engine Studio */}
+        {/* Active Semantic Palette Bar (TT-004) */}
+        <PaletteBar />
+
+        {/* Live Color Math & Shade Engine Studio (TT-003) */}
         <ShadeScaleExplorer />
 
         {/* Foundation Modules Grid */}
@@ -136,7 +141,9 @@ export const AppContent: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AppContent />
+      <PaletteProvider>
+        <AppContent />
+      </PaletteProvider>
     </ThemeProvider>
   );
 };

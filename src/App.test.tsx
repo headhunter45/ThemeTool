@@ -59,7 +59,7 @@ describe('ThemeTool Shell & UI Integration', () => {
 
   it('allows clicking presets and toggling anchor modes', () => {
     render(<App />);
-    const emeraldPreset = screen.getByRole('button', { name: /Emerald/i });
+    const emeraldPreset = screen.getAllByRole('button', { name: /Emerald/i })[0];
     fireEvent.click(emeraldPreset);
 
     const input = screen.getByLabelText(/Hex color value/i) as HTMLInputElement;
@@ -69,5 +69,26 @@ describe('ThemeTool Shell & UI Integration', () => {
     expect(anchorButton).toBeInTheDocument();
     fireEvent.click(anchorButton);
     expect(screen.getByText('Locked to 500')).toBeInTheDocument();
+  });
+
+  it('renders the 5 semantic roles in PaletteBar and supports randomize and lock', () => {
+    render(<App />);
+    expect(screen.getByText('Active Semantic Palette')).toBeInTheDocument();
+
+    // Check roles
+    expect(screen.getAllByText('Text').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Background').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Primary').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Secondary').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Accent').length).toBeGreaterThanOrEqual(1);
+
+    // Check action buttons
+    expect(screen.getByRole('button', { name: /Randomize/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Share URL/i })).toBeInTheDocument();
+
+    // Toggle lock for Primary
+    const primaryLockBtn = screen.getByRole('button', { name: /Toggle lock for Primary/i });
+    fireEvent.click(primaryLockBtn);
+    expect(primaryLockBtn).toHaveAttribute('title', 'Locked (will not change on randomize)');
   });
 });

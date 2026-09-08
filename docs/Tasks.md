@@ -29,7 +29,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `released` | Infrastructure |
 | **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `released` | DevOps |
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
-| **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `backlog` | Core Engine |
+| **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `testing` | Core Engine |
 | **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `backlog` | Importers |
 | **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `triage` | Importers |
 | **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `triage` | Importers |
@@ -88,7 +88,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests in Vitest covering edge cases (pure black, pure white, neon tones).
 
 ### TT-004: Palette State Management & URL Synchronization
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Core Engine
 - **Title**: Palette State Management & URL Synchronization
 - **Description**: Build the application state management to hold the active palette (5 semantic roles: Text, Background, Primary, Secondary, Accent, plus custom color slots). Synchronize state bi-directionally with the browser URL (hash or query parameters) so that any palette state can be bookmarked or shared without a backend.

@@ -1,5 +1,6 @@
 import { Check, Copy, Info, SlidersHorizontal, Sparkles } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePalette } from '../../context/PaletteContext';
 import {
     generateShadeScale,
     hexToOklch,
@@ -8,6 +9,7 @@ import {
     SHADE_STEPS,
     ShadeScale,
 } from '../../core/color';
+import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 
 const PRESETS = [
@@ -23,9 +25,24 @@ const PRESETS = [
 ];
 
 export const ShadeScaleExplorer: React.FC = () => {
-  const [inputHex, setInputHex] = useState('#3b82f6');
+  const { colors, activeRole, setActiveRole, setColor } = usePalette();
+  const [inputHex, setInputHex] = useState(() => colors[activeRole] || '#3b82f6');
   const [force500, setForce500] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  // Sync with active role from PaletteContext
+  useEffect(() => {
+    if (colors[activeRole]) {
+      setInputHex(colors[activeRole]);
+    }
+  }, [activeRole, colors]);
+
+  const handleColorChange = (newHex: string) => {
+    setInputHex(newHex);
+    if (/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(newHex.trim())) {
+      setColor(activeRole, newHex.startsWith('#') ? newHex : `#${newHex}`);
+    }
+  };
 
   // Validate hex for color picker and calculation
   const isValidHex = /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(inputHex.trim());
@@ -94,6 +111,34 @@ export const ShadeScaleExplorer: React.FC = () => {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          {/* Semantic Role Selector */}
+          <div className="flex flex-wrap items-center gap-1.5 pb-1 border-b border-slate-100 dark:border-slate-800/80">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1">
+              Active Role:
+            </span>
+            {SEMANTIC_ROLES.map((role) => {
+              const isRoleActive = activeRole === role;
+              return (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => setActiveRole(role)}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                    isRoleActive
+                      ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full border border-black/10 dark:border-white/10"
+                    style={{ backgroundColor: colors[role] }}
+                  />
+                  <span>{ROLE_METADATA[role].label}</span>
+                </button>
+              );
+            })}
+          </div>
+
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {/* Native Color Picker Swatch */}
             <div className="relative flex items-center">
@@ -101,7 +146,7 @@ export const ShadeScaleExplorer: React.FC = () => {
                 type="color"
                 aria-label="Color picker"
                 value={isValidHex ? sanitizedHex : '#3b82f6'}
-                onChange={(e) => setInputHex(e.target.value)}
+                onChange={(e) => handleColorChange(e.target.value)}
                 className="w-12 h-10 rounded-xl cursor-pointer border border-slate-200 dark:border-slate-700 bg-transparent p-1 shadow-sm"
               />
             </div>
@@ -111,7 +156,7 @@ export const ShadeScaleExplorer: React.FC = () => {
               <input
                 type="text"
                 value={inputHex}
-                onChange={(e) => setInputHex(e.target.value)}
+                onChange={(e) => handleColorChange(e.target.value)}
                 placeholder="#3b82f6"
                 aria-label="Hex color value"
                 className={`w-full px-3.5 py-2 rounded-xl text-sm font-mono border shadow-sm transition-all focus:outline-none focus:ring-2 ${
@@ -131,7 +176,7 @@ export const ShadeScaleExplorer: React.FC = () => {
                 <button
                   key={preset.name}
                   type="button"
-                  onClick={() => setInputHex(preset.hex)}
+                  onClick={() => handleColorChange(preset.hex)}
                   title={preset.name}
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
                     inputHex.toLowerCase() === preset.hex.toLowerCase()
