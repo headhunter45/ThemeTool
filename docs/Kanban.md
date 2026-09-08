@@ -10,9 +10,9 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 | 📋 Backlog (Ready to Work) | 🚀 In-Progress (Active Branch) | 🧪 Testing (PR / Verification) | ✅ Done (Merged / Released) |
 | :--- | :--- | :--- | :--- |
-| *(None)* | *(None)* | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
-| | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
-| | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
+| **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)**<br>UIColors Tailwind Parser | *(None)* | **[TT-005](Tasks.md#tt-005-coolors--colorkit-url-import-parser)**<br>Coolors & ColorKit URL Parser<br>*(PR to `develop`)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
+| **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer | | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(PR to `develop`)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
+| **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator | | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(PR to `develop`)* | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
 
 ---
 
@@ -21,7 +21,15 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
-*(Currently empty. When new tasks are specified, they will be placed here).*
+- [ ] **[TT-006](Tasks.md#tt-006-uicolors-tailwind-format-parser)** — *UIColors (Tailwind 3 & 4) Format Parser*
+  - **Category**: Importers
+  - **Summary**: Parse Tailwind 3 JS objects and Tailwind 4 CSS variables, extract base 500 color, and generate full 50–950 OKLCH scale.
+- [ ] **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)** — *Realtime Colors & Raw Format Importer*
+  - **Category**: Importers
+  - **Summary**: Support Realtime Colors URLs, JSON payloads, and raw hex strings directly in the Import Palette modal.
+- [ ] **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)** — *Accessibility & WCAG Contrast Validator*
+  - **Category**: Quality
+  - **Summary**: Dedicated Accessibility & Contrast Matrix dashboard card with AA/AAA badges and 1-click auto-fix.
 
 ---
 

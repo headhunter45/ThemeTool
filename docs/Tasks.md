@@ -30,9 +30,9 @@ The statuses function as an extended Kanban workflow:
 | **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `released` | DevOps |
 | **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
 | **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `testing` | Core Engine |
-| **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `backlog` | Importers |
-| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `triage` | Importers |
-| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `triage` | Importers |
+| **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `testing` | Importers |
+| **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `backlog` | Importers |
+| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `backlog` | Importers |
 | **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `triage` | UI / Shell |
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `triage` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
@@ -44,10 +44,10 @@ The statuses function as an extended Kanban workflow:
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `triage` | Exporters |
 | **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `triage` | Exporters |
 | **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `triage` | Exporters |
-| **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `planning` | Quality |
+| **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `backlog` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
-| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `planning` | Enhancements |
+| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `triage` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 
@@ -109,24 +109,27 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying parsing of sample URLs from `README.md`.
 
 ### TT-006: UIColors (Tailwind 3 & 4) Format Parser
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Importers
 - **Title**: UIColors (Tailwind 3 & 4) Format Parser
-- **Description**: Implement an import parser that accepts copy-pasted UIColors/Tailwind code blocks. It should recognize both Tailwind v3 JavaScript object syntax (`'50': '#faf9ec', ...`) and Tailwind v4 CSS variable definitions (`--color-lucky-50: #faf9ec; ...`), extract the shade mapping, and load it into the application.
+- **Description**: Implement an import parser that accepts copy-pasted UIColors/Tailwind code blocks. Recognizes both Tailwind v3 JavaScript object syntax (`'50': '#faf9ec', ...`) and Tailwind v4 CSS variable definitions (`--color-lucky-50: #faf9ec; ...`). Extracts the base color (the `500` step) into the target semantic role (defaulting to Primary or user-selected role) and re-generates the full perceptual 50–950 shade scale using our calibrated OKLCH math engine.
 - **Acceptance Criteria**:
   - Detects and parses Tailwind 3 JS object snippets.
-  - Detects and parses Tailwind 4 `--color-*-{50..950}` CSS rules.
-  - Maps shades to the active palette's primary/brand scale or allows assigning to a semantic role.
+  - Detects and parses Tailwind 4 `--color-*-{50..950}` CSS variable definitions.
+  - Extracts the `500` base hex color and loads it into the target semantic role.
+  - Generates the full 11-step shade scale via the OKLCH engine.
+  - Unit tests verifying parsing of sample snippets from `README.md`.
 
 ### TT-007: Realtime Colors & Raw Format Importer
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Importers
 - **Title**: Realtime Colors & Raw Format Importer
-- **Description**: Support importing palettes formatted as Realtime Colors JSON or query strings, as well as unstructured raw text (comma-separated hex codes, space-separated hex codes, or array of strings).
+- **Description**: Extend the `ImportPaletteModal` to accept Realtime Colors URLs (`https://www.realtimecolors.com/?colors=...`), JSON objects (`{ "text": "...", "background": "...", "primary": "...", "secondary": "...", "accent": "..." }`), and unstructured raw text (comma-separated hex codes, space-separated hex codes, or array syntax).
 - **Acceptance Criteria**:
-  - Modal or input drawer for pasting raw hex lists or JSON.
-  - Maps recognized tokens (text, background, primary, secondary, accent) to the corresponding roles.
-  - Graceful fallback for arbitrary color counts (auto-assigns to closest semantic roles).
+  - Real-time auto-detection in `ImportPaletteModal` for Realtime Colors URLs and JSON payloads.
+  - Direct 1:1 mapping of recognized semantic tokens (`text`, `background`, `primary`, `secondary`, `accent`) to application roles.
+  - Graceful parser for comma/space-separated hex codes with live swatch previews.
+  - Unit tests verifying Realtime Colors URL and JSON format parsing.
 
 ### TT-008: Interactive Palette Editor UI
 - **Status**: `triage`
@@ -243,14 +246,15 @@ The statuses function as an extended Kanban workflow:
   - Opening generated URL restores exact palette state.
 
 ### TT-019: Accessibility & WCAG Contrast Validator
-- **Status**: `planning`
+- **Status**: `backlog`
 - **Category**: Quality
 - **Title**: Accessibility & WCAG Contrast Validator
-- **Description**: Calculate and display WCAG 2.1 contrast ratios between Text and Background, Primary and Background, and on-button text colors. Show compliance badges (AA / AAA / Fail for normal and large text).
+- **Description**: Provide a dedicated Accessibility & Contrast Matrix section below the palette editor. Evaluates WCAG 2.1 contrast ratios across all semantic role pairings (Text on Background, Primary on Background, Text on Primary button, Text on Secondary, Text on Accent). Displays AA, AAA, and Fail status badges for normal and large text, with a 1-click "Auto-Fix for AA" suggestion that minimally adjusts lightness in OKLCH to reach compliance.
 - **Acceptance Criteria**:
-  - Real-time contrast ratio calculations.
+  - Dedicated Accessibility / Contrast Matrix dashboard card.
+  - Real-time contrast ratio calculations for all key role pairings.
   - Visual badges showing AA and AAA compliance ratings.
-  - Suggestion or auto-fix button to tweak lightness to achieve AA compliance.
+  - Suggestion / auto-fix button to tweak lightness to achieve AA compliance.
 
 ### TT-020: Gradient Palette Generation & Export
 - **Status**: `planning`
@@ -273,14 +277,15 @@ The statuses function as an extended Kanban workflow:
   - Exported configs include extended tokens.
 
 ### TT-022: Dark Mode Duality Generator
-- **Status**: `planning`
+- **Status**: `triage`
 - **Category**: Enhancements
 - **Title**: Dark Mode Duality Generator
-- **Description**: Automatically derive a high-quality dark mode pairing for any light palette (inverting lightness while preserving hue/chroma in OKLCH space). Allow user to toggle previews between light and dark mode simultaneously.
+- **Description**: Maintain dual parallel palette configurations (Light Theme & Dark Theme). Provide a bidirectional translator that derives a dark theme from a light theme (or vice versa) while supporting round-tripping translations (preserving brand hues and chromatic balances across reciprocal conversions).
 - **Acceptance Criteria**:
-  - One-click "Generate Dark Theme" button.
-  - Dual theme preview mode.
-  - Generates `res/values-night/` XML and Tailwind dark mode classes (`dark:` / CSS media query).
+  - Separate state management for Light and Dark palette roles.
+  - Bidirectional generator (Light to Dark and Dark to Light).
+  - Round-trip fidelity preserving hue and perceptual contrast balance.
+  - Dual theme preview toggle across preview targets.
 
 ### TT-023: Automated Continuous Integration (CI) Pipeline
 - **Status**: `planning`
