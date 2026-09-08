@@ -49,7 +49,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `planning` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
-| **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `backlog` | UI / Shell |
+| **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `in-progress` | UI / Shell |
 
 ---
 
@@ -293,7 +293,7 @@ The statuses function as an extended Kanban workflow:
   - Required CI check status integrated into repository branch protection rules.
 
 ### TT-024: Application Shell, UI Foundation & Light/Dark Theme
-- **Status**: `backlog`
+- **Status**: `in-progress`
 - **Category**: UI / Shell
 - **Title**: Application Shell, UI Foundation & Light/Dark Theme
 - **Description**: Build the persistent top-level application shell and UI design system foundation supporting light and dark mode. Establish a unified layout containing a brand header (title, logo, GitHub repository link, status pill), theme toggle switch (supporting light, dark, and system preference with local storage persistence), responsive content container, and reusable UI card/panel primitives.
