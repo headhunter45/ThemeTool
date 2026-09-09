@@ -54,7 +54,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `done` | UI / Shell |
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `done` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `done` | UI / Shell |
-| **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `backlog` | Previews |
+| **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `testing` | Previews |
 
 ---
 
@@ -384,7 +384,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying contextual trigger and color synchronization.
 
 ### TT-029: Consolidate Preview Targets to UI Design Systems
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Previews
 - **Title**: Consolidate Preview Targets to UI Design Systems
 - **Description**: Following the architectural refinement prioritizing UI styling/design system frameworks over JS runtime frameworks, update the preview subsystem to remove the legacy `react` and `angular` targets. Consolidate the active preview targets to the 4 canonical UI design systems:

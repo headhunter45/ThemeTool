@@ -91,25 +91,19 @@ export function usePreviewTargets(): UsePreviewTargetsReturn {
   };
 
   const showAllTargets = () => {
-    setVisibleTargets({
-      tailwind: true,
-      react: true,
-      angular: true,
-      material: true,
-      android: true,
-      ios: true,
-    });
+    const allVisible = {} as Record<PreviewTargetId, boolean>;
+    for (const id of PREVIEW_TARGET_IDS) {
+      allVisible[id] = true;
+    }
+    setVisibleTargets(allVisible);
   };
 
   const hideAllTargets = () => {
-    setVisibleTargets({
-      tailwind: false,
-      react: false,
-      angular: false,
-      material: false,
-      android: false,
-      ios: false,
-    });
+    const allHidden = {} as Record<PreviewTargetId, boolean>;
+    for (const id of PREVIEW_TARGET_IDS) {
+      allHidden[id] = false;
+    }
+    setVisibleTargets(allHidden);
   };
 
   const resetToDefaults = () => {

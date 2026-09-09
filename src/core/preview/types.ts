@@ -1,5 +1,4 @@
-export type PreviewTargetId =
-    |'tailwind'|'react'|'angular'|'material'|'android'|'ios';
+export type PreviewTargetId = 'tailwind'|'material'|'android'|'ios';
 
 export type PreviewMode = 'all'|PreviewTargetId;
 
@@ -18,22 +17,6 @@ export const PREVIEW_TARGETS: TargetMetadata[] = [
     framework: 'Tailwind v3 / v4',
     description:
         'Web utility classes with reactive theme tokens and component styles.',
-    category: 'web',
-  },
-  {
-    id: 'react',
-    label: 'React UI',
-    framework: 'React 19 / JSX',
-    description:
-        'Idiomatic component tree with interactive state and semantic tokens.',
-    category: 'web',
-  },
-  {
-    id: 'angular',
-    label: 'Angular',
-    framework: 'Angular 18 / Signals',
-    description:
-        'Component architecture with signal inputs and template bindings.',
     category: 'web',
   },
   {
@@ -72,8 +55,6 @@ export const PREVIEW_STORAGE_KEYS = {
 
 export const DEFAULT_TARGET_VISIBILITY: Record<PreviewTargetId, boolean> = {
   tailwind: true,
-  react: true,
-  angular: true,
   material: true,
   android: true,
   ios: true,

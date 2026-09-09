@@ -10,14 +10,12 @@ describe('usePreviewTargets (TT-009)', () => {
     vi.restoreAllMocks();
   });
 
-  it('initializes with default mode "all" and all 6 targets visible', () => {
+  it('initializes with default mode "all" and all 4 targets visible', () => {
     const {result} = renderHook(() => usePreviewTargets());
 
     expect(result.current.mode).toBe('all');
-    expect(result.current.visibleCount).toBe(6);
+    expect(result.current.visibleCount).toBe(4);
     expect(result.current.isTargetVisible('tailwind')).toBe(true);
-    expect(result.current.isTargetVisible('react')).toBe(true);
-    expect(result.current.isTargetVisible('angular')).toBe(true);
     expect(result.current.isTargetVisible('material')).toBe(true);
     expect(result.current.isTargetVisible('android')).toBe(true);
     expect(result.current.isTargetVisible('ios')).toBe(true);
@@ -42,29 +40,29 @@ describe('usePreviewTargets (TT-009)', () => {
     });
 
     expect(result.current.mode).toBe('all');
-    expect(result.current.visibleCount).toBe(6);
+    expect(result.current.visibleCount).toBe(4);
   });
 
   it('toggles visibility of individual targets in "all" mode', () => {
     const {result} = renderHook(() => usePreviewTargets());
 
-    // Toggle react off
+    // Toggle material off
     act(() => {
-      result.current.toggleTargetVisibility('react');
+      result.current.toggleTargetVisibility('material');
     });
 
-    expect(result.current.visibleTargets.react).toBe(false);
-    expect(result.current.isTargetVisible('react')).toBe(false);
-    expect(result.current.visibleCount).toBe(5);
+    expect(result.current.visibleTargets.material).toBe(false);
+    expect(result.current.isTargetVisible('material')).toBe(false);
+    expect(result.current.visibleCount).toBe(3);
 
-    // Toggle react back on
+    // Toggle material back on
     act(() => {
-      result.current.toggleTargetVisibility('react');
+      result.current.toggleTargetVisibility('material');
     });
 
-    expect(result.current.visibleTargets.react).toBe(true);
-    expect(result.current.isTargetVisible('react')).toBe(true);
-    expect(result.current.visibleCount).toBe(6);
+    expect(result.current.visibleTargets.material).toBe(true);
+    expect(result.current.isTargetVisible('material')).toBe(true);
+    expect(result.current.visibleCount).toBe(4);
   });
 
   it('supports showAllTargets and hideAllTargets bulk operations', () => {
@@ -81,7 +79,7 @@ describe('usePreviewTargets (TT-009)', () => {
       result.current.showAllTargets();
     });
 
-    expect(result.current.visibleCount).toBe(6);
+    expect(result.current.visibleCount).toBe(4);
     expect(result.current.isTargetVisible('tailwind')).toBe(true);
   });
 
@@ -115,6 +113,6 @@ describe('usePreviewTargets (TT-009)', () => {
 
     const {result} = renderHook(() => usePreviewTargets());
     expect(result.current.mode).toBe('all');
-    expect(result.current.visibleCount).toBe(6);
+    expect(result.current.visibleCount).toBe(4);
   });
 });

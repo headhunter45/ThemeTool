@@ -17,50 +17,52 @@ describe('PreviewSection & Visibility Controls (TT-009)', { timeout: 30000 }, ()
     vi.restoreAllMocks();
   });
 
-  it('renders Step 3 title, segmented controls, and all 6 platform cards initially', () => {
+  it('renders Step 3 title, segmented controls, and all 4 platform cards initially', () => {
     renderPreviewSection();
 
     expect(screen.getByText('Component & Platform Previews')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /All Targets/i })).toBeInTheDocument();
 
-    // Verify all 6 cards rendered
+    // Verify all 4 cards rendered
     expect(screen.getByTestId('preview-card-tailwind')).toBeInTheDocument();
-    expect(screen.getByTestId('preview-card-react')).toBeInTheDocument();
-    expect(screen.getByTestId('preview-card-angular')).toBeInTheDocument();
     expect(screen.getByTestId('preview-card-material')).toBeInTheDocument();
     expect(screen.getByTestId('preview-card-android')).toBeInTheDocument();
     expect(screen.getByTestId('preview-card-ios')).toBeInTheDocument();
+
+    // Verify retired targets are not present
+    expect(screen.queryByTestId('preview-card-react')).toBeNull();
+    expect(screen.queryByTestId('preview-card-angular')).toBeNull();
   });
 
   it('toggles visibility of individual platform cards via toggle pills in "All" mode', () => {
     renderPreviewSection();
 
     // In All mode, toggle pills are rendered
-    const toggleReactBtn = screen.getByLabelText('Toggle React UI visibility');
-    expect(toggleReactBtn).toBeInTheDocument();
-    expect(screen.getByTestId('preview-card-react')).toBeInTheDocument();
+    const toggleMaterialBtn = screen.getByLabelText('Toggle Material M3 visibility');
+    expect(toggleMaterialBtn).toBeInTheDocument();
+    expect(screen.getByTestId('preview-card-material')).toBeInTheDocument();
 
-    // Click toggle to hide React
-    fireEvent.click(toggleReactBtn);
-    expect(screen.queryByTestId('preview-card-react')).toBeNull();
+    // Click toggle to hide Material M3
+    fireEvent.click(toggleMaterialBtn);
+    expect(screen.queryByTestId('preview-card-material')).toBeNull();
     // Others remain visible
     expect(screen.getByTestId('preview-card-tailwind')).toBeInTheDocument();
 
-    // Click toggle to show React again
-    fireEvent.click(toggleReactBtn);
-    expect(screen.getByTestId('preview-card-react')).toBeInTheDocument();
+    // Click toggle to show Material M3 again
+    fireEvent.click(toggleMaterialBtn);
+    expect(screen.getByTestId('preview-card-material')).toBeInTheDocument();
   });
 
   it('switches to single-platform focus mode when clicking a platform tab', () => {
     renderPreviewSection();
 
-    const angularTab = screen.getByRole('button', { name: 'Focus Angular tab' });
-    fireEvent.click(angularTab);
+    const materialTab = screen.getByRole('button', { name: 'Focus Material M3 tab' });
+    fireEvent.click(materialTab);
 
-    // Only Angular card visible
-    expect(screen.getByTestId('preview-card-angular')).toBeInTheDocument();
+    // Only Material M3 card visible
+    expect(screen.getByTestId('preview-card-material')).toBeInTheDocument();
     expect(screen.queryByTestId('preview-card-tailwind')).toBeNull();
-    expect(screen.queryByTestId('preview-card-react')).toBeNull();
+    expect(screen.queryByTestId('preview-card-android')).toBeNull();
 
     // "Back to All Targets" button is displayed
     const backBtn = screen.getByRole('button', { name: /Back to All Targets/i });
@@ -69,7 +71,7 @@ describe('PreviewSection & Visibility Controls (TT-009)', { timeout: 30000 }, ()
     // Click back to all
     fireEvent.click(backBtn);
     expect(screen.getByTestId('preview-card-tailwind')).toBeInTheDocument();
-    expect(screen.getByTestId('preview-card-react')).toBeInTheDocument();
+    expect(screen.getByTestId('preview-card-material')).toBeInTheDocument();
   });
 
   it('displays empty state when all targets are hidden and restores with Show All', () => {
