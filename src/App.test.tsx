@@ -118,4 +118,11 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
     fireEvent.click(primaryLockBtn);
     expect(primaryLockBtn).toHaveAttribute('title', 'Locked (will not change on randomize)');
   });
+
+  it('renders the Accessibility & WCAG Contrast Matrix with pairings and badges', () => {
+    render(<App />);
+    expect(screen.getByText('Accessibility & WCAG Contrast Matrix')).toBeInTheDocument();
+    expect(screen.getByText('Text on Background')).toBeInTheDocument();
+    expect(screen.getByText('Primary on Background')).toBeInTheDocument();
+  });
 });

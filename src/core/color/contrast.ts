@@ -1,4 +1,4 @@
-import {hexToRgb} from './conversions';
+import {hexToOklch, hexToRgb, oklchToHex} from './conversions';
 import {RgbColor} from './types';
 
 /**
@@ -49,6 +49,13 @@ export function getRecommendedTextColor(bg: string|RgbColor): '#ffffff'|
   return whiteContrast >= blackContrast ? '#ffffff' : '#000000';
 }
 
+export const WCAG_RATIOS = {
+  AA_NORMAL: 4.5,
+  AA_LARGE: 3.0,
+  AAA_NORMAL: 7.0,
+  AAA_LARGE: 4.5,
+} as const;
+
 export interface WcagCompliance {
   ratio: number;
   aaNormal: boolean;   // >= 4.5
@@ -65,9 +72,88 @@ export function getWcagCompliance(
   const ratio = getContrastRatio(foreground, background);
   return {
     ratio,
-    aaNormal: ratio >= 4.5,
-    aaLarge: ratio >= 3.0,
-    aaaNormal: ratio >= 7.0,
-    aaaLarge: ratio >= 4.5,
+    aaNormal: ratio >= WCAG_RATIOS.AA_NORMAL,
+    aaLarge: ratio >= WCAG_RATIOS.AA_LARGE,
+    aaaNormal: ratio >= WCAG_RATIOS.AAA_NORMAL,
+    aaaLarge: ratio >= WCAG_RATIOS.AAA_LARGE,
   };
+}
+
+/**
+ * Minimally adjusts the lightness of colorToAdjust in OKLCH color space to
+ * achieve at least targetRatio contrast (defaults to 4.5 for WCAG AA normal
+ * text) against fixedColor, preserving hue and maintaining maximum possible
+ * chroma.
+ */
+export function suggestAaColor(
+    colorToAdjust: string, fixedColor: string, targetRatio = 4.5): string {
+  // If already compliant, no adjustment needed
+  if (getContrastRatio(colorToAdjust, fixedColor) >= targetRatio) {
+    const clean = colorToAdjust.trim();
+    return clean.startsWith('#') ? clean.toLowerCase() :
+                                   `#${clean.toLowerCase()}`;
+  }
+
+  const oklch = hexToOklch(colorToAdjust);
+  const originalL = oklch.l;
+
+  const testL = (targetL: number): {hex: string; ratio: number} => {
+    const candidateHex = oklchToHex({l: targetL, c: oklch.c, h: oklch.h});
+    const ratio = getContrastRatio(candidateHex, fixedColor);
+    return {hex: candidateHex, ratio};
+  };
+
+  // 1. Search darker: L in [0, originalL]
+  let bestDarker: {l: number; hex: string; ratio: number}|null = null;
+  if (testL(0).ratio >= targetRatio) {
+    let low = 0;
+    let high = originalL;
+    // Find the highest L in [0, originalL] that satisfies the ratio (minimal
+    // change from originalL)
+    for (let i = 0; i < 24; i++) {
+      const mid = (low + high) / 2;
+      const res = testL(mid);
+      if (res.ratio >= targetRatio) {
+        bestDarker = {l: mid, hex: res.hex, ratio: res.ratio};
+        low = mid;
+      } else {
+        high = mid;
+      }
+    }
+  }
+
+  // 2. Search lighter: L in [originalL, 1]
+  let bestLighter: {l: number; hex: string; ratio: number}|null = null;
+  if (testL(1).ratio >= targetRatio) {
+    let low = originalL;
+    let high = 1;
+    // Find the lowest L in [originalL, 1] that satisfies the ratio (minimal
+    // change from originalL)
+    for (let i = 0; i < 24; i++) {
+      const mid = (low + high) / 2;
+      const res = testL(mid);
+      if (res.ratio >= targetRatio) {
+        bestLighter = {l: mid, hex: res.hex, ratio: res.ratio};
+        high = mid;
+      } else {
+        low = mid;
+      }
+    }
+  }
+
+  // Pick direction with minimal lightness distance
+  if (bestDarker && bestLighter) {
+    const distDarker = Math.abs(bestDarker.l - originalL);
+    const distLighter = Math.abs(bestLighter.l - originalL);
+    return distDarker <= distLighter ? bestDarker.hex : bestLighter.hex;
+  }
+
+  if (bestDarker) return bestDarker.hex;
+  if (bestLighter) return bestLighter.hex;
+
+  // Fallback if neither reached target (e.g. high-chroma gamut compression):
+  // pure black or white
+  const whiteRatio = getContrastRatio('#ffffff', fixedColor);
+  const blackRatio = getContrastRatio('#000000', fixedColor);
+  return whiteRatio >= blackRatio ? '#ffffff' : '#000000';
 }

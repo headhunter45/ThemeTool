@@ -44,7 +44,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `testing` | Exporters |
 | **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `testing` | Exporters |
 | **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `testing` | Exporters |
-| **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `backlog` | Quality |
+| **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `testing` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `triage` | Enhancements |
@@ -252,7 +252,7 @@ The statuses function as an extended Kanban workflow:
   - Opening generated URL restores exact palette state.
 
 ### TT-019: Accessibility & WCAG Contrast Validator
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Quality
 - **Title**: Accessibility & WCAG Contrast Validator
 - **Description**: Provide a dedicated Accessibility & Contrast Matrix section below the palette editor. Evaluates WCAG 2.1 contrast ratios across all semantic role pairings (Text on Background, Primary on Background, Text on Primary button, Text on Secondary, Text on Accent). Displays AA, AAA, and Fail status badges for normal and large text, with a 1-click "Auto-Fix for AA" suggestion that minimally adjusts lightness in OKLCH to reach compliance.

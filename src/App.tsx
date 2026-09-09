@@ -1,5 +1,6 @@
 import { CheckCircle2, Sparkles } from 'lucide-react';
 import React, { useState } from 'react';
+import { ContrastMatrix } from './components/accessibility';
 import { SystemArchitectureView } from './components/architecture';
 import { AppNavTab, AppShell } from './components/layout';
 import { BasePaletteWorkflow, PaletteBar } from './components/palette';
@@ -49,6 +50,9 @@ export const AppContent: React.FC = () => {
 
           {/* Step 2: Active Semantic Palette Bar (TT-004 & TT-028) */}
           <PaletteBar />
+
+          {/* Dedicated Accessibility & Contrast Matrix (TT-019) */}
+          <ContrastMatrix />
 
           {/* Step 3: Component & Target Previews (TT-009) */}
           <PreviewSection />
