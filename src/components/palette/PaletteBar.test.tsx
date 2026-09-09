@@ -144,4 +144,14 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Export iOS Theme Assets')).toBeInTheDocument();
   });
+
+  it('opens Share URL modal when clicking Share URL button', () => {
+    renderPaletteBar();
+
+    const shareBtn = screen.getByLabelText('Share URL');
+    fireEvent.click(shareBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Shareable Palette URL')).toBeInTheDocument();
+  });
 });

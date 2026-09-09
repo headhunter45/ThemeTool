@@ -1,7 +1,6 @@
 import {
     Apple,
     ArrowLeftRight,
-    Check,
     Copy,
     Dices,
     Download,
@@ -31,6 +30,7 @@ import { ExportTailwindModal } from './ExportTailwindModal';
 import { ExportThemeJsonModal } from './ExportThemeJsonModal';
 import { ImportPaletteModal } from './ImportPaletteModal';
 import { RoleSwapModal } from './RoleSwapModal';
+import { ShareUrlModal } from './ShareUrlModal';
 
 export const PaletteBar: React.FC = () => {
   const {
@@ -42,7 +42,6 @@ export const PaletteBar: React.FC = () => {
     randomizeUnlocked,
     applyPreset,
     resetToDefault,
-    shareableUrl,
     activeRole,
     setActiveRole,
     canUndo,
@@ -55,7 +54,6 @@ export const PaletteBar: React.FC = () => {
     toggleCustomSlotLock,
   } = usePalette();
 
-  const [copiedUrl, setCopiedUrl] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
   const [isSwapOpen, setIsSwapOpen] = useState(false);
@@ -63,12 +61,7 @@ export const PaletteBar: React.FC = () => {
   const [isTailwindExportOpen, setIsTailwindExportOpen] = useState(false);
   const [isAndroidExportOpen, setIsAndroidExportOpen] = useState(false);
   const [isIosExportOpen, setIsIosExportOpen] = useState(false);
-
-  const handleCopyUrl = () => {
-    navigator.clipboard.writeText(shareableUrl);
-    setCopiedUrl(true);
-    setTimeout(() => setCopiedUrl(false), 2000);
-  };
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   return (
     <Card className="overflow-hidden border-indigo-200/60 dark:border-indigo-900/40 shadow-md">
@@ -161,24 +154,16 @@ export const PaletteBar: React.FC = () => {
             <span>Randomize</span>
           </button>
 
-          {/* Share / Copy URL Button */}
+          {/* Share URL Button */}
           <button
             type="button"
-            onClick={handleCopyUrl}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all"
-            title="Copy shareable link with current palette"
+            onClick={() => setIsShareModalOpen(true)}
+            aria-label="Share URL"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Configure and share palette URL"
           >
-            {copiedUrl ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Copied URL!</span>
-              </>
-            ) : (
-              <>
-                <Share2 className="w-3.5 h-3.5 text-slate-500" />
-                <span>Share URL</span>
-              </>
-            )}
+            <Share2 className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Share URL</span>
           </button>
 
           {/* Export JSON Button */}
@@ -558,6 +543,11 @@ export const PaletteBar: React.FC = () => {
       <ExportIosModal
         isOpen={isIosExportOpen}
         onClose={() => setIsIosExportOpen(false)}
+      />
+
+      <ShareUrlModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
       />
     </Card>
   );

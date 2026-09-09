@@ -40,10 +40,10 @@ The statuses function as an extended Kanban workflow:
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
-| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `in-progress` | Exporters |
-| **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `backlog` | Exporters |
-| **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `backlog` | Exporters |
-| **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `backlog` | Exporters |
+| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `testing` | Exporters |
+| **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `testing` | Exporters |
+| **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `testing` | Exporters |
+| **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `testing` | Exporters |
 | **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `backlog` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
@@ -241,7 +241,7 @@ The statuses function as an extended Kanban workflow:
   - One-click copy and download functionality.
 
 ### TT-018: Shareable URL Generator with Configurable Base URL
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Exporters
 - **Title**: Shareable URL Generator with Configurable Base URL
 - **Description**: Create a shareable URL export modal/panel. The export encodes the full palette configuration into a shareable URL. Allow user to configure the Base URL (defaults to `https://headhunter45.github.io/ThemeTool/`, with quick toggle for `Current Domain` or `http://localhost:5173/`, and custom domain input). Persists Base URL preference in `localStorage`.

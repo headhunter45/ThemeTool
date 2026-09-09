@@ -8,8 +8,8 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 ## Visual Board Overview
 
-| **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)**<br>Shareable URL Generator | *(None currently active)* | **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)**<br>iOS Swift & xcassets Exporter<br>*(Ready for PR / testing)* | **[TT-010](Tasks.md#tt-010-tailwind-web-component-preview)**<br>Tailwind Web Preview<br>*(Merged to `develop`)* |
-| **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator | | **[TT-016](Tasks.md#tt-016-android-xml-resource-generator--zip-packager)**<br>Android XML Zip Packager<br>*(Ready for PR / testing)* | **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)**<br>Layout Restructure & Architecture Tab<br>*(Merged to `develop`)* |
+| **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator | *(None)* | **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)**<br>Shareable URL Generator<br>*(Ready for PR / testing)* | **[TT-010](Tasks.md#tt-010-tailwind-web-component-preview)**<br>Tailwind Web Preview<br>*(Merged to `develop`)* |
+| | | **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)**<br>iOS Swift & xcassets Exporter<br>*(Ready for PR / testing)* | **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)**<br>Layout Restructure & Architecture Tab<br>*(Merged to `develop`)* |
 | | | **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter<br>*(Ready for PR / testing)* | **[TT-028](Tasks.md#tt-028-contextual-color-inspector--on-demand-shade-studio)**<br>Contextual Color Inspector<br>*(Merged to `develop`)* |
 | | | **[TT-029](Tasks.md#tt-029-consolidate-preview-targets-to-ui-design-systems)**<br>Consolidate Preview Targets<br>*(Ready for PR / testing)* | **[TT-026](Tasks.md#tt-026-base-palette-selection-workflow)**<br>Base Palette Selection Workflow<br>*(Merged to `develop`)* |
 | | | **[TT-025](Tasks.md#tt-025-standard-theme-json-exporter--json-schema-specification)**<br>Theme JSON & Schema<br>*(Ready for PR / testing)* | **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer<br>*(Merged to `develop`)* |
@@ -26,9 +26,6 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
 
-- [ ] **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)** — *Shareable URL Generator with Configurable Base URL*
-  - **Category**: Exporters
-  - **Summary**: Export palette state as shareable URL with configurable base URL and localStorage persistence.
 - [ ] **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)** — *Accessibility & WCAG Contrast Validator*
   - **Category**: Quality
   - **Summary**: Dedicated Accessibility & Contrast Matrix dashboard card with AA/AAA badges and 1-click auto-fix.
@@ -43,6 +40,12 @@ Tasks currently being coded in active task branches (`tasks/<id>-<description>` 
 
 ### 🧪 Testing
 Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
+
+- [ ] **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)** — *Shareable URL Generator with Configurable Base URL*
+  - **Branch**: `tasks/tt-018-shareable-url-generator`
+  - **Category**: Exporters
+  - **Status**: Ready for review / testing
+  - **Summary**: Export palette state as shareable URL with configurable base URL and localStorage persistence.
 
 - [ ] **[TT-017](Tasks.md#tt-017-ios-swift--xcassets-exporter)** — *iOS Swift & xcassets Exporter*
   - **Branch**: `tasks/tt-017-ios-exporter`
