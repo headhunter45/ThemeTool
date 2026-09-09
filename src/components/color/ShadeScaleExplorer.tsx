@@ -83,7 +83,7 @@ export const ShadeScaleExplorer: React.FC = () => {
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <CardTitle className="flex items-center gap-2">
-              <span>Color Math & Shade Studio</span>
+              <span>Shade Studio</span>
             </CardTitle>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Enter any base color to inspect perceptual conversions and generate designer-calibrated 50–950 shade steps.
@@ -200,26 +200,44 @@ export const ShadeScaleExplorer: React.FC = () => {
                 { label: 'HSL', value: hslFormatted },
                 { label: 'OKLCH', value: oklchFormatted },
                 { label: 'Luminance', value: luminanceFormatted },
-              ].map((format) => (
-                <button
-                  key={format.label}
-                  type="button"
-                  onClick={() => handleCopy(format.value, format.label)}
-                  className="group flex flex-col p-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 text-left hover:border-indigo-400 dark:hover:border-indigo-600 transition-all"
-                >
-                  <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                    <span>{format.label}</span>
-                    {copiedKey === format.label ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    )}
-                  </div>
-                  <span className="text-xs font-mono font-medium text-slate-900 dark:text-slate-100 truncate mt-1">
-                    {format.value}
-                  </span>
-                </button>
-              ))}
+              ].map((format) => {
+                const isCopied = copiedKey === format.label;
+                return (
+                  <button
+                    key={format.label}
+                    type="button"
+                    onClick={() => handleCopy(format.value, format.label)}
+                    aria-label={`Copy ${format.label} value`}
+                    className="group flex flex-col p-2.5 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-left hover:border-indigo-400 dark:hover:border-indigo-500 transition-all cursor-pointer shadow-2xs"
+                  >
+                    <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                      <span>{format.label}</span>
+                      <span
+                        className={`inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-md transition-all ${
+                          isCopied
+                            ? 'bg-emerald-600 text-white shadow-2xs'
+                            : 'bg-indigo-600 hover:bg-indigo-700 group-hover:bg-indigo-700 dark:bg-indigo-600 dark:group-hover:bg-indigo-500 text-white shadow-2xs'
+                        }`}
+                      >
+                        {isCopied ? (
+                          <>
+                            <Check className="w-3 h-3 text-white" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3 h-3 text-white" />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
+                    <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 truncate mt-1.5">
+                      {format.value}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </CardContent>

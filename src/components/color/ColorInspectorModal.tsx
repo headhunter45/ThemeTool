@@ -17,6 +17,7 @@ export interface ColorInspectorModalProps {
   isOpen: boolean;
   onClose: () => void;
   targetRole?: SemanticRole;
+  targetCustomSlotId?: string | null;
 }
 
 const PRESETS = [
@@ -34,21 +35,34 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
   isOpen,
   onClose,
   targetRole,
+  targetCustomSlotId,
 }) => {
-  const { colors, activeRole, setActiveRole, setColor } = usePalette();
+  const { colors, custom, activeRole, setActiveRole, setColor, updateCustomSlot } = usePalette();
+
+  const [selectedCustomId, setSelectedCustomId] = useState<string | null>(targetCustomSlotId ?? null);
+
+  useEffect(() => {
+    if (targetCustomSlotId !== undefined) {
+      setSelectedCustomId(targetCustomSlotId);
+    }
+  }, [targetCustomSlotId, isOpen]);
+
+  const isCustom = selectedCustomId !== null && custom.some((s) => s.id === selectedCustomId);
+  const activeCustomSlot = isCustom ? custom.find((s) => s.id === selectedCustomId) : null;
   const currentRole = targetRole || activeRole;
 
-  const [inputHex, setInputHex] = useState(() => colors[currentRole] || '#3b82f6');
+  const currentHex = activeCustomSlot ? activeCustomSlot.hex : (colors[currentRole] || '#3b82f6');
+  const currentLabel = activeCustomSlot ? activeCustomSlot.name : ROLE_METADATA[currentRole].label;
+
+  const [inputHex, setInputHex] = useState(currentHex);
   const [force500, setForce500] = useState(false);
   const [isTonalScaleExpanded, setIsTonalScaleExpanded] = useState(true);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  // Synchronize inputHex whenever currentRole or colors change
+  // Synchronize inputHex whenever currentHex changes
   useEffect(() => {
-    if (colors[currentRole]) {
-      setInputHex(colors[currentRole]);
-    }
-  }, [currentRole, colors]);
+    setInputHex(currentHex);
+  }, [currentHex]);
 
   // Handle escape key
   useEffect(() => {
@@ -65,7 +79,12 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
   const handleColorChange = (newHex: string) => {
     setInputHex(newHex);
     if (/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(newHex.trim())) {
-      setColor(currentRole, newHex.startsWith('#') ? newHex : `#${newHex}`);
+      const sanitized = newHex.startsWith('#') ? newHex : `#${newHex}`;
+      if (activeCustomSlot) {
+        updateCustomSlot(activeCustomSlot.id, { hex: sanitized });
+      } else {
+        setColor(currentRole, sanitized);
+      }
     }
   };
 
@@ -100,7 +119,6 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
     }
   }
 
-  const activeMeta = ROLE_METADATA[currentRole];
   const textColor = isValidHex ? getRecommendedTextColor(sanitizedHex) : '#ffffff';
   const contrastOnBg = isValidHex && currentRole !== 'background'
     ? getContrastRatio(sanitizedHex, colors.background)
@@ -125,9 +143,9 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
             </div>
             <div>
               <h3 id="inspector-modal-title" className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <span>Color Math & Shade Studio</span>
+                <span>Shade Studio</span>
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
-                  {activeMeta.label}
+                  {currentLabel}
                 </span>
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -148,18 +166,21 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-5 space-y-5 overflow-y-auto">
-          {/* Role Switching Tabs */}
+          {/* Role & Slot Switching Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 pb-2 border-b border-slate-100 dark:border-slate-800">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-1.5">
-              Inspect Role:
+              Inspect Token:
             </span>
             {SEMANTIC_ROLES.map((role) => {
-              const isActive = currentRole === role;
+              const isActive = !isCustom && currentRole === role;
               return (
                 <button
                   key={role}
                   type="button"
-                  onClick={() => setActiveRole(role)}
+                  onClick={() => {
+                    setSelectedCustomId(null);
+                    setActiveRole(role);
+                  }}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                     isActive
                       ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
@@ -174,6 +195,28 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
                 </button>
               );
             })}
+
+            {custom.map((slot) => {
+              const isActive = isCustom && selectedCustomId === slot.id;
+              return (
+                <button
+                  key={slot.id}
+                  type="button"
+                  onClick={() => setSelectedCustomId(slot.id)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full border border-black/10 dark:border-white/10"
+                    style={{ backgroundColor: slot.hex }}
+                  />
+                  <span>{slot.name}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Color Preview & Editor Card */}
@@ -185,7 +228,7 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold" style={{ color: textColor }}>
-                  {activeMeta.label}
+                  {currentLabel}
                 </span>
                 {contrastOnBg !== null && (
                   <span
@@ -270,26 +313,44 @@ export const ColorInspectorModal: React.FC<ColorInspectorModalProps> = ({
                   { label: 'HSL', value: hslFormatted },
                   { label: 'OKLCH', value: oklchFormatted },
                   { label: 'Luminance', value: luminanceFormatted },
-                ].map((format) => (
-                  <button
-                    key={format.label}
-                    type="button"
-                    onClick={() => handleCopy(format.value, format.label)}
-                    className="group flex flex-col p-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 text-left hover:border-indigo-400 dark:hover:border-indigo-600 transition-all cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                      <span>{format.label}</span>
-                      {copiedKey === format.label ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-500" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      )}
-                    </div>
-                    <span className="text-xs font-mono font-medium text-slate-900 dark:text-slate-100 truncate mt-1">
-                      {format.value}
-                    </span>
-                  </button>
-                ))}
+                ].map((format) => {
+                  const isCopied = copiedKey === format.label;
+                  return (
+                    <button
+                      key={format.label}
+                      type="button"
+                      onClick={() => handleCopy(format.value, format.label)}
+                      aria-label={`Copy ${format.label} value`}
+                      className="group flex flex-col p-2.5 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-left hover:border-indigo-400 dark:hover:border-indigo-500 transition-all cursor-pointer shadow-2xs"
+                    >
+                      <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                        <span>{format.label}</span>
+                        <span
+                          className={`inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-md transition-all ${
+                            isCopied
+                              ? 'bg-emerald-600 text-white shadow-2xs'
+                              : 'bg-indigo-600 hover:bg-indigo-700 group-hover:bg-indigo-700 dark:bg-indigo-600 dark:group-hover:bg-indigo-500 text-white shadow-2xs'
+                          }`}
+                        >
+                          {isCopied ? (
+                            <>
+                              <Check className="w-3 h-3 text-white" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3 text-white" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </span>
+                      </div>
+                      <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 truncate mt-1.5">
+                        {format.value}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}

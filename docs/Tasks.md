@@ -57,7 +57,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `released` | Previews |
 | **[TT-030](#tt-030-compact-hero-section--remove-system-architecture-tab)** | Compact Hero Section & Remove System Architecture Tab | `testing` | UI / Shell |
 | **[TT-031](#tt-031-studio-5-step-workflow-reorganization--dedicated-export-section)** | Studio 5-Step Workflow Reorganization & Dedicated Export Section | `testing` | UI / Shell |
-| **[TT-032](#tt-032-shade-studio--palette-cards-cleanup)** | Shade Studio & Palette Cards Cleanup | `backlog` | UI / Shell |
+| **[TT-032](#tt-032-shade-studio--palette-cards-cleanup)** | Shade Studio & Palette Cards Cleanup | `testing` | UI / Shell |
 | **[TT-033](#tt-033-accessibility-section-header--indicator-cleanup)** | Accessibility Section Header & Indicator Cleanup | `backlog` | Quality |
 | **[TT-034](#tt-034-preview-component-interactivity--common-app-chrome)** | Preview Component Interactivity & Common App Chrome | `backlog` | Previews |
 | **[TT-035](#tt-035-standardized-preview-viewport-sizing--edge-to-edge-diagnostics)** | Standardized Preview Viewport Sizing & Edge-to-Edge Diagnostics | `backlog` | Previews |
@@ -457,7 +457,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests updated to verify 5-step structure and new export section.
 
 ### TT-032: Shade Studio & Palette Cards Cleanup
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Shade Studio & Palette Cards Cleanup
 - **Description**: Refine the visual consistency, clarity, and user experience of color cards and the on-demand shade inspector:

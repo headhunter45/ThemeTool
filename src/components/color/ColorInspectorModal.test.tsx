@@ -5,7 +5,10 @@ import { PaletteProvider } from '../../context/PaletteContext';
 import { SemanticRole } from '../../core/palette';
 import { ColorInspectorModal } from './ColorInspectorModal';
 
-const TestInspectorHarness: React.FC<{ initialRole?: SemanticRole }> = ({ initialRole = 'primary' }) => {
+const TestInspectorHarness: React.FC<{
+  initialRole?: SemanticRole;
+  initialCustomId?: string | null;
+}> = ({ initialRole = 'primary', initialCustomId = null }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -15,12 +18,13 @@ const TestInspectorHarness: React.FC<{ initialRole?: SemanticRole }> = ({ initia
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         targetRole={initialRole}
+        targetCustomSlotId={initialCustomId}
       />
     </div>
   );
 };
 
-describe('ColorInspectorModal (TT-028)', () => {
+describe('ColorInspectorModal (TT-028 & TT-032)', () => {
   beforeEach(() => {
     window.history.replaceState(null, '', '/');
   });
@@ -32,13 +36,13 @@ describe('ColorInspectorModal (TT-028)', () => {
       </PaletteProvider>
     );
 
-    expect(screen.queryByText('Color Math & Shade Studio')).not.toBeInTheDocument();
+    expect(screen.queryByText('Shade Studio')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Open Inspector'));
-    expect(screen.getByText('Color Math & Shade Studio')).toBeInTheDocument();
+    expect(screen.getByText('Shade Studio')).toBeInTheDocument();
 
     fireEvent.click(screen.getByLabelText('Close dialog'));
-    expect(screen.queryByText('Color Math & Shade Studio')).not.toBeInTheDocument();
+    expect(screen.queryByText('Shade Studio')).not.toBeInTheDocument();
   });
 
   it('closes on Escape key press', () => {
@@ -49,10 +53,10 @@ describe('ColorInspectorModal (TT-028)', () => {
     );
 
     fireEvent.click(screen.getByText('Open Inspector'));
-    expect(screen.getByText('Color Math & Shade Studio')).toBeInTheDocument();
+    expect(screen.getByText('Shade Studio')).toBeInTheDocument();
 
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(screen.queryByText('Color Math & Shade Studio')).not.toBeInTheDocument();
+    expect(screen.queryByText('Shade Studio')).not.toBeInTheDocument();
   });
 
   it('displays color conversions and allows editing color', () => {
@@ -74,6 +78,30 @@ describe('ColorInspectorModal (TT-028)', () => {
     const hexInput = screen.getByLabelText(/Hex color value/i);
     fireEvent.change(hexInput, { target: { value: '#10b981' } });
     expect(hexInput).toHaveValue('#10b981');
+  });
+
+  it('displays explicit Copy buttons on conversion cards and shows Copied! on click', () => {
+    const writeTextMock = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: writeTextMock },
+      configurable: true,
+      writable: true,
+    });
+
+    render(
+      <PaletteProvider>
+        <TestInspectorHarness />
+      </PaletteProvider>
+    );
+
+    fireEvent.click(screen.getByText('Open Inspector'));
+
+    const hexCopyBtn = screen.getByRole('button', { name: 'Copy HEX value' });
+    expect(hexCopyBtn).toHaveTextContent('Copy');
+
+    fireEvent.click(hexCopyBtn);
+    expect(writeTextMock).toHaveBeenCalled();
+    expect(hexCopyBtn).toHaveTextContent('Copied!');
   });
 
   it('allows switching inspected role inside modal', () => {

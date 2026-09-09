@@ -69,21 +69,32 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByText('Quick Role Swap')).toBeInTheDocument();
   });
 
-  it('manages custom extra color slots: add, rename, pick color, lock, and delete', () => {
+  it('manages custom extra color slots in unified grid: add, rename, pick color, inspect, lock, and delete', () => {
+    const writeTextMock = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: writeTextMock },
+      configurable: true,
+      writable: true,
+    });
+
     renderPaletteBar();
 
-    // Initially no custom color slots
-    expect(screen.getByText(/No custom color slots added yet/i)).toBeInTheDocument();
+    // 5 core semantic roles are initially rendered in the grid
+    expect(screen.getAllByText('Primary').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Secondary').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Accent').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Background').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Text').length).toBeGreaterThanOrEqual(1);
 
     // Click Add Color Slot
     const addSlotBtn = screen.getByLabelText('Add custom color slot');
     fireEvent.click(addSlotBtn);
 
-    // Empty state should disappear, custom slot card appears
-    expect(screen.queryByText(/No custom color slots added yet/i)).toBeNull();
+    // Custom slot card appears directly in the unified grid
+    const slotNameInput = screen.getByDisplayValue('Custom 1') as HTMLInputElement;
+    expect(slotNameInput).toBeInTheDocument();
 
     // Rename slot
-    const slotNameInput = screen.getByDisplayValue('Custom 1') as HTMLInputElement;
     fireEvent.change(slotNameInput, { target: { value: 'Brand Purple' } });
     expect(slotNameInput.value).toBe('Brand Purple');
 
@@ -92,17 +103,33 @@ describe('PaletteBar (TT-008)', () => {
     fireEvent.change(slotHexInput, { target: { value: '#9333ea' } });
     expect(slotHexInput.value).toBe('#9333ea');
 
+    // Copy hex code with feedback
+    const copyBtn = screen.getByLabelText('Copy Brand Purple hex code');
+    fireEvent.click(copyBtn);
+    expect(writeTextMock).toHaveBeenCalledWith('#9333ea');
+    expect(copyBtn).toHaveAttribute('title', 'Copied to clipboard!');
+
     // Toggle lock
     const lockBtn = screen.getByLabelText('Toggle lock for Brand Purple');
     fireEvent.click(lockBtn);
     expect(lockBtn).toHaveAttribute('title', 'Locked (will not change on randomize)');
 
+    // Inspect Shades for custom slot opens Shade Studio
+    const inspectBtn = screen.getByLabelText('Inspect Brand Purple shades and color math');
+    fireEvent.click(inspectBtn);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Shade Studio')).toBeInTheDocument();
+    expect(screen.getAllByText('Brand Purple').length).toBeGreaterThanOrEqual(1);
+
+    // Close modal
+    fireEvent.click(screen.getByLabelText('Close dialog'));
+
     // Delete slot
     const deleteBtn = screen.getByLabelText('Delete Brand Purple');
     fireEvent.click(deleteBtn);
 
-    // Should return to empty state
-    expect(screen.getByText(/No custom color slots added yet/i)).toBeInTheDocument();
+    // Should be removed from document
+    expect(screen.queryByDisplayValue('Brand Purple')).toBeNull();
   });
 
   it('renders Step 2: Experiment header title and has decoupled export buttons', () => {
