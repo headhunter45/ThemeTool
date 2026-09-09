@@ -161,10 +161,13 @@ export const ContrastMatrix: React.FC = () => {
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/50">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Step 4
+            </span>
+            <div className="p-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">
               <ShieldCheck className="w-4 h-4" />
             </div>
-            <CardTitle>Accessibility & WCAG Contrast Matrix</CardTitle>
+            <CardTitle>Accessibility</CardTitle>
             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
               WCAG 2.1
             </span>

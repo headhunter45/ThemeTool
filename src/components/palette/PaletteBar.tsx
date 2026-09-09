@@ -1,40 +1,27 @@
 import {
-    Apple,
-    ArrowLeftRight,
-    Copy,
-    Dices,
-    Download,
-    Eye,
-    FileCode,
-    FileJson,
-    Lock,
-    Moon,
-    Plus,
-    Redo2,
-    RotateCcw,
-    Share2,
-    Smartphone,
-    Sparkles,
-    Sun,
-    Trash2,
-    Undo2,
-    Unlock,
+  ArrowLeftRight,
+  Copy,
+  Dices,
+  Eye,
+  Lock,
+  Moon,
+  Plus,
+  Redo2,
+  RotateCcw,
+  Sparkles,
+  Sun,
+  Trash2,
+  Undo2,
+  Unlock,
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
-import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { DualityModal } from './DualityModal';
-import { ExportAndroidModal } from './ExportAndroidModal';
-import { ExportIosModal } from './ExportIosModal';
-import { ExportTailwindModal } from './ExportTailwindModal';
-import { ExportThemeJsonModal } from './ExportThemeJsonModal';
-import { ImportPaletteModal } from './ImportPaletteModal';
 import { RoleSwapModal } from './RoleSwapModal';
-import { ShareUrlModal } from './ShareUrlModal';
 
 export const PaletteBar: React.FC = () => {
   const {
@@ -44,14 +31,13 @@ export const PaletteBar: React.FC = () => {
     setColor,
     toggleLock,
     randomizeUnlocked,
-    applyPreset,
+    undo,
+    redo,
     resetToDefault,
     activeRole,
     setActiveRole,
     canUndo,
     canRedo,
-    undo,
-    redo,
     addCustomSlot,
     updateCustomSlot,
     removeCustomSlot,
@@ -60,25 +46,24 @@ export const PaletteBar: React.FC = () => {
     setActiveMode,
   } = usePalette();
 
-  const [isImportOpen, setIsImportOpen] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
   const [isSwapOpen, setIsSwapOpen] = useState(false);
-  const [isExportOpen, setIsExportOpen] = useState(false);
-  const [isTailwindExportOpen, setIsTailwindExportOpen] = useState(false);
-  const [isAndroidExportOpen, setIsAndroidExportOpen] = useState(false);
-  const [isIosExportOpen, setIsIosExportOpen] = useState(false);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isDualityOpen, setIsDualityOpen] = useState(false);
 
   return (
     <Card className="overflow-hidden border-indigo-200/60 dark:border-indigo-900/40 shadow-md">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/50">
         <div>
-          <CardTitle className="flex items-center gap-2">
-            <span>Active Semantic Palette</span>
-          </CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Step 2
+            </span>
+            <CardTitle className="flex items-center gap-2">
+              <span>Experiment</span>
+            </CardTitle>
+          </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            5 core semantic roles synced live to URL hash & parameters. Bookmark or share any state instantly.
+            Adjust semantic color roles, explore dark mode duality, swap roles, and fine-tune palette shades
           </p>
         </div>
 
@@ -131,11 +116,15 @@ export const PaletteBar: React.FC = () => {
             type="button"
             onClick={undo}
             disabled={!canUndo}
-            aria-label="Undo palette action"
+            className={`p-1.5 rounded-xl transition-all ${
+              canUndo
+                ? 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer'
+                : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-50'
+            }`}
             title="Undo (Cmd/Ctrl+Z)"
-            className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-750 transition-all cursor-pointer shadow-sm"
+            aria-label="Undo palette action"
           >
-            <Undo2 className="w-3.5 h-3.5" />
+            <Undo2 className="w-4 h-4" />
           </button>
 
           {/* Redo Button */}
@@ -143,53 +132,27 @@ export const PaletteBar: React.FC = () => {
             type="button"
             onClick={redo}
             disabled={!canRedo}
-            aria-label="Redo palette action"
+            className={`p-1.5 rounded-xl transition-all ${
+              canRedo
+                ? 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer'
+                : 'text-slate-300 dark:text-slate-700 cursor-not-allowed opacity-50'
+            }`}
             title="Redo (Cmd/Ctrl+Shift+Z, Cmd/Ctrl+Y)"
-            className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-750 transition-all cursor-pointer shadow-sm"
+            aria-label="Redo palette action"
           >
-            <Redo2 className="w-3.5 h-3.5" />
+            <Redo2 className="w-4 h-4" />
           </button>
 
-          {/* Role Swap Button */}
+          {/* Swap Roles Button */}
           <button
             type="button"
             onClick={() => setIsSwapOpen(true)}
+            aria-label="Quick role swap"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             title="Swap colors between two semantic roles"
-            aria-label="Quick role swap"
           >
             <ArrowLeftRight className="w-3.5 h-3.5 text-indigo-500" />
             <span>Swap Roles</span>
-          </button>
-
-          {/* Presets Dropdown */}
-          <select
-            onChange={(e) => {
-              if (e.target.value) applyPreset(e.target.value);
-            }}
-            defaultValue=""
-            aria-label="Palette presets"
-            className="px-2.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer shadow-sm"
-          >
-            <option value="" disabled>
-              Load Preset...
-            </option>
-            {PALETTE_PRESETS.map((preset) => (
-              <option key={preset.id} value={preset.id}>
-                {preset.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Import URL Button */}
-          <button
-            type="button"
-            onClick={() => setIsImportOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
-            title="Import palette from Coolors or ColorKit URL"
-          >
-            <Download className="w-3.5 h-3.5 text-indigo-500" />
-            <span>Import</span>
           </button>
 
           {/* Randomize Button */}
@@ -201,66 +164,6 @@ export const PaletteBar: React.FC = () => {
           >
             <Dices className="w-3.5 h-3.5" />
             <span>Randomize</span>
-          </button>
-
-          {/* Share URL Button */}
-          <button
-            type="button"
-            onClick={() => setIsShareModalOpen(true)}
-            aria-label="Share URL"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Configure and share palette URL"
-          >
-            <Share2 className="w-3.5 h-3.5 text-indigo-500" />
-            <span>Share URL</span>
-          </button>
-
-          {/* Export JSON Button */}
-          <button
-            type="button"
-            onClick={() => setIsExportOpen(true)}
-            aria-label="Export Theme JSON"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Export Theme JSON with formal JSON Schema"
-          >
-            <FileJson className="w-3.5 h-3.5 text-indigo-500" />
-            <span>Export JSON</span>
-          </button>
-
-          {/* Export Tailwind Button */}
-          <button
-            type="button"
-            onClick={() => setIsTailwindExportOpen(true)}
-            aria-label="Export Tailwind Theme"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Export Tailwind v3 & v4 theme files and CSS variables"
-          >
-            <FileCode className="w-3.5 h-3.5 text-cyan-500" />
-            <span>Export Tailwind</span>
-          </button>
-
-          {/* Export Android Button */}
-          <button
-            type="button"
-            onClick={() => setIsAndroidExportOpen(true)}
-            aria-label="Export Android Resources"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Export Android Material 3 XML resources and zip archive"
-          >
-            <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Export Android</span>
-          </button>
-
-          {/* Export iOS Button */}
-          <button
-            type="button"
-            onClick={() => setIsIosExportOpen(true)}
-            aria-label="Export iOS Assets"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            title="Export iOS Swift code and Xcode Asset Catalog (.xcassets)"
-          >
-            <Apple className="w-3.5 h-3.5 text-blue-500" />
-            <span>Export iOS</span>
           </button>
 
           {/* Reset Button */}
@@ -559,11 +462,6 @@ export const PaletteBar: React.FC = () => {
         </div>
       </CardContent>
 
-      <ImportPaletteModal
-        isOpen={isImportOpen}
-        onClose={() => setIsImportOpen(false)}
-      />
-
       <ColorInspectorModal
         isOpen={isInspectorOpen}
         onClose={() => setIsInspectorOpen(false)}
@@ -572,31 +470,6 @@ export const PaletteBar: React.FC = () => {
       <RoleSwapModal
         isOpen={isSwapOpen}
         onClose={() => setIsSwapOpen(false)}
-      />
-
-      <ExportThemeJsonModal
-        isOpen={isExportOpen}
-        onClose={() => setIsExportOpen(false)}
-      />
-
-      <ExportTailwindModal
-        isOpen={isTailwindExportOpen}
-        onClose={() => setIsTailwindExportOpen(false)}
-      />
-
-      <ExportAndroidModal
-        isOpen={isAndroidExportOpen}
-        onClose={() => setIsAndroidExportOpen(false)}
-      />
-
-      <ExportIosModal
-        isOpen={isIosExportOpen}
-        onClose={() => setIsIosExportOpen(false)}
-      />
-
-      <ShareUrlModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
       />
 
       <DualityModal

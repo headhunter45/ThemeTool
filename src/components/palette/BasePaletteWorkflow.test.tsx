@@ -28,7 +28,8 @@ describe('BasePaletteWorkflow (TT-026)', () => {
       </PaletteProvider>
     );
 
-    expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
+    expect(screen.getByText('Step 1')).toBeInTheDocument();
+    expect(screen.getByText('Choose Base')).toBeInTheDocument();
     expect(screen.getByLabelText(/Pick seed color/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Choose curated preset/i)).toBeInTheDocument();
     expect(screen.getByText(/Import URL \/ Code\.\.\./i)).toBeInTheDocument();

@@ -105,54 +105,17 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByText(/No custom color slots added yet/i)).toBeInTheDocument();
   });
 
-  it('opens Export Theme JSON modal when clicking Export JSON button', () => {
+  it('renders Step 2: Experiment header title and has decoupled export buttons', () => {
     renderPaletteBar();
 
-    const exportBtn = screen.getByLabelText('Export Theme JSON');
-    fireEvent.click(exportBtn);
+    expect(screen.getByText('Step 2')).toBeInTheDocument();
+    expect(screen.getByText('Experiment')).toBeInTheDocument();
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Standard Theme JSON Exporter')).toBeInTheDocument();
-  });
-
-  it('opens Export Tailwind modal when clicking Export Tailwind button', () => {
-    renderPaletteBar();
-
-    const exportTailwindBtn = screen.getByLabelText(/Export Tailwind Theme/i);
-    fireEvent.click(exportTailwindBtn);
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Export Tailwind Theme')).toBeInTheDocument();
-  });
-
-  it('opens Export Android modal when clicking Export Android button', () => {
-    renderPaletteBar();
-
-    const exportAndroidBtn = screen.getByLabelText(/Export Android Resources/i);
-    fireEvent.click(exportAndroidBtn);
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Export Android Material 3 Resources')).toBeInTheDocument();
-  });
-
-  it('opens Export iOS modal when clicking Export iOS button', () => {
-    renderPaletteBar();
-
-    const exportIosBtn = screen.getByLabelText(/Export iOS Assets/i);
-    fireEvent.click(exportIosBtn);
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Export iOS Theme Assets')).toBeInTheDocument();
-  });
-
-  it('opens Share URL modal when clicking Share URL button', () => {
-    renderPaletteBar();
-
-    const shareBtn = screen.getByLabelText('Share URL');
-    fireEvent.click(shareBtn);
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Shareable Palette URL')).toBeInTheDocument();
+    // Export buttons are decoupled from PaletteBar (moved to ExportSection)
+    expect(screen.queryByLabelText('Export Theme JSON')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Export Tailwind Theme/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Export Android Resources/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Export iOS Assets/i)).not.toBeInTheDocument();
   });
 
   it('switches between Light and Dark mode using mode switcher in toolbar', () => {

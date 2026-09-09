@@ -33,7 +33,7 @@ export const PreviewSection: React.FC = () => {
               </span>
               <CardTitle className="text-base flex items-center gap-2">
                 <Monitor className="w-4 h-4 text-indigo-500" />
-                <span>Component & Platform Previews</span>
+                <span>Preview</span>
               </CardTitle>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">

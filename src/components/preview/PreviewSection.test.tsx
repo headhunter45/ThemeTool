@@ -20,7 +20,8 @@ describe('PreviewSection & Visibility Controls (TT-009)', { timeout: 30000 }, ()
   it('renders Step 3 title, segmented controls, and all 4 platform cards initially', () => {
     renderPreviewSection();
 
-    expect(screen.getByText('Component & Platform Previews')).toBeInTheDocument();
+    expect(screen.getByText('Step 3')).toBeInTheDocument();
+    expect(screen.getByText('Preview')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /All Targets/i })).toBeInTheDocument();
 
     // Verify all 4 cards rendered

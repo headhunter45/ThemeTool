@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import App from './App';
 
@@ -29,8 +29,15 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
     // Verifies the compact hero heading and studio sections render directly
     expect(screen.getByRole('heading', { level: 1, name: /ThemeTool/i })).toBeInTheDocument();
     expect(screen.queryByText('Modern Theme & Design System Studio')).not.toBeInTheDocument();
-    expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
-    expect(screen.getByText('Component & Platform Previews')).toBeInTheDocument();
+    expect(screen.getByText('Choose Base')).toBeInTheDocument();
+    expect(screen.getByText('Preview')).toBeInTheDocument();
+
+    // Verify all 5 workflow steps are present
+    expect(screen.getByText('Step 1')).toBeInTheDocument();
+    expect(screen.getByText('Step 2')).toBeInTheDocument();
+    expect(screen.getByText('Step 3')).toBeInTheDocument();
+    expect(screen.getByText('Step 4')).toBeInTheDocument();
+    expect(screen.getByText('Step 5')).toBeInTheDocument();
 
     // System Architecture tab and view should no longer exist in the shell
     expect(screen.queryByRole('button', { name: /System Architecture view/i })).not.toBeInTheDocument();
@@ -91,7 +98,7 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
 
   it('renders the 5 semantic roles in PaletteBar and supports randomize and lock', () => {
     render(<App />);
-    expect(screen.getByText('Active Semantic Palette')).toBeInTheDocument();
+    expect(screen.getByText('Experiment')).toBeInTheDocument();
 
     // Check roles
     expect(screen.getAllByText('Text').length).toBeGreaterThanOrEqual(1);
@@ -102,7 +109,7 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
 
     // Check action buttons
     expect(screen.getByRole('button', { name: /Randomize/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Share URL/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Share URL/i }).length).toBeGreaterThanOrEqual(1);
 
     // Toggle lock for Primary
     const primaryLockBtn = screen.getByRole('button', { name: /Toggle lock for Primary/i });
@@ -112,8 +119,19 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
 
   it('renders the Accessibility & WCAG Contrast Matrix with pairings and badges', () => {
     render(<App />);
-    expect(screen.getByText('Accessibility & WCAG Contrast Matrix')).toBeInTheDocument();
+    expect(screen.getByText('Accessibility')).toBeInTheDocument();
     expect(screen.getByText('Text on Background')).toBeInTheDocument();
     expect(screen.getByText('Primary on Background')).toBeInTheDocument();
+  });
+
+  it('renders Step 5 Export with all platform export options', () => {
+    render(<App />);
+    const exportSection = screen.getByLabelText('Step 5: Export');
+    expect(within(exportSection).getByRole('heading', { level: 3, name: /^Export$/i })).toBeInTheDocument();
+    expect(within(exportSection).getByText('Web')).toBeInTheDocument();
+    expect(within(exportSection).getByText('Android')).toBeInTheDocument();
+    expect(within(exportSection).getByText('iOS')).toBeInTheDocument();
+    expect(within(exportSection).getByText('Theme JSON')).toBeInTheDocument();
+    expect(within(exportSection).getByText('Shareable URL')).toBeInTheDocument();
   });
 });

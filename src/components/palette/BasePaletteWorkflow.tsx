@@ -107,7 +107,7 @@ export const BasePaletteWorkflow: React.FC = () => {
                 Step 1
               </span>
               <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                Choose Base Palette
+                Choose Base
               </h2>
               <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/60">
                 {appliedLabel}

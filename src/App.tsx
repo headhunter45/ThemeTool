@@ -1,6 +1,7 @@
 import { CheckCircle2 } from 'lucide-react';
 import React from 'react';
 import { ContrastMatrix } from './components/accessibility';
+import { ExportSection } from './components/export';
 import { AppShell } from './components/layout';
 import { BasePaletteWorkflow, PaletteBar } from './components/palette';
 import { PreviewSection } from './components/preview';
@@ -33,17 +34,20 @@ export const AppContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Step 1: Base Palette Setup Workflow (TT-026) */}
+        {/* Step 1: Choose Base (TT-026 & TT-031) */}
         <BasePaletteWorkflow />
 
-        {/* Step 2: Active Semantic Palette Bar (TT-004 & TT-028) */}
+        {/* Step 2: Experiment (TT-004, TT-028, & TT-031) */}
         <PaletteBar />
 
-        {/* Dedicated Accessibility & Contrast Matrix (TT-019) */}
+        {/* Step 3: Preview (TT-009 & TT-031) */}
+        <PreviewSection />
+
+        {/* Step 4: Accessibility (TT-019 & TT-031) */}
         <ContrastMatrix />
 
-        {/* Step 3: Component & Target Previews (TT-009) */}
-        <PreviewSection />
+        {/* Step 5: Export (TT-031) */}
+        <ExportSection />
       </div>
     </AppShell>
   );

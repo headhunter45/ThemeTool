@@ -56,7 +56,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `released` | UI / Shell |
 | **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `released` | Previews |
 | **[TT-030](#tt-030-compact-hero-section--remove-system-architecture-tab)** | Compact Hero Section & Remove System Architecture Tab | `testing` | UI / Shell |
-| **[TT-031](#tt-031-studio-5-step-workflow-reorganization--dedicated-export-section)** | Studio 5-Step Workflow Reorganization & Dedicated Export Section | `backlog` | UI / Shell |
+| **[TT-031](#tt-031-studio-5-step-workflow-reorganization--dedicated-export-section)** | Studio 5-Step Workflow Reorganization & Dedicated Export Section | `testing` | UI / Shell |
 | **[TT-032](#tt-032-shade-studio--palette-cards-cleanup)** | Shade Studio & Palette Cards Cleanup | `backlog` | UI / Shell |
 | **[TT-033](#tt-033-accessibility-section-header--indicator-cleanup)** | Accessibility Section Header & Indicator Cleanup | `backlog` | Quality |
 | **[TT-034](#tt-034-preview-component-interactivity--common-app-chrome)** | Preview Component Interactivity & Common App Chrome | `backlog` | Previews |
@@ -437,7 +437,7 @@ The statuses function as an extended Kanban workflow:
   - Automated tests updated and passing without regressions.
 
 ### TT-031: Studio 5-Step Workflow Reorganization & Dedicated Export Section
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Studio 5-Step Workflow Reorganization & Dedicated Export Section
 - **Description**: Establish a clear, sequential 5-step tutorial flow across the entire studio canvas, giving each primary phase a standardized "Step X" title prefix and collecting all export/share capabilities into a dedicated final station:

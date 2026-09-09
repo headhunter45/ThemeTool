@@ -28,10 +28,11 @@ const MatrixWithCustomSlotWrapper: React.FC = () => {
 };
 
 describe('ContrastMatrix (TT-019)', () => {
-  it('renders the ContrastMatrix title and WCAG 2.1 badge', () => {
+  it('renders the Step 4 Accessibility title and WCAG 2.1 badge', () => {
     render(<MatrixTestWrapper />);
 
-    expect(screen.getByText('Accessibility & WCAG Contrast Matrix')).toBeInTheDocument();
+    expect(screen.getByText('Step 4')).toBeInTheDocument();
+    expect(screen.getByText('Accessibility')).toBeInTheDocument();
     expect(screen.getByText('WCAG 2.1')).toBeInTheDocument();
   });
 
