@@ -1,0 +1,428 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://headhunter45.github.io/ThemeTool/schema/themetool.schema.json",
+  "title": "ThemeToolTheme",
+  "description": "Standard theme definition schema produced by ThemeTool with full color models, 11-step shade scales, accessibility ratings, and metadata.",
+  "type": "object",
+  "required": ["$schema", "version", "metadata", "colors", "contrastMatrix"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["generator", "exportedAt", "name"],
+      "properties": {
+        "generator": {
+          "type": "string"
+        },
+        "exportedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "colors": {
+      "type": "object",
+      "required": ["primary", "secondary", "accent", "background", "text"],
+      "properties": {
+        "primary": {
+          "$ref": "#/definitions/ColorRole"
+        },
+        "secondary": {
+          "$ref": "#/definitions/ColorRole"
+        },
+        "accent": {
+          "$ref": "#/definitions/ColorRole"
+        },
+        "background": {
+          "$ref": "#/definitions/ColorRole"
+        },
+        "text": {
+          "$ref": "#/definitions/ColorRole"
+        }
+      },
+      "additionalProperties": false
+    },
+    "customColors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CustomColorSlot"
+      }
+    },
+    "contrastMatrix": {
+      "type": "object",
+      "required": [
+        "textOnBackground",
+        "primaryOnBackground",
+        "accentOnBackground"
+      ],
+      "properties": {
+        "textOnBackground": {
+          "$ref": "#/definitions/ContrastResult"
+        },
+        "primaryOnBackground": {
+          "$ref": "#/definitions/ContrastResult"
+        },
+        "accentOnBackground": {
+          "$ref": "#/definitions/ContrastResult"
+        },
+        "secondaryOnBackground": {
+          "$ref": "#/definitions/ContrastResult"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "ColorRole": {
+      "type": "object",
+      "required": [
+        "role",
+        "hex",
+        "rgb",
+        "hsl",
+        "oklch",
+        "relativeLuminance",
+        "contrastAgainstWhite",
+        "contrastAgainstBlack",
+        "recommendedTextColor",
+        "shades"
+      ],
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "hex": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "rgb": {
+          "$ref": "#/definitions/RgbColor"
+        },
+        "hsl": {
+          "$ref": "#/definitions/HslColor"
+        },
+        "oklch": {
+          "$ref": "#/definitions/OklchColor"
+        },
+        "relativeLuminance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "contrastAgainstWhite": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "contrastAgainstBlack": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "recommendedTextColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "shades": {
+          "$ref": "#/definitions/ShadeScale"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CustomColorSlot": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "hex",
+        "rgb",
+        "hsl",
+        "oklch",
+        "relativeLuminance",
+        "contrastAgainstWhite",
+        "contrastAgainstBlack",
+        "recommendedTextColor",
+        "shades"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "hex": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "rgb": {
+          "$ref": "#/definitions/RgbColor"
+        },
+        "hsl": {
+          "$ref": "#/definitions/HslColor"
+        },
+        "oklch": {
+          "$ref": "#/definitions/OklchColor"
+        },
+        "relativeLuminance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "contrastAgainstWhite": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "contrastAgainstBlack": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "recommendedTextColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "shades": {
+          "$ref": "#/definitions/ShadeScale"
+        }
+      },
+      "additionalProperties": false
+    },
+    "RgbColor": {
+      "type": "object",
+      "required": ["r", "g", "b"],
+      "properties": {
+        "r": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "g": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "b": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "additionalProperties": false
+    },
+    "HslColor": {
+      "type": "object",
+      "required": ["h", "s", "l"],
+      "properties": {
+        "h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "l": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "OklchColor": {
+      "type": "object",
+      "required": ["l", "c", "h"],
+      "properties": {
+        "l": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "c": {
+          "type": "number",
+          "minimum": 0
+        },
+        "h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        }
+      },
+      "additionalProperties": false
+    },
+    "ShadeItem": {
+      "type": "object",
+      "required": [
+        "step",
+        "hex",
+        "rgb",
+        "hsl",
+        "oklch",
+        "relativeLuminance",
+        "contrastAgainstWhite",
+        "contrastAgainstBlack",
+        "recommendedTextColor"
+      ],
+      "properties": {
+        "step": {
+          "type": "string",
+          "enum": [
+            "50",
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900",
+            "950"
+          ]
+        },
+        "hex": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "rgb": {
+          "$ref": "#/definitions/RgbColor"
+        },
+        "hsl": {
+          "$ref": "#/definitions/HslColor"
+        },
+        "oklch": {
+          "$ref": "#/definitions/OklchColor"
+        },
+        "relativeLuminance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "contrastAgainstWhite": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "contrastAgainstBlack": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "recommendedTextColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ShadeScale": {
+      "type": "object",
+      "required": [
+        "50",
+        "100",
+        "200",
+        "300",
+        "400",
+        "500",
+        "600",
+        "700",
+        "800",
+        "900",
+        "950"
+      ],
+      "properties": {
+        "50": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "100": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "200": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "300": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "400": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "500": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "600": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "700": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "800": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "900": {
+          "$ref": "#/definitions/ShadeItem"
+        },
+        "950": {
+          "$ref": "#/definitions/ShadeItem"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ContrastResult": {
+      "type": "object",
+      "required": [
+        "foreground",
+        "background",
+        "ratio",
+        "normalTextAA",
+        "normalTextAAA",
+        "largeTextAA",
+        "largeTextAAA"
+      ],
+      "properties": {
+        "foreground": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "background": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "ratio": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "normalTextAA": {
+          "type": "boolean"
+        },
+        "normalTextAAA": {
+          "type": "boolean"
+        },
+        "largeTextAA": {
+          "type": "boolean"
+        },
+        "largeTextAAA": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {
     Dices,
     Download,
     Eye,
+    FileJson,
     Lock,
     Plus,
     Redo2,
@@ -21,6 +22,7 @@ import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { ExportThemeJsonModal } from './ExportThemeJsonModal';
 import { ImportPaletteModal } from './ImportPaletteModal';
 import { RoleSwapModal } from './RoleSwapModal';
 
@@ -51,6 +53,7 @@ export const PaletteBar: React.FC = () => {
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
   const [isSwapOpen, setIsSwapOpen] = useState(false);
+  const [isExportOpen, setIsExportOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -167,6 +170,18 @@ export const PaletteBar: React.FC = () => {
                 <span>Share URL</span>
               </>
             )}
+          </button>
+
+          {/* Export JSON Button */}
+          <button
+            type="button"
+            onClick={() => setIsExportOpen(true)}
+            aria-label="Export Theme JSON"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Export Theme JSON with formal JSON Schema"
+          >
+            <FileJson className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Export JSON</span>
           </button>
 
           {/* Reset Button */}
@@ -478,6 +493,11 @@ export const PaletteBar: React.FC = () => {
       <RoleSwapModal
         isOpen={isSwapOpen}
         onClose={() => setIsSwapOpen(false)}
+      />
+
+      <ExportThemeJsonModal
+        isOpen={isExportOpen}
+        onClose={() => setIsExportOpen(false)}
       />
     </Card>
   );

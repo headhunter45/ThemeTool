@@ -50,7 +50,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `triage` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
-| **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
+| **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `testing` | Exporters |
 | **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `done` | UI / Shell |
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `done` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `done` | UI / Shell |
@@ -315,7 +315,7 @@ The statuses function as an extended Kanban workflow:
   - Automated unit tests covering theme toggling and layout rendering.
 
 ### TT-025: Standard Theme JSON Exporter & JSON Schema Specification
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Exporters
 - **Title**: Standard Theme JSON Exporter & JSON Schema Specification
 - **Description**: Provide a standardized JSON download output option and formal JSON Schema specification for custom automated pipeline processing, CI scripts, and third-party tooling. The JSON file encodes the full active theme (5 semantic roles, custom slots, and 11-step 50–950 shade scales in HEX, RGB, HSL, and OKLCH color models, alongside accessibility ratings and metadata). A formal JSON Schema (`schema/themetool.schema.json`) is maintained and validated.

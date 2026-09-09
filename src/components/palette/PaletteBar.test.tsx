@@ -104,4 +104,14 @@ describe('PaletteBar (TT-008)', () => {
     // Should return to empty state
     expect(screen.getByText(/No custom color slots added yet/i)).toBeInTheDocument();
   });
+
+  it('opens Export Theme JSON modal when clicking Export JSON button', () => {
+    renderPaletteBar();
+
+    const exportBtn = screen.getByLabelText('Export Theme JSON');
+    fireEvent.click(exportBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Standard Theme JSON Exporter')).toBeInTheDocument();
+  });
 });
