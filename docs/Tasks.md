@@ -34,10 +34,10 @@ The statuses function as an extended Kanban workflow:
 | **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `done` | Importers |
 | **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `done` | Importers |
 | **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `testing` | UI / Shell |
-| **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `backlog` | UI / Shell |
+| **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `testing` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Component Previews | `triage` | Previews |
-| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `backlog` | Previews |
+| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `in-progress` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
 | **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `backlog` | Exporters |
@@ -147,7 +147,7 @@ The statuses function as an extended Kanban workflow:
   - Respects active role locks during randomize and bulk actions.
 
 ### TT-009: Preview Target Selection & Visibility Controls
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Preview Target Selection & Visibility Controls
 - **Description**: Provide intuitive visibility and layout controls for preview targets. Support a segmented target bar offering an "All" view (with individual toggle pills to show or hide specific targets) as well as dedicated single-platform focus tabs (Tailwind, React, Angular, Material M3, Android, iOS) for zero-distraction inspection. Persist visibility state in `localStorage`.
@@ -177,7 +177,7 @@ The statuses function as an extended Kanban workflow:
   - Interactive controls with live reactive updates when palette changes.
 
 ### TT-012: Material Design (M3) Component Preview
-- **Status**: `backlog`
+- **Status**: `in-progress`
 - **Category**: Previews
 - **Title**: Material Design (M3) Component Preview
 - **Description**: Build a comprehensive, authentic Material 3 design system component preview based on official M3 specifications (https://m3.material.io/components). Includes Top App Bar, Navigation Bar / Rail, common buttons (Filled, Elevated, Tonal, Outlined, Text, FAB), Cards (Elevated, Filled, Outlined), Text Fields (Filled and Outlined with floating labels), Filter Chips, Badges, and Switches/Checkboxes.
