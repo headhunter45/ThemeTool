@@ -47,7 +47,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `testing` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
-| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `backlog` | Enhancements |
+| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `testing` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `testing` | Exporters |
@@ -298,7 +298,7 @@ The statuses function as an extended Kanban workflow:
   - Exported configs include extended tokens.
 
 ### TT-022: Dark Mode Duality Generator
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Enhancements
 - **Title**: Dark Mode Duality Generator
 - **Description**: Enable ThemeTool to manage parallel Light and Dark palette configurations simultaneously. Provides a bidirectional color generator in the perceptual OKLCH color space that automatically derives a balanced dark theme from a light theme (or vice-versa) while supporting round-trip fidelity, manual per-mode fine-tuning, and dual-mode exports. The generator maps light canvases to elevated dark surfaces while preserving subtle background hue tint, transforms dark text to high-legibility light text, scales brand role lightness ($L \to 0.70–0.80$), and softens chroma to prevent chromatic aberration against dark backgrounds without eye fatigue. Includes an active mode switcher on the palette bar (`☀️ Light` / `🌙 Dark`), a side-by-side comparison modal with live contrast audits before applying, and multi-target preview integration.

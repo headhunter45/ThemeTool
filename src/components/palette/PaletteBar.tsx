@@ -8,11 +8,14 @@ import {
     FileCode,
     FileJson,
     Lock,
+    Moon,
     Plus,
     Redo2,
     RotateCcw,
     Share2,
     Smartphone,
+    Sparkles,
+    Sun,
     Trash2,
     Undo2,
     Unlock,
@@ -24,6 +27,7 @@ import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { DualityModal } from './DualityModal';
 import { ExportAndroidModal } from './ExportAndroidModal';
 import { ExportIosModal } from './ExportIosModal';
 import { ExportTailwindModal } from './ExportTailwindModal';
@@ -52,6 +56,8 @@ export const PaletteBar: React.FC = () => {
     updateCustomSlot,
     removeCustomSlot,
     toggleCustomSlotLock,
+    activeMode,
+    setActiveMode,
   } = usePalette();
 
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -62,6 +68,7 @@ export const PaletteBar: React.FC = () => {
   const [isAndroidExportOpen, setIsAndroidExportOpen] = useState(false);
   const [isIosExportOpen, setIsIosExportOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isDualityOpen, setIsDualityOpen] = useState(false);
 
   return (
     <Card className="overflow-hidden border-indigo-200/60 dark:border-indigo-900/40 shadow-md">
@@ -77,6 +84,48 @@ export const PaletteBar: React.FC = () => {
 
         {/* Global Toolbar Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Active Mode Switcher (☀️ Light / 🌙 Dark) */}
+          <div className="inline-flex items-center rounded-xl bg-slate-200/80 dark:bg-slate-800 p-0.5 border border-slate-300/70 dark:border-slate-700 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setActiveMode('light')}
+              aria-label="Switch to Light mode palette"
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeMode === 'light'
+                  ? 'bg-white dark:bg-slate-700 text-amber-600 dark:text-amber-300 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Sun className="w-3.5 h-3.5" />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMode('dark')}
+              aria-label="Switch to Dark mode palette"
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeMode === 'dark'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Moon className="w-3.5 h-3.5" />
+              <span>Dark</span>
+            </button>
+          </div>
+
+          {/* Duality Studio Button */}
+          <button
+            type="button"
+            onClick={() => setIsDualityOpen(true)}
+            aria-label="Dark Mode Duality"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Open Dark Mode Duality Studio to compare and derive counterpart palettes"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Duality</span>
+          </button>
+
           {/* Undo Button */}
           <button
             type="button"
@@ -548,6 +597,11 @@ export const PaletteBar: React.FC = () => {
       <ShareUrlModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
+      />
+
+      <DualityModal
+        isOpen={isDualityOpen}
+        onClose={() => setIsDualityOpen(false)}
       />
     </Card>
   );

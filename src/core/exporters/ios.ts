@@ -300,23 +300,49 @@ export function generateSwiftTheme(
 
 /**
  * Generates Contents.json for an Xcode Asset Catalog .colorset folder.
+ * Supports universal light color, with optional dark appearance variant.
  */
-export function generateColorsetJson(r: string, g: string, b: string): string {
-  const json = {
-    colors: [
-      {
-        idiom: 'universal',
-        color: {
-          'color-space': 'srgb',
-          components: {
-            red: r,
-            green: g,
-            blue: b,
-            alpha: '1.000',
-          },
+export function generateColorsetJson(
+    r: string, g: string, b: string,
+    darkRgb?: {r: string; g: string; b: string}): string {
+  const colorsEntry: Array<Record<string, unknown>> = [
+    {
+      idiom: 'universal',
+      color: {
+        'color-space': 'srgb',
+        components: {
+          red: r,
+          green: g,
+          blue: b,
+          alpha: '1.000',
         },
       },
-    ],
+    },
+  ];
+
+  if (darkRgb) {
+    colorsEntry.push({
+      idiom: 'universal',
+      appearances: [
+        {
+          appearance: 'luminosity',
+          value: 'dark',
+        },
+      ],
+      color: {
+        'color-space': 'srgb',
+        components: {
+          red: darkRgb.r,
+          green: darkRgb.g,
+          blue: darkRgb.b,
+          alpha: '1.000',
+        },
+      },
+    });
+  }
+
+  const json = {
+    colors: colorsEntry,
     info: {
       author: 'xcode',
       version: 1,

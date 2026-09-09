@@ -345,4 +345,119 @@ describe('PaletteContext', () => {
       expect(result.current.custom[0].id).toBe(slotId);
     });
   });
+
+  describe('TT-022: Dark Mode Duality & Dual Palette State', () => {
+    it('initializes with activeMode light and parallel dark counterpart', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      expect(result.current.activeMode).toBe('light');
+      expect(result.current.palettes.light).toBeDefined();
+      expect(result.current.palettes.dark).toBeDefined();
+      expect(result.current.palettes.light.colors.background).toBe('#f8fafc');
+      // Dark counterpart background should be dark surface (L < 0.20)
+      expect(result.current.palettes.dark.colors.background).not.toBe('#f8fafc');
+    });
+
+    it('switches activeMode and reflects appropriate active colors', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      const lightBg = result.current.colors.background;
+
+      act(() => {
+        result.current.setActiveMode('dark');
+      });
+
+      expect(result.current.activeMode).toBe('dark');
+      expect(result.current.colors.background).toBe(result.current.palettes.dark.colors.background);
+      expect(result.current.colors.background).not.toBe(lightBg);
+
+      act(() => {
+        result.current.setActiveMode('light');
+      });
+
+      expect(result.current.activeMode).toBe('light');
+      expect(result.current.colors.background).toBe(lightBg);
+    });
+
+    it('edits colors independently in dark mode without altering light mode', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      const initialLightPrimary = result.current.palettes.light.colors.primary;
+
+      act(() => {
+        result.current.setActiveMode('dark');
+      });
+
+      act(() => {
+        result.current.setColor('primary', '#38bdf8');
+      });
+
+      expect(result.current.colors.primary).toBe('#38bdf8');
+      expect(result.current.palettes.dark.colors.primary).toBe('#38bdf8');
+      expect(result.current.palettes.light.colors.primary).toBe(initialLightPrimary);
+
+      // Switch back to light
+      act(() => {
+        result.current.setActiveMode('light');
+      });
+      expect(result.current.colors.primary).toBe(initialLightPrimary);
+    });
+
+    it('generates counterpart palette on demand and applies duality', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      // Change light primary
+      act(() => {
+        result.current.setColor('primary', '#10b981');
+      });
+
+      const counterpart = result.current.generateCounterpart('light');
+      expect(counterpart.colors.primary).not.toBe('#10b981');
+
+      // Apply duality to dark mode
+      act(() => {
+        result.current.applyDuality('light');
+      });
+
+      expect(result.current.palettes.dark.colors.primary).toBe(counterpart.colors.primary);
+
+      // Undo duality application
+      act(() => {
+        result.current.undo();
+      });
+    });
+
+    it('sets mode palette directly via setModePalette', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      act(() => {
+        result.current.setModePalette('dark', {
+          ...result.current.palettes.dark.colors,
+          accent: '#ec4899',
+        });
+      });
+
+      expect(result.current.palettes.dark.colors.accent).toBe('#ec4899');
+    });
+  });
 });

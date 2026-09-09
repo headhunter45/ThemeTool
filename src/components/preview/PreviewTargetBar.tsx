@@ -1,5 +1,6 @@
-import { Check, LayoutGrid } from 'lucide-react';
+import { Check, LayoutGrid, Moon, Sun } from 'lucide-react';
 import React from 'react';
+import { usePalette } from '../../context/PaletteContext';
 import { PreviewMode, PreviewTargetId, TargetMetadata } from '../../core/preview/types';
 
 export interface PreviewTargetBarProps {
@@ -23,6 +24,7 @@ export const PreviewTargetBar: React.FC<PreviewTargetBarProps> = ({
   allTargets,
   visibleCount,
 }) => {
+  const { activeMode, setActiveMode } = usePalette();
   const isAllMode = mode === 'all';
 
   return (
@@ -78,13 +80,44 @@ export const PreviewTargetBar: React.FC<PreviewTargetBarProps> = ({
           })}
         </div>
 
-        {/* Quick Help Label */}
-        <div className="text-[11px] text-slate-500 dark:text-slate-400 px-1 hidden md:block">
-          {isAllMode ? (
-            <span>Showing {visibleCount} of {allTargets.length} platforms</span>
-          ) : (
-            <span>Single-platform focus mode</span>
-          )}
+        {/* Preview Theme Mode & Quick Help Controls */}
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center rounded-xl bg-slate-200/70 dark:bg-slate-800 p-0.5 border border-slate-300/70 dark:border-slate-700 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setActiveMode('light')}
+              aria-label="Preview Light mode"
+              className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeMode === 'light'
+                  ? 'bg-white dark:bg-slate-700 text-amber-600 dark:text-amber-300 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Sun className="w-3 h-3" />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMode('dark')}
+              aria-label="Preview Dark mode"
+              className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeMode === 'dark'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Moon className="w-3 h-3" />
+              <span>Dark</span>
+            </button>
+          </div>
+
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 px-1 hidden md:block">
+            {isAllMode ? (
+              <span>Showing {visibleCount} of {allTargets.length} platforms</span>
+            ) : (
+              <span>Single-platform focus mode</span>
+            )}
+          </div>
         </div>
       </div>
 

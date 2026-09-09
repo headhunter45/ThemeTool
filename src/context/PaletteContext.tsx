@@ -3,10 +3,16 @@ import { generateShadeScale, ShadeScale } from '../core/color';
 import {
     CustomColorSlot,
     decodePaletteFromUrl,
+    DualPaletteState,
     encodeColorsToParam,
+    generateCounterpartPalette,
+    generateDarkPalette,
+    generateLightPalette,
+    ModePalette,
     PALETTE_PRESETS,
     PaletteColors,
     PaletteLocks,
+    PaletteMode,
     PalettePreset,
     PaletteState,
     ROLE_METADATA,
@@ -42,6 +48,14 @@ export interface PaletteContextType {
   updateCustomSlot: (id: string, updates: Partial<CustomColorSlot>) => void;
   removeCustomSlot: (id: string) => void;
   toggleCustomSlotLock: (id: string) => void;
+
+  // TT-022: Dark Mode Duality Generator
+  activeMode: PaletteMode;
+  setActiveMode: (mode: PaletteMode) => void;
+  palettes: { light: ModePalette; dark: ModePalette };
+  setModePalette: (mode: PaletteMode, colors: PaletteColors, custom?: CustomColorSlot[]) => void;
+  generateCounterpart: (fromMode?: PaletteMode) => ModePalette;
+  applyDuality: (fromMode: PaletteMode) => void;
 }
 
 const DEFAULT_COLORS: PaletteColors = {
@@ -62,28 +76,58 @@ const DEFAULT_LOCKS: PaletteLocks = {
 
 const PaletteContext = createContext<PaletteContextType | undefined>(undefined);
 
-function getInitialPalette(): PaletteState {
+function getInitialDualState(initial?: Partial<PaletteState>): DualPaletteState {
+  let baseColors = DEFAULT_COLORS;
+  let baseLocks = DEFAULT_LOCKS;
+  let baseCustom: CustomColorSlot[] = [];
+  let explicitMode: PaletteMode = 'light';
+
   if (typeof window !== 'undefined') {
+    try {
+      const url = new URL(window.location.href);
+      const modeParam = url.searchParams.get('mode');
+      if (modeParam === 'dark' || modeParam === 'light') {
+        explicitMode = modeParam;
+      }
+    } catch {
+      // Fallback in test/headless environments
+    }
+
     const fromUrl = decodePaletteFromUrl(window.location.href);
     if (fromUrl?.colors) {
-      return {
-        colors: {
-          text: fromUrl.colors.text || DEFAULT_COLORS.text,
-          background: fromUrl.colors.background || DEFAULT_COLORS.background,
-          primary: fromUrl.colors.primary || DEFAULT_COLORS.primary,
-          secondary: fromUrl.colors.secondary || DEFAULT_COLORS.secondary,
-          accent: fromUrl.colors.accent || DEFAULT_COLORS.accent,
-        },
-        locks: DEFAULT_LOCKS,
-        custom: fromUrl.custom || [],
+      baseColors = {
+        text: fromUrl.colors.text || DEFAULT_COLORS.text,
+        background: fromUrl.colors.background || DEFAULT_COLORS.background,
+        primary: fromUrl.colors.primary || DEFAULT_COLORS.primary,
+        secondary: fromUrl.colors.secondary || DEFAULT_COLORS.secondary,
+        accent: fromUrl.colors.accent || DEFAULT_COLORS.accent,
       };
+      if (fromUrl.custom) baseCustom = fromUrl.custom;
     }
   }
 
+  if (initial?.colors) baseColors = { ...baseColors, ...initial.colors };
+  if (initial?.locks) baseLocks = { ...baseLocks, ...initial.locks };
+  if (initial?.custom) baseCustom = initial.custom;
+
+  let lightPalette: ModePalette;
+  let darkPalette: ModePalette;
+
+  if (explicitMode === 'dark') {
+    darkPalette = { colors: baseColors, custom: baseCustom };
+    lightPalette = generateLightPalette(baseColors, baseCustom);
+  } else {
+    lightPalette = { colors: baseColors, custom: baseCustom };
+    darkPalette = generateDarkPalette(baseColors, baseCustom);
+  }
+
   return {
-    colors: DEFAULT_COLORS,
-    locks: DEFAULT_LOCKS,
-    custom: [],
+    activeMode: explicitMode,
+    palettes: {
+      light: lightPalette,
+      dark: darkPalette,
+    },
+    locks: baseLocks,
   };
 }
 
@@ -96,27 +140,21 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   children,
   initialPalette,
 }) => {
-  const [state, setState] = useState<PaletteState>(() => {
-    const base = getInitialPalette();
-    if (initialPalette?.colors) {
-      base.colors = { ...base.colors, ...initialPalette.colors };
-    }
-    if (initialPalette?.locks) {
-      base.locks = { ...base.locks, ...initialPalette.locks };
-    }
-    if (initialPalette?.custom) {
-      base.custom = initialPalette.custom;
-    }
-    return base;
-  });
+  const [dualState, setDualState] = useState<DualPaletteState>(() =>
+    getInitialDualState(initialPalette)
+  );
 
   const [activeRole, setActiveRole] = useState<SemanticRole>('primary');
   const debounceTimerRef = useRef<number | null>(null);
 
-  // TT-008: Undo / Redo history state stack
+  // Undo / Redo history snapshot
   interface HistorySnapshot {
-    colors: PaletteColors;
-    custom: CustomColorSlot[];
+    activeMode: PaletteMode;
+    palettes: {
+      light: ModePalette;
+      dark: ModePalette;
+    };
+    locks: PaletteLocks;
   }
 
   const MAX_HISTORY = 50;
@@ -128,10 +166,29 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   pastRef.current = past;
   futureRef.current = future;
 
-  const pushSnapshot = useCallback((snapshot: HistorySnapshot) => {
+  const pushSnapshot = useCallback((currentState: DualPaletteState) => {
     setPast((prev) => {
-      const updated = [...prev, snapshot];
-      const trimmed = updated.length > MAX_HISTORY ? updated.slice(updated.length - MAX_HISTORY) : updated;
+      const updated = [
+        ...prev,
+        {
+          activeMode: currentState.activeMode,
+          palettes: {
+            light: {
+              colors: { ...currentState.palettes.light.colors },
+              custom: currentState.palettes.light.custom.map((c) => ({ ...c })),
+            },
+            dark: {
+              colors: { ...currentState.palettes.dark.colors },
+              custom: currentState.palettes.dark.custom.map((c) => ({ ...c })),
+            },
+          },
+          locks: { ...currentState.locks },
+        },
+      ];
+      const trimmed =
+        updated.length > MAX_HISTORY
+          ? updated.slice(updated.length - MAX_HISTORY)
+          : updated;
       pastRef.current = trimmed;
       return trimmed;
     });
@@ -145,20 +202,41 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     const previous = currentPast[currentPast.length - 1];
     const newPast = currentPast.slice(0, -1);
 
-    setState((currentState) => {
+    setDualState((currentState) => {
       const currentSnapshot: HistorySnapshot = {
-        colors: currentState.colors,
-        custom: currentState.custom,
+        activeMode: currentState.activeMode,
+        palettes: {
+          light: {
+            colors: { ...currentState.palettes.light.colors },
+            custom: currentState.palettes.light.custom.map((c) => ({ ...c })),
+          },
+          dark: {
+            colors: { ...currentState.palettes.dark.colors },
+            custom: currentState.palettes.dark.custom.map((c) => ({ ...c })),
+          },
+        },
+        locks: { ...currentState.locks },
       };
+
       setFuture((prevFuture) => {
         const nextFuture = [currentSnapshot, ...prevFuture];
         futureRef.current = nextFuture;
         return nextFuture;
       });
+
       return {
-        ...currentState,
-        colors: previous.colors,
-        custom: previous.custom,
+        activeMode: previous.activeMode,
+        palettes: {
+          light: {
+            colors: { ...previous.palettes.light.colors },
+            custom: previous.palettes.light.custom.map((c) => ({ ...c })),
+          },
+          dark: {
+            colors: { ...previous.palettes.dark.colors },
+            custom: previous.palettes.dark.custom.map((c) => ({ ...c })),
+          },
+        },
+        locks: { ...previous.locks },
       };
     });
 
@@ -172,20 +250,41 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     const next = currentFuture[0];
     const newFuture = currentFuture.slice(1);
 
-    setState((currentState) => {
+    setDualState((currentState) => {
       const currentSnapshot: HistorySnapshot = {
-        colors: currentState.colors,
-        custom: currentState.custom,
+        activeMode: currentState.activeMode,
+        palettes: {
+          light: {
+            colors: { ...currentState.palettes.light.colors },
+            custom: currentState.palettes.light.custom.map((c) => ({ ...c })),
+          },
+          dark: {
+            colors: { ...currentState.palettes.dark.colors },
+            custom: currentState.palettes.dark.custom.map((c) => ({ ...c })),
+          },
+        },
+        locks: { ...currentState.locks },
       };
+
       setPast((prevPast) => {
         const nextPast = [...prevPast, currentSnapshot];
         pastRef.current = nextPast;
         return nextPast;
       });
+
       return {
-        ...currentState,
-        colors: next.colors,
-        custom: next.custom,
+        activeMode: next.activeMode,
+        palettes: {
+          light: {
+            colors: { ...next.palettes.light.colors },
+            custom: next.palettes.light.custom.map((c) => ({ ...c })),
+          },
+          dark: {
+            colors: { ...next.palettes.dark.colors },
+            custom: next.palettes.dark.custom.map((c) => ({ ...c })),
+          },
+        },
+        locks: { ...next.locks },
       };
     });
 
@@ -198,7 +297,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   const redoRef = useRef(redo);
   redoRef.current = redo;
 
-  // Global keyboard shortcuts for Undo / Redo (Cmd/Ctrl+Z, Cmd/Ctrl+Shift+Z, Cmd/Ctrl+Y)
+  // Global keyboard shortcuts for Undo / Redo
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -237,55 +336,85 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const activeMode = dualState.activeMode;
+  const activePalette = dualState.palettes[activeMode];
+  const colors = activePalette.colors;
+  const custom = activePalette.custom;
+  const locks = dualState.locks;
+
   // Bi-directional sync to URL
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    if (debounceTimerRef.current) {
-      window.clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = window.setTimeout(() => {
-      const url = new URL(window.location.href);
-      const encodedParam = encodeColorsToParam(state.colors);
-      url.searchParams.set('colors', encodedParam);
-
-      if (state.custom && state.custom.length > 0) {
-        const encodedCustom = state.custom
-          .map((c) => `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`)
-          .join(',');
-        url.searchParams.set('custom', encodedCustom);
-      } else {
-        url.searchParams.delete('custom');
-      }
-
-      // Cleanly replace URL with relative path without triggering reload
-      window.history.replaceState(null, '', url.pathname + url.search + url.hash);
-    }, 120);
-
-    return () => {
+    if (typeof window !== 'undefined') {
       if (debounceTimerRef.current) {
         window.clearTimeout(debounceTimerRef.current);
       }
-    };
-  }, [state.colors, state.custom]);
 
-  // Listen to popstate (back / forward navigation)
+      debounceTimerRef.current = window.setTimeout(() => {
+        const url = new URL(window.location.href);
+        const encodedParam = encodeColorsToParam(colors);
+        url.searchParams.set('colors', encodedParam);
+
+        if (activeMode === 'dark') {
+          url.searchParams.set('mode', 'dark');
+        } else {
+          url.searchParams.delete('mode');
+        }
+
+        if (custom && custom.length > 0) {
+          const encodedCustom = custom
+            .map(
+              (c) =>
+                `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`
+            )
+            .join(',');
+          url.searchParams.set('custom', encodedCustom);
+        } else {
+          url.searchParams.delete('custom');
+        }
+
+        window.history.replaceState(
+          null,
+          '',
+          url.pathname + url.search + url.hash
+        );
+      }, 120);
+
+      return () => {
+        if (debounceTimerRef.current) {
+          window.clearTimeout(debounceTimerRef.current);
+        }
+      };
+    }
+  }, [colors, custom, activeMode]);
+
+  // Listen to popstate
   useEffect(() => {
     const handlePopState = () => {
       const fromUrl = decodePaletteFromUrl(window.location.href);
       if (fromUrl?.colors) {
-        setState((prev) => ({
-          ...prev,
-          colors: {
-            text: fromUrl.colors?.text || prev.colors.text,
-            background: fromUrl.colors?.background || prev.colors.background,
-            primary: fromUrl.colors?.primary || prev.colors.primary,
-            secondary: fromUrl.colors?.secondary || prev.colors.secondary,
-            accent: fromUrl.colors?.accent || prev.colors.accent,
-          },
-          ...(fromUrl.custom && { custom: fromUrl.custom }),
-        }));
+        setDualState((prev) => {
+          const newColors: PaletteColors = {
+            text: fromUrl.colors?.text || prev.palettes[prev.activeMode].colors.text,
+            background:
+              fromUrl.colors?.background || prev.palettes[prev.activeMode].colors.background,
+            primary: fromUrl.colors?.primary || prev.palettes[prev.activeMode].colors.primary,
+            secondary:
+              fromUrl.colors?.secondary || prev.palettes[prev.activeMode].colors.secondary,
+            accent: fromUrl.colors?.accent || prev.palettes[prev.activeMode].colors.accent,
+          };
+          const newCustom = fromUrl.custom !== undefined ? fromUrl.custom : prev.palettes[prev.activeMode].custom;
+
+          return {
+            ...prev,
+            palettes: {
+              ...prev.palettes,
+              [prev.activeMode]: {
+                colors: newColors,
+                custom: newCustom,
+              },
+            },
+          };
+        });
       }
     };
 
@@ -293,20 +422,90 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const setActiveMode = useCallback((mode: PaletteMode) => {
+    setDualState((prev) => {
+      if (prev.activeMode === mode) return prev;
+      return { ...prev, activeMode: mode };
+    });
+  }, []);
+
+  const setModePalette = useCallback(
+    (mode: PaletteMode, newColors: PaletteColors, newCustom?: CustomColorSlot[]) => {
+      setDualState((prev) => {
+        pushSnapshot(prev);
+        return {
+          ...prev,
+          palettes: {
+            ...prev.palettes,
+            [mode]: {
+              colors: { ...newColors },
+              custom:
+                newCustom !== undefined
+                  ? newCustom
+                  : prev.palettes[mode].custom,
+            },
+          },
+        };
+      });
+    },
+    [pushSnapshot]
+  );
+
+  const generateCounterpart = useCallback(
+    (fromMode?: PaletteMode): ModePalette => {
+      const sourceMode = fromMode || dualState.activeMode;
+      const sourcePalette = dualState.palettes[sourceMode];
+      return generateCounterpartPalette(
+        sourcePalette.colors,
+        sourcePalette.custom,
+        sourceMode
+      );
+    },
+    [dualState.activeMode, dualState.palettes]
+  );
+
+  const applyDuality = useCallback(
+    (fromMode: PaletteMode) => {
+      const targetMode: PaletteMode = fromMode === 'light' ? 'dark' : 'light';
+      setDualState((prev) => {
+        pushSnapshot(prev);
+        const counterpart = generateCounterpartPalette(
+          prev.palettes[fromMode].colors,
+          prev.palettes[fromMode].custom,
+          fromMode
+        );
+        return {
+          ...prev,
+          palettes: {
+            ...prev.palettes,
+            [targetMode]: counterpart,
+          },
+        };
+      });
+    },
+    [pushSnapshot]
+  );
+
   const setColor = (role: SemanticRole, hex: string) => {
-    if (state.colors[role] === hex) return;
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState((prev) => ({
+    if (colors[role] === hex) return;
+    pushSnapshot(dualState);
+    setDualState((prev) => ({
       ...prev,
-      colors: {
-        ...prev.colors,
-        [role]: hex,
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          colors: {
+            ...prev.palettes[prev.activeMode].colors,
+            [role]: hex,
+          },
+        },
       },
     }));
   };
 
   const setLock = (role: SemanticRole, locked: boolean) => {
-    setState((prev) => ({
+    setDualState((prev) => ({
       ...prev,
       locks: {
         ...prev.locks,
@@ -316,7 +515,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   };
 
   const toggleLock = (role: SemanticRole) => {
-    setState((prev) => ({
+    setDualState((prev) => ({
       ...prev,
       locks: {
         ...prev.locks,
@@ -325,83 +524,115 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     }));
   };
 
-  // TT-008: Role Swap
   const swapRoles = (roleA: SemanticRole, roleB: SemanticRole) => {
-    if (roleA === roleB || state.colors[roleA] === state.colors[roleB]) return;
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState((prev) => ({
+    if (roleA === roleB || colors[roleA] === colors[roleB]) return;
+    pushSnapshot(dualState);
+    setDualState((prev) => ({
       ...prev,
-      colors: {
-        ...prev.colors,
-        [roleA]: prev.colors[roleB],
-        [roleB]: prev.colors[roleA],
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          colors: {
+            ...prev.palettes[prev.activeMode].colors,
+            [roleA]: prev.palettes[prev.activeMode].colors[roleB],
+            [roleB]: prev.palettes[prev.activeMode].colors[roleA],
+          },
+        },
       },
     }));
   };
 
-  // TT-008: Custom Extra Color Slots
   const addCustomSlot = (name?: string, hex?: string) => {
-    pushSnapshot({ colors: state.colors, custom: state.custom });
+    pushSnapshot(dualState);
     const newSlot: CustomColorSlot = {
       id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      name: name?.trim() || `Custom ${state.custom.length + 1}`,
+      name: name?.trim() || `Custom ${custom.length + 1}`,
       hex: hex || '#8b5cf6',
       locked: false,
     };
-    setState((prev) => ({
+    setDualState((prev) => ({
       ...prev,
-      custom: [...prev.custom, newSlot],
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          custom: [...prev.palettes[prev.activeMode].custom, newSlot],
+        },
+      },
     }));
   };
 
   const updateCustomSlot = (id: string, updates: Partial<CustomColorSlot>) => {
-    const existing = state.custom.find((s) => s.id === id);
+    const existing = custom.find((s) => s.id === id);
     if (!existing) return;
     if (
       (updates.name !== undefined && updates.name !== existing.name) ||
       (updates.hex !== undefined && updates.hex !== existing.hex)
     ) {
-      pushSnapshot({ colors: state.colors, custom: state.custom });
+      pushSnapshot(dualState);
     }
-    setState((prev) => ({
+    setDualState((prev) => ({
       ...prev,
-      custom: prev.custom.map((s) => (s.id === id ? { ...s, ...updates } : s)),
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          custom: prev.palettes[prev.activeMode].custom.map((s) =>
+            s.id === id ? { ...s, ...updates } : s
+          ),
+        },
+      },
     }));
   };
 
   const removeCustomSlot = (id: string) => {
-    const existing = state.custom.find((s) => s.id === id);
+    const existing = custom.find((s) => s.id === id);
     if (!existing) return;
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState((prev) => ({
+    pushSnapshot(dualState);
+    setDualState((prev) => ({
       ...prev,
-      custom: prev.custom.filter((s) => s.id !== id),
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          custom: prev.palettes[prev.activeMode].custom.filter((s) => s.id !== id),
+        },
+      },
     }));
   };
 
   const toggleCustomSlotLock = (id: string) => {
-    setState((prev) => ({
+    setDualState((prev) => ({
       ...prev,
-      custom: prev.custom.map((s) => (s.id === id ? { ...s, locked: !s.locked } : s)),
+      palettes: {
+        ...prev.palettes,
+        [prev.activeMode]: {
+          ...prev.palettes[prev.activeMode],
+          custom: prev.palettes[prev.activeMode].custom.map((s) =>
+            s.id === id ? { ...s, locked: !s.locked } : s
+          ),
+        },
+      },
     }));
   };
 
   const randomizeUnlocked = () => {
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    // Select a random curated preset and apply only to unlocked slots
+    pushSnapshot(dualState);
     const availablePresets = PALETTE_PRESETS;
     const randomPreset: PalettePreset =
       availablePresets[Math.floor(Math.random() * availablePresets.length)];
 
-    setState((prev) => {
-      const nextColors = { ...prev.colors };
+    setDualState((prev) => {
+      const currentActive = prev.palettes[prev.activeMode];
+      const nextColors = { ...currentActive.colors };
       for (const role of SEMANTIC_ROLES) {
         if (!prev.locks[role]) {
           nextColors[role] = randomPreset.colors[role];
         }
       }
       const roleKeys: SemanticRole[] = ['primary', 'secondary', 'accent', 'text', 'background'];
-      const nextCustom = prev.custom.map((slot) => {
+      const nextCustom = currentActive.custom.map((slot) => {
         if (slot.locked) return slot;
         const randomKey = roleKeys[Math.floor(Math.random() * roleKeys.length)];
         return {
@@ -409,7 +640,17 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
           hex: randomPreset.colors[randomKey],
         };
       });
-      return { ...prev, colors: nextColors, custom: nextCustom };
+
+      return {
+        ...prev,
+        palettes: {
+          ...prev.palettes,
+          [prev.activeMode]: {
+            colors: nextColors,
+            custom: nextCustom,
+          },
+        },
+      };
     });
   };
 
@@ -417,35 +658,76 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     const preset = PALETTE_PRESETS.find((p) => p.id === presetId);
     if (!preset) return;
 
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState((prev) => ({
-      ...prev,
-      colors: { ...preset.colors },
-    }));
-  };
+    pushSnapshot(dualState);
+    setDualState((prev) => {
+      const isLight = prev.activeMode === 'light';
+      const newActiveColors = { ...preset.colors };
+      const currentCustom = prev.palettes[prev.activeMode].custom;
+      const counterpart = isLight
+        ? generateDarkPalette(newActiveColors, currentCustom)
+        : generateLightPalette(newActiveColors, currentCustom);
 
-  const importPalette = (newColors: Partial<PaletteColors>, custom?: CustomColorSlot[]) => {
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState((prev) => ({
-      ...prev,
-      colors: {
-        ...prev.colors,
-        ...newColors,
-      },
-      ...(custom !== undefined && { custom }),
-    }));
-  };
+      const newActivePalette: ModePalette = {
+        colors: newActiveColors,
+        custom: currentCustom,
+      };
 
-  const resetToDefault = () => {
-    pushSnapshot({ colors: state.colors, custom: state.custom });
-    setState({
-      colors: DEFAULT_COLORS,
-      locks: DEFAULT_LOCKS,
-      custom: [],
+      return {
+        ...prev,
+        palettes: {
+          light: isLight ? newActivePalette : counterpart,
+          dark: isLight ? counterpart : newActivePalette,
+        },
+      };
     });
   };
 
-  // Memoized 50-950 shade scales for all 5 roles
+  const importPalette = (
+    newColors: Partial<PaletteColors>,
+    newCustom?: CustomColorSlot[]
+  ) => {
+    pushSnapshot(dualState);
+    setDualState((prev) => {
+      const currentActive = prev.palettes[prev.activeMode];
+      const mergedColors: PaletteColors = {
+        ...currentActive.colors,
+        ...newColors,
+      };
+      const mergedCustom =
+        newCustom !== undefined ? newCustom : currentActive.custom;
+      const isLight = prev.activeMode === 'light';
+      const counterpart = isLight
+        ? generateDarkPalette(mergedColors, mergedCustom)
+        : generateLightPalette(mergedColors, mergedCustom);
+
+      const newActivePalette: ModePalette = {
+        colors: mergedColors,
+        custom: mergedCustom,
+      };
+
+      return {
+        ...prev,
+        palettes: {
+          light: isLight ? newActivePalette : counterpart,
+          dark: isLight ? counterpart : newActivePalette,
+        },
+      };
+    });
+  };
+
+  const resetToDefault = () => {
+    pushSnapshot(dualState);
+    setDualState({
+      activeMode: 'light',
+      palettes: {
+        light: { colors: DEFAULT_COLORS, custom: [] },
+        dark: generateDarkPalette(DEFAULT_COLORS, []),
+      },
+      locks: DEFAULT_LOCKS,
+    });
+  };
+
+  // Memoized 50-950 shade scales for all 5 roles of the active palette
   const shadeScales = useMemo<RoleShadeScales>(() => {
     const computeSafeScale = (hex: string): ShadeScale => {
       try {
@@ -456,36 +738,57 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     };
 
     return {
-      text: computeSafeScale(state.colors.text),
-      background: computeSafeScale(state.colors.background),
-      primary: computeSafeScale(state.colors.primary),
-      secondary: computeSafeScale(state.colors.secondary),
-      accent: computeSafeScale(state.colors.accent),
+      text: computeSafeScale(colors.text),
+      background: computeSafeScale(colors.background),
+      primary: computeSafeScale(colors.primary),
+      secondary: computeSafeScale(colors.secondary),
+      accent: computeSafeScale(colors.accent),
     };
-  }, [state.colors]);
+  }, [colors]);
 
   const shareableUrl = useMemo(() => {
     if (typeof window === 'undefined') return '';
-    const url = new URL(window.location.href);
-    url.searchParams.set('colors', encodeColorsToParam(state.colors));
-    if (state.custom && state.custom.length > 0) {
-      const encodedCustom = state.custom
-        .map((c) => `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`)
-        .join(',');
-      url.searchParams.set('custom', encodedCustom);
-    } else {
-      url.searchParams.delete('custom');
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('colors', encodeColorsToParam(colors));
+      if (activeMode === 'dark') {
+        url.searchParams.set('mode', 'dark');
+      } else {
+        url.searchParams.delete('mode');
+      }
+      if (custom && custom.length > 0) {
+        const encodedCustom = custom
+          .map(
+            (c) =>
+              `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`
+          )
+          .join(',');
+        url.searchParams.set('custom', encodedCustom);
+      } else {
+        url.searchParams.delete('custom');
+      }
+      return url.toString();
+    } catch {
+      return '';
     }
-    return url.toString();
-  }, [state.colors, state.custom]);
+  }, [colors, custom, activeMode]);
+
+  const state: PaletteState = useMemo(
+    () => ({
+      colors,
+      locks,
+      custom,
+    }),
+    [colors, locks, custom]
+  );
 
   return (
     <PaletteContext.Provider
       value={{
         state,
-        colors: state.colors,
-        locks: state.locks,
-        custom: state.custom,
+        colors,
+        locks,
+        custom,
         shadeScales,
         activeRole,
         setActiveRole,
@@ -506,6 +809,12 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
         updateCustomSlot,
         removeCustomSlot,
         toggleCustomSlotLock,
+        activeMode,
+        setActiveMode,
+        palettes: dualState.palettes,
+        setModePalette,
+        generateCounterpart,
+        applyDuality,
       }}
     >
       {children}

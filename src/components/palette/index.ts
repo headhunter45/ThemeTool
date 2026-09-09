@@ -7,3 +7,4 @@ export * from './ExportAndroidModal';
 export * from './ExportIosModal';
 export * from './ShareUrlModal';
 export * from './RoleSwapModal';
+export * from './DualityModal';

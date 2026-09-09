@@ -39,6 +39,19 @@ export interface PaletteState {
   custom: CustomColorSlot[];
 }
 
+export type PaletteMode = 'light'|'dark';
+
+export interface ModePalette {
+  colors: PaletteColors;
+  custom: CustomColorSlot[];
+}
+
+export interface DualPaletteState {
+  activeMode: PaletteMode;
+  palettes: {light: ModePalette; dark: ModePalette;};
+  locks: PaletteLocks;
+}
+
 export interface RoleMeta {
   role: SemanticRole;
   label: string;

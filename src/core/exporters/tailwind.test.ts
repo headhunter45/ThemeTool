@@ -2,7 +2,7 @@ import {describe, expect, it, vi} from 'vitest';
 
 import {CustomColorSlot, PaletteColors} from '../palette/types';
 
-import {downloadTailwindFile, generateTailwindV3, generateTailwindV4, normalizeKey, normalizePrefix,} from './tailwind';
+import {downloadTailwindFile, generateTailwindDualCss, generateTailwindV3, generateTailwindV4, normalizeKey, normalizePrefix,} from './tailwind';
 
 const mockColors: PaletteColors = {
   primary: '#2f27ce',
@@ -186,5 +186,29 @@ describe('Tailwind Exporter (TT-015)', () => {
       expect(clickSpy).toHaveBeenCalledTimes(1);
       vi.restoreAllMocks();
     });
+  });
+
+  describe('generateTailwindDualCss', () => {
+    it('generates root and .dark CSS variable declarations for dual palettes',
+       () => {
+         const darkColors: PaletteColors = {
+           primary: '#6b66ff',
+           secondary: '#363466',
+           accent: '#756eff',
+           background: '#12111a',
+           text: '#f2f1fc',
+         };
+
+         const css =
+             generateTailwindDualCss(mockColors, darkColors, mockCustomSlots);
+
+         expect(css).toContain(':root {');
+         expect(css).toContain('--color-primary: #2f27ce;');
+         expect(css).toContain('--color-background: #fbfbfe;');
+         expect(css).toContain('--color-brand-danger: #ef4444;');
+         expect(css).toContain('.dark {');
+         expect(css).toContain('--color-primary: #6b66ff;');
+         expect(css).toContain('--color-background: #12111a;');
+       });
   });
 });

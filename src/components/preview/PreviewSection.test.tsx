@@ -91,4 +91,20 @@ describe('PreviewSection & Visibility Controls (TT-009)', { timeout: 30000 }, ()
     expect(screen.getByTestId('preview-card-tailwind')).toBeInTheDocument();
     expect(screen.getByTestId('preview-card-ios')).toBeInTheDocument();
   });
+
+  it('switches preview theme mode between light and dark via preview target bar', () => {
+    renderPreviewSection();
+
+    const lightBtn = screen.getByLabelText('Preview Light mode');
+    const darkBtn = screen.getByLabelText('Preview Dark mode');
+
+    expect(lightBtn).toBeInTheDocument();
+    expect(darkBtn).toBeInTheDocument();
+
+    fireEvent.click(darkBtn);
+    expect(darkBtn).toHaveClass('shadow-xs');
+
+    fireEvent.click(lightBtn);
+    expect(lightBtn).toHaveClass('shadow-xs');
+  });
 });

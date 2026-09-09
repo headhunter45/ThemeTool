@@ -146,6 +146,23 @@ describe('iOS Exporter (TT-017)', () => {
       expect(parsed.colors[0].color.components.alpha).toBe('1.000');
     });
 
+    it('generates Contents.json with dark appearance when darkRgb is provided',
+       () => {
+         const jsonStr = generateColorsetJson('0.145', '0.388', '0.922', {
+           r: '0.220',
+           g: '0.510',
+           b: '0.950',
+         });
+         const parsed = JSON.parse(jsonStr);
+
+         expect(parsed.colors).toHaveLength(2);
+         expect(parsed.colors[1].idiom).toBe('universal');
+         expect(parsed.colors[1].appearances).toBeDefined();
+         expect(parsed.colors[1].appearances[0].appearance).toBe('luminosity');
+         expect(parsed.colors[1].appearances[0].value).toBe('dark');
+         expect(parsed.colors[1].color.components.red).toBe('0.220');
+       });
+
     it('generates root Colors.xcassets/Contents.json', () => {
       const jsonStr = generateXcassetsRootJson();
       const parsed = JSON.parse(jsonStr);

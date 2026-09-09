@@ -154,4 +154,34 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Shareable Palette URL')).toBeInTheDocument();
   });
+
+  it('switches between Light and Dark mode using mode switcher in toolbar', () => {
+    renderPaletteBar();
+
+    const lightBtn = screen.getByLabelText('Switch to Light mode palette');
+    const darkBtn = screen.getByLabelText('Switch to Dark mode palette');
+
+    expect(lightBtn).toBeInTheDocument();
+    expect(darkBtn).toBeInTheDocument();
+
+    // Click Dark mode
+    fireEvent.click(darkBtn);
+    // Background hex in dark mode should be dark surface (not #f8fafc)
+    const bgInput = screen.getByLabelText('Background hex code') as HTMLInputElement;
+    expect(bgInput.value).not.toBe('#f8fafc');
+
+    // Click Light mode
+    fireEvent.click(lightBtn);
+    expect(bgInput.value).toBe('#f8fafc');
+  });
+
+  it('opens Dark Mode Duality Studio modal when clicking Duality button', () => {
+    renderPaletteBar();
+
+    const dualityBtn = screen.getByLabelText('Dark Mode Duality');
+    fireEvent.click(dualityBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Dark Mode Duality Studio')).toBeInTheDocument();
+  });
 });

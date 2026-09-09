@@ -201,3 +201,35 @@ export function downloadTailwindFile(
     URL.revokeObjectURL(url);
   }
 }
+
+/**
+ * Generates dual-mode CSS variables for light and dark palettes (:root and
+ * .dark)
+ */
+export function generateTailwindDualCss(
+    lightColors: PaletteColors, darkColors: PaletteColors,
+    custom: CustomColorSlot[] = [],
+    options: TailwindExportOptions = {}): string {
+  const prefix = normalizePrefix(options.prefix);
+  const lines: string[] =
+      ['/* ThemeTool Dual-Mode CSS Variables */', ':root {'];
+
+  SEMANTIC_ROLES.forEach((role) => {
+    lines.push(`  --color-${prefix}${role}: ${lightColors[role]};`);
+  });
+
+  custom.forEach((slot) => {
+    lines.push(`  --color-${prefix}${normalizeKey(slot.name)}: ${slot.hex};`);
+  });
+
+  lines.push('}');
+  lines.push('');
+  lines.push('.dark {');
+
+  SEMANTIC_ROLES.forEach((role) => {
+    lines.push(`  --color-${prefix}${role}: ${darkColors[role]};`);
+  });
+
+  lines.push('}');
+  return lines.join('\n');
+}
