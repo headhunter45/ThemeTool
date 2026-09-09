@@ -8,15 +8,15 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 ## Visual Board Overview
 
-| **[TT-013](Tasks.md#tt-013-android-ui-approximation-preview)**<br>Android UI Preview | *(None)* | **[TT-022](Tasks.md#tt-022-dark-mode-duality-generator)**<br>Dark Mode Duality<br>*(Ready for PR / testing)* | **[TT-010](Tasks.md#tt-010-tailwind-web-component-preview)**<br>Tailwind Web Preview<br>*(Merged to `develop`)* |
-| **[TT-014](Tasks.md#tt-014-ios-ui-approximation-preview)**<br>iOS UI Preview | | **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator<br>*(Ready for PR / testing)* | **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)**<br>Layout Restructure & Architecture Tab<br>*(Merged to `develop`)* |
-| | | **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)**<br>Shareable URL Generator<br>*(Ready for PR / testing)* | **[TT-028](Tasks.md#tt-028-contextual-color-inspector--on-demand-shade-studio)**<br>Contextual Color Inspector<br>*(Merged to `develop`)* |
-| | | **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter<br>*(Ready for PR / testing)* | **[TT-026](Tasks.md#tt-026-base-palette-selection-workflow)**<br>Base Palette Selection Workflow<br>*(Merged to `develop`)* |
-| | | **[TT-025](Tasks.md#tt-025-standard-theme-json-exporter--json-schema-specification)**<br>Theme JSON & Schema<br>*(Ready for PR / testing)* | **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer<br>*(Merged to `develop`)* |
-| | | **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview<br>*(Ready for PR / testing)* | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(Merged to `develop`)* |
-| | | **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection<br>*(Ready for PR / testing)* | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(Merged to `develop`)* |
-| | | **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor UI<br>*(Ready for PR / testing)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
-| | | | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
+| **[TT-014](Tasks.md#tt-014-ios-ui-approximation-preview)**<br>iOS UI Preview | *(None)* | **[TT-013](Tasks.md#tt-013-android-ui-approximation-preview)**<br>Android UI Preview<br>*(Ready for PR / testing)* | **[TT-010](Tasks.md#tt-010-tailwind-web-component-preview)**<br>Tailwind Web Preview<br>*(Merged to `develop`)* |
+| | | **[TT-022](Tasks.md#tt-022-dark-mode-duality-generator)**<br>Dark Mode Duality<br>*(Ready for PR / testing)* | **[TT-027](Tasks.md#tt-027-app-layout-restructure--system-architecture-navigation)**<br>Layout Restructure & Architecture Tab<br>*(Merged to `develop`)* |
+| | | **[TT-019](Tasks.md#tt-019-accessibility--wcag-contrast-validator)**<br>WCAG Contrast Validator<br>*(Ready for PR / testing)* | **[TT-028](Tasks.md#tt-028-contextual-color-inspector--on-demand-shade-studio)**<br>Contextual Color Inspector<br>*(Merged to `develop`)* |
+| | | **[TT-018](Tasks.md#tt-018-shareable-url-generator-with-configurable-base-url)**<br>Shareable URL Generator<br>*(Ready for PR / testing)* | **[TT-026](Tasks.md#tt-026-base-palette-selection-workflow)**<br>Base Palette Selection Workflow<br>*(Merged to `develop`)* |
+| | | **[TT-015](Tasks.md#tt-015-tailwind-v3-and-v4-theme-exporter)**<br>Tailwind Theme Exporter<br>*(Ready for PR / testing)* | **[TT-007](Tasks.md#tt-007-realtime-colors--raw-format-importer)**<br>Realtime Colors Importer<br>*(Merged to `develop`)* |
+| | | **[TT-025](Tasks.md#tt-025-standard-theme-json-exporter--json-schema-specification)**<br>Theme JSON & Schema<br>*(Ready for PR / testing)* | **[TT-004](Tasks.md#tt-004-palette-state-management--url-synchronization)**<br>Palette State & URL Sync<br>*(Merged to `develop`)* |
+| | | **[TT-012](Tasks.md#tt-012-material-design-m3-component-preview)**<br>Material Design (M3) Preview<br>*(Ready for PR / testing)* | **[TT-003](Tasks.md#tt-003-core-color-math-and-shade-scale-engine)**<br>Core Color Math & Shade Engine<br>*(Merged to `develop`)* |
+| | | **[TT-009](Tasks.md#tt-009-preview-target-selection--visibility-controls)**<br>Preview Target Selection<br>*(Ready for PR / testing)* | **[TT-001](Tasks.md#tt-001-project-scaffolding--build-pipeline)**<br>Project Scaffolding & Build Pipeline<br>*(Released to Production)* |
+| | | **[TT-008](Tasks.md#tt-008-interactive-palette-editor-ui)**<br>Interactive Palette Editor UI<br>*(Ready for PR / testing)* | **[TT-002](Tasks.md#tt-002-github-pages-deployment-workflow)**<br>GitHub Pages Deployment Workflow<br>*(Released to Production)* |
 | | | | **[TT-024](Tasks.md#tt-024-application-shell-ui-foundation--lightdark-theme)**<br>App Shell & Light/Dark Theme<br>*(Released to Production)* |
 
 ---
@@ -25,10 +25,6 @@ This board tracks active work from readiness (`Backlog`) through implementation 
 
 ### 📋 Backlog
 Tasks that are fully defined, specified, and ready to be picked up immediately:
-
-- [ ] **[TT-013](Tasks.md#tt-013-android-ui-approximation-preview)** — *Android UI Approximation Preview*
-  - **Category**: Previews
-  - **Summary**: Realistic Android phone chassis with status bar, gesture pill, Edge-to-Edge toggle, dual-screen navigation, and M3 Compose controls.
 
 - [ ] **[TT-014](Tasks.md#tt-014-ios-ui-approximation-preview)** — *iOS UI Approximation Preview*
   - **Category**: Previews
@@ -45,6 +41,12 @@ Tasks currently being coded in active task branches (`tasks/<id>-<description>` 
 
 ### 🧪 Testing
 Tasks where branch implementation is complete and a GitHub Pull Request to `develop` is open for review, testing, and verification:
+
+- [ ] **[TT-013](Tasks.md#tt-013-android-ui-approximation-preview)** — *Android UI Approximation Preview*
+  - **Branch**: `tasks/tt-013-android-preview`
+  - **Category**: Previews
+  - **Status**: Ready for review / testing
+  - **Summary**: Realistic Android phone chassis with status bar, gesture pill, Edge-to-Edge toggle, dual-screen navigation, and M3 Compose controls.
 
 - [ ] **[TT-022](Tasks.md#tt-022-dark-mode-duality-generator)** — *Dark Mode Duality Generator*
   - **Branch**: `tasks/tt-022-dark-mode-duality`

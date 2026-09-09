@@ -38,7 +38,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `done` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Previews (Superseded) | `cancelled` | Previews |
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
-| **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `backlog` | Previews |
+| **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `testing` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `backlog` | Previews |
 | **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `testing` | Exporters |
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `testing` | Exporters |
@@ -187,7 +187,7 @@ The statuses function as an extended Kanban workflow:
   - Interactive elements: clickable buttons, togglable switches/checkboxes, and typed inputs.
 
 ### TT-013: Android UI Approximation Preview
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Previews
 - **Title**: Android UI Approximation Preview
 - **Description**: Build a realistic mobile device frame demonstrating an authentic Android application experience (Jetpack Compose / Material Design 3). The preview renders inside an Android smartphone chassis (camera punch-hole cutout, status bar, gesture navigation pill, and chassis bevels) and provides an interactive toggle for **Edge-to-Edge rendering** (comparing modern Android 15 `enableEdgeToEdge()` transparent system bar bleeding vs. legacy solid system bars). Features a multi-screen switcher navigating between a **Feed & Media Dashboard** (Top App Bar, M3 filter chips, media cards with interactive like/bookmark actions, and an Extended Floating Action Button) and an **Interactive Settings & Forms Screen** (M3 switches, radio options, OutlinedTextField with floating label, and sliders).

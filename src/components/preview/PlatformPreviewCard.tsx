@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
 import { TargetMetadata } from '../../core/preview/types';
+import { AndroidPreview } from './android/AndroidPreview';
 import { MaterialM3Preview } from './material/MaterialM3Preview';
 import { TailwindWebPreview } from './tailwind/TailwindWebPreview';
 
@@ -82,6 +83,10 @@ export const PlatformPreviewCard: React.FC<PlatformPreviewCardProps> = ({
       ) : target.id === 'tailwind' ? (
         <div className="p-3 sm:p-4 flex-1">
           <TailwindWebPreview isFocused={isFocused} />
+        </div>
+      ) : target.id === 'android' ? (
+        <div className="p-3 sm:p-4 flex-1 flex justify-center">
+          <AndroidPreview isFocused={isFocused} />
         </div>
       ) : (
         <div
