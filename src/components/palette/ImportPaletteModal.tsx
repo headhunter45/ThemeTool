@@ -1,5 +1,5 @@
 import { AlertCircle, Check, Download, ExternalLink, Link2, Sparkles, X } from 'lucide-react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { generateShadeScale, getRecommendedTextColor, SHADE_STEPS } from '../../core/color';
 import { parsePaletteUrl, parseTailwindImport } from '../../core/importers';
@@ -57,6 +57,15 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
   const [urlInput, setUrlInput] = useState('');
   const [targetRole, setTargetRole] = useState<SemanticRole>('primary');
   const [justImported, setJustImported] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   // 1. Try Coolors/ColorKit/ThemeTool/Raw palette
   const parsedPalette = useMemo(() => {
@@ -101,7 +110,7 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
     }
 
     setJustImported(true);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setJustImported(false);
       onClose();
     }, 500);

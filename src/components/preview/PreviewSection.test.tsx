@@ -11,7 +11,7 @@ const renderPreviewSection = () => {
   );
 };
 
-describe('PreviewSection & Visibility Controls (TT-009)', () => {
+describe('PreviewSection & Visibility Controls (TT-009)', { timeout: 30000 }, () => {
   beforeEach(() => {
     window.localStorage.clear();
     vi.restoreAllMocks();

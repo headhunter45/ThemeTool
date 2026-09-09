@@ -4,6 +4,7 @@ import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
 import { TargetMetadata } from '../../core/preview/types';
 import { MaterialM3Preview } from './material/MaterialM3Preview';
+import { TailwindWebPreview } from './tailwind/TailwindWebPreview';
 
 export interface PlatformPreviewCardProps {
   target: TargetMetadata;
@@ -77,6 +78,10 @@ export const PlatformPreviewCard: React.FC<PlatformPreviewCardProps> = ({
       {target.id === 'material' ? (
         <div className="p-3 sm:p-4 flex-1">
           <MaterialM3Preview isFocused={isFocused} />
+        </div>
+      ) : target.id === 'tailwind' ? (
+        <div className="p-3 sm:p-4 flex-1">
+          <TailwindWebPreview isFocused={isFocused} />
         </div>
       ) : (
         <div

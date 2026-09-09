@@ -35,8 +35,8 @@ The statuses function as an extended Kanban workflow:
 | **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `done` | Importers |
 | **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `testing` | UI / Shell |
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `testing` | UI / Shell |
-| **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
-| **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Component Previews | `triage` | Previews |
+| **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `done` | Previews |
+| **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Previews (Superseded) | `cancelled` | Previews |
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
@@ -54,6 +54,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `done` | UI / Shell |
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `done` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `done` | UI / Shell |
+| **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `backlog` | Previews |
 
 ---
 
@@ -150,7 +151,7 @@ The statuses function as an extended Kanban workflow:
 - **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Preview Target Selection & Visibility Controls
-- **Description**: Provide intuitive visibility and layout controls for preview targets. Support a segmented target bar offering an "All" view (with individual toggle pills to show or hide specific targets) as well as dedicated single-platform focus tabs (Tailwind, React, Angular, Material M3, Android, iOS) for zero-distraction inspection. Persist visibility state in `localStorage`.
+- **Description**: Provide intuitive visibility and layout controls for preview targets. Support a segmented target bar offering an "All" view (with individual toggle pills to show or hide specific targets) as well as dedicated single-platform focus tabs focusing on primary UI design systems: Web UI (Tailwind CSS, Material M3) and Mobile UI (Android Jetpack Compose, iOS SwiftUI) for zero-distraction inspection. Persist visibility state in `localStorage`.
 - **Acceptance Criteria**:
   - Segmented control supporting "All" mode and single-platform focus tabs.
   - Interactive toggle pills in "All" mode to show/hide individual platform cards.
@@ -158,29 +159,28 @@ The statuses function as an extended Kanban workflow:
   - Fluid, responsive layout dynamically rearranging visible preview cards.
 
 ### TT-010: Tailwind Web Component Preview
-- **Status**: `triage`
+- **Status**: `done`
 - **Category**: Previews
 - **Title**: Tailwind Web Component Preview
-- **Description**: Build a realistic web component preview styled using Tailwind CSS classes wired directly to the active palette. Using Material M3 components as a baseline design reference, provide web-optimized cards, hero headers, buttons, badge pills, form inputs, and interactive alerts.
+- **Description**: Build a realistic web component preview styled using Tailwind CSS classes wired directly to the active palette, implemented natively in React. Provides web-optimized cards, marketing hero header, button variants, badge pills, interactive form inputs, dismissable alert banner, and live @theme CSS token inspector.
 - **Acceptance Criteria**:
   - Components react in real time to palette color changes.
   - Interactive controls (clickable buttons, toggles, form input focus states).
   - Adheres to semantic roles (Background, Text, Primary CTA, Secondary buttons, Accent alerts).
 
-### TT-011: React & Angular Component Previews
-- **Status**: `triage`
+### TT-011: React & Angular Component Previews (Superseded)
+- **Status**: `cancelled`
 - **Category**: Previews
-- **Title**: React & Angular Component Previews
-- **Description**: Build component previews showcasing React-idiomatic and Angular-idiomatic component structures, adopting the Material 3 component baseline to present interactive tabs, cards, form controls, and dialogs.
+- **Title**: React & Angular Component Previews (Superseded)
+- **Description**: Originally scoped to build separate JS framework component previews (React vs. Angular). Superseded by architectural refinement prioritizing **UI styling and design system frameworks** over JS runtime frameworks. All web previews are natively implemented in React, with focused support for **Tailwind CSS** (TT-010) and **Material Design M3** (TT-012) on the web, alongside native mobile previews for **Android Compose** (TT-013) and **iOS SwiftUI** (TT-014). Separate React/Angular preview tabs are eliminated.
 - **Acceptance Criteria**:
-  - Component views reflecting idiomatic web design system conventions.
-  - Interactive controls with live reactive updates when palette changes.
+  - N/A (Superseded by TT-010 and TT-012; separate JS framework preview tasks retired).
 
 ### TT-012: Material Design (M3) Component Preview
 - **Status**: `testing`
 - **Category**: Previews
 - **Title**: Material Design (M3) Component Preview
-- **Description**: Build a comprehensive, authentic Material 3 design system component preview based on official M3 specifications (https://m3.material.io/components). Includes Top App Bar, Navigation Bar / Rail, common buttons (Filled, Elevated, Tonal, Outlined, Text, FAB), Cards (Elevated, Filled, Outlined), Text Fields (Filled and Outlined with floating labels), Filter Chips, Badges, and Switches/Checkboxes.
+- **Description**: Build a comprehensive, authentic Material 3 design system component preview based on official M3 specifications (https://m3.material.io/components), implemented natively in React for the web. Includes Top App Bar, Navigation Bar / Rail, common buttons (Filled, Elevated, Tonal, Outlined, Text, FAB), Cards (Elevated, Filled, Outlined), Text Fields (Filled and Outlined with floating labels), Filter Chips, Badges, and Switches/Checkboxes.
 - **Acceptance Criteria**:
   - Components accurately match official Material 3 geometry, elevations, and typography.
   - Correct token mapping from active palette roles to M3 color roles (primary, on-primary, primary-container, surface, on-surface, outline).
@@ -382,3 +382,18 @@ The statuses function as an extended Kanban workflow:
   - Tonal scale expandable/collapsible with clean animation.
   - Responsive, accessible, and supports Light/Dark theme modes.
   - Unit tests verifying contextual trigger and color synchronization.
+
+### TT-029: Consolidate Preview Targets to UI Design Systems
+- **Status**: `backlog`
+- **Category**: Previews
+- **Title**: Consolidate Preview Targets to UI Design Systems
+- **Description**: Following the architectural refinement prioritizing UI styling/design system frameworks over JS runtime frameworks, update the preview subsystem to remove the legacy `react` and `angular` targets. Consolidate the active preview targets to the 4 canonical UI design systems:
+  1. **Tailwind CSS** (`tailwind` - Web UI Framework)
+  2. **Material Design M3** (`material` - Web UI Design System)
+  3. **Android** (`android` - Mobile UI Framework / Jetpack Compose)
+  4. **iOS** (`ios` - Mobile UI Framework / SwiftUI)
+- **Acceptance Criteria**:
+  - `PreviewTargetId` union updated to `'tailwind' | 'material' | 'android' | 'ios'`.
+  - Segmented target bar and toggle pills render only the 4 design systems.
+  - Legacy `react` and `angular` cards, types, and references cleanly removed from `src/core/preview/` and `src/components/preview/`.
+  - All test suites (`usePreviewTargets.test.ts`, `PreviewSection.test.tsx`, `App.test.tsx`) updated and passing 100%.
