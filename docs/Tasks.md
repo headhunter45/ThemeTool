@@ -55,7 +55,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `released` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `released` | UI / Shell |
 | **[TT-029](#tt-029-consolidate-preview-targets-to-ui-design-systems)** | Consolidate Preview Targets to UI Design Systems | `released` | Previews |
-| **[TT-030](#tt-030-compact-hero-section--remove-system-architecture-tab)** | Compact Hero Section & Remove System Architecture Tab | `backlog` | UI / Shell |
+| **[TT-030](#tt-030-compact-hero-section--remove-system-architecture-tab)** | Compact Hero Section & Remove System Architecture Tab | `testing` | UI / Shell |
 | **[TT-031](#tt-031-studio-5-step-workflow-reorganization--dedicated-export-section)** | Studio 5-Step Workflow Reorganization & Dedicated Export Section | `backlog` | UI / Shell |
 | **[TT-032](#tt-032-shade-studio--palette-cards-cleanup)** | Shade Studio & Palette Cards Cleanup | `backlog` | UI / Shell |
 | **[TT-033](#tt-033-accessibility-section-header--indicator-cleanup)** | Accessibility Section Header & Indicator Cleanup | `backlog` | Quality |
@@ -423,7 +423,7 @@ The statuses function as an extended Kanban workflow:
   - All test suites (`usePreviewTargets.test.ts`, `PreviewSection.test.tsx`, `App.test.tsx`) updated and passing 100%.
 
 ### TT-030: Compact Hero Section & Remove System Architecture Tab
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Compact Hero Section & Remove System Architecture Tab
 - **Description**: Streamline the ThemeTool header and hero layout to maximize vertical studio canvas space and focus the application exclusively as a design system studio:

@@ -1,13 +1,9 @@
-import { Layers, Palette, Sparkles } from 'lucide-react';
+import { Palette, Sparkles } from 'lucide-react';
 import React from 'react';
 import { ThemeToggle } from '../ui/ThemeToggle';
 
-export type AppNavTab = 'studio' | 'architecture';
-
 export interface HeaderProps {
   className?: string;
-  activeTab?: AppNavTab;
-  onTabChange?: (tab: AppNavTab) => void;
 }
 
 const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
@@ -26,8 +22,6 @@ const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' })
 
 export const Header: React.FC<HeaderProps> = ({
   className = '',
-  activeTab = 'studio',
-  onTabChange,
 }) => {
   return (
     <header
@@ -41,51 +35,19 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
+              <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
                 ThemeTool
-              </span>
+              </h1>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/50">
-                <Sparkles className="w-3 h-3" />
+                <Sparkles className="w-3.5 h-3.5" />
                 v0.1.0
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-              Universal Color & Theme Engine
+              Universal Color & Theme Studio
             </p>
           </div>
         </div>
-
-        {/* Navigation Tabs */}
-        {onTabChange && (
-          <nav className="flex items-center gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-            <button
-              type="button"
-              onClick={() => onTabChange('studio')}
-              aria-label="Theme Studio view"
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'studio'
-                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-              }`}
-            >
-              <Palette className="w-3.5 h-3.5" />
-              <span>Theme Studio</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => onTabChange('architecture')}
-              aria-label="System Architecture view"
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'architecture'
-                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>System Architecture</span>
-            </button>
-          </nav>
-        )}
 
         {/* Actions & Theme Controls */}
         <div className="flex items-center gap-3">

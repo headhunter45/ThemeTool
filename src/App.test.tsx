@@ -12,38 +12,29 @@ describe('ThemeTool Shell & UI Integration', { timeout: 30000 }, () => {
     render(<App />);
     const heading = screen.getByRole('heading', { level: 1, name: /ThemeTool/i });
     expect(heading).toBeInTheDocument();
-    expect(screen.getByText('Universal Color & Theme Engine')).toBeInTheDocument();
+    expect(screen.getByText('Universal Color & Theme Studio')).toBeInTheDocument();
   });
 
   it('renders export targets preview pills', () => {
     render(<App />);
-    expect(screen.getByText('Tailwind')).toBeInTheDocument();
-    expect(screen.getByText('Android (XML)')).toBeInTheDocument();
-    expect(screen.getByText('iOS (Swift)')).toBeInTheDocument();
+    expect(screen.getAllByText('Material').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Tailwind').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Android').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('iOS').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('switches between Theme Studio and System Architecture views', () => {
+  it('renders the compact hero and theme studio components directly without architecture tabs', () => {
     render(<App />);
 
-    // Initially on Studio view
+    // Verifies the compact hero heading and studio sections render directly
+    expect(screen.getByRole('heading', { level: 1, name: /ThemeTool/i })).toBeInTheDocument();
+    expect(screen.queryByText('Modern Theme & Design System Studio')).not.toBeInTheDocument();
     expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
     expect(screen.getByText('Component & Platform Previews')).toBeInTheDocument();
+
+    // System Architecture tab and view should no longer exist in the shell
+    expect(screen.queryByRole('button', { name: /System Architecture view/i })).not.toBeInTheDocument();
     expect(screen.queryByText('Core Engine Modules')).not.toBeInTheDocument();
-
-    // Switch to Architecture tab
-    const archTab = screen.getByRole('button', { name: /System Architecture view/i });
-    fireEvent.click(archTab);
-
-    // Now on Architecture view
-    expect(screen.getByText('Core Engine Modules')).toBeInTheDocument();
-    expect(screen.getByText(/UI Shell & Theme Foundation/i)).toBeInTheDocument();
-    expect(screen.getByText(/Color Math & Shade Engine/i)).toBeInTheDocument();
-    expect(screen.queryByText('Choose Base Palette')).not.toBeInTheDocument();
-
-    // Switch back to Studio tab
-    const studioTab = screen.getByRole('button', { name: /Theme Studio view/i });
-    fireEvent.click(studioTab);
-    expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
   });
 
   it('interacts with the theme toggle and switches themes', () => {

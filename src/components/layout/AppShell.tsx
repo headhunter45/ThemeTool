@@ -1,20 +1,18 @@
 import React from 'react';
-import { AppNavTab, Header } from './Header';
+import { Header } from './Header';
 
 export interface AppShellProps {
   children: React.ReactNode;
-  activeTab?: AppNavTab;
-  onTabChange?: (tab: AppNavTab) => void;
+  className?: string;
 }
 
 export const AppShell: React.FC<AppShellProps> = ({
   children,
-  activeTab = 'studio',
-  onTabChange,
+  className = '',
 }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 selection:bg-indigo-500 selection:text-white">
-      <Header activeTab={activeTab} onTabChange={onTabChange} />
+    <div className={`min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200 selection:bg-indigo-500 selection:text-white ${className}`}>
+      <Header />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
