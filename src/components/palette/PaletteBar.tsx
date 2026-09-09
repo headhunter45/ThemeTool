@@ -1,9 +1,10 @@
-import { Check, Copy, Dices, Download, Lock, RotateCcw, Share2, Unlock } from 'lucide-react';
+import { Check, Copy, Dices, Download, Eye, Lock, RotateCcw, Share2, Unlock } from 'lucide-react';
 import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
 import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
+import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { ImportPaletteModal } from './ImportPaletteModal';
 
@@ -23,6 +24,7 @@ export const PaletteBar: React.FC = () => {
 
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -36,9 +38,6 @@ export const PaletteBar: React.FC = () => {
         <div>
           <CardTitle className="flex items-center gap-2">
             <span>Active Semantic Palette</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 font-semibold">
-              TT-004 URL Synced
-            </span>
           </CardTitle>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             5 core semantic roles synced live to URL hash & parameters. Bookmark or share any state instantly.
@@ -224,12 +223,26 @@ export const PaletteBar: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigator.clipboard.writeText(hex)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                       title="Copy hex code"
                     >
                       <Copy className="w-3.5 h-3.5" />
                     </button>
                   </div>
+
+                  {/* Contextual Inspect Action */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveRole(role);
+                      setIsInspectorOpen(true);
+                    }}
+                    aria-label={`Inspect ${meta.label} shades and color math`}
+                    className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200/80 dark:border-slate-750 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <Eye className="w-3 h-3 text-indigo-500" />
+                    <span>Inspect Shades</span>
+                  </button>
                 </div>
               </div>
             );
@@ -240,6 +253,11 @@ export const PaletteBar: React.FC = () => {
       <ImportPaletteModal
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
+      />
+
+      <ColorInspectorModal
+        isOpen={isInspectorOpen}
+        onClose={() => setIsInspectorOpen(false)}
       />
     </Card>
   );

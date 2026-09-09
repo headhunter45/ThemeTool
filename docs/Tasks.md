@@ -53,7 +53,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
 | **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `testing` | UI / Shell |
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `backlog` | UI / Shell |
-| **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `backlog` | UI / Shell |
+| **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `testing` | UI / Shell |
 
 ---
 
@@ -364,7 +364,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests updated to reflect cleaned UI labels and view switching.
 
 ### TT-028: Contextual Color Inspector & On-Demand Shade Studio
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Contextual Color Inspector & On-Demand Shade Studio
 - **Description**: Transform the static, always-visible Color Math & Shade Studio into an on-demand, contextual deep-dive tool:

@@ -43,22 +43,31 @@ describe('ThemeTool Shell & UI Integration', () => {
     expect(document.documentElement.classList.contains('dark')).toBe(false);
   });
 
-  it('renders the Color Math & Shade Studio with conversions and 11 shade swatches', () => {
+  it('opens the Color Math & Shade Studio on demand with conversions and 11 shade swatches', () => {
     render(<App />);
+    expect(screen.queryByText('Color Math & Shade Studio')).not.toBeInTheDocument();
+
+    // Click Inspect Shades on the Primary card
+    const inspectButtons = screen.getAllByRole('button', { name: /Inspect/i });
+    fireEvent.click(inspectButtons[0]);
+
     expect(screen.getByText('Color Math & Shade Studio')).toBeInTheDocument();
     expect(screen.getByText('HEX')).toBeInTheDocument();
     expect(screen.getByText('RGB')).toBeInTheDocument();
     expect(screen.getByText('HSL')).toBeInTheDocument();
     expect(screen.getByText('OKLCH')).toBeInTheDocument();
 
-    // Check all 11 shade steps
+    // Check all 11 shade steps inside the inspector
     ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'].forEach((step) => {
       expect(screen.getByText(step)).toBeInTheDocument();
     });
   });
 
-  it('allows clicking presets and toggling anchor modes', () => {
+  it('allows clicking presets and toggling anchor modes inside the inspector', () => {
     render(<App />);
+    const inspectButtons = screen.getAllByRole('button', { name: /Inspect/i });
+    fireEvent.click(inspectButtons[0]);
+
     const emeraldPreset = screen.getAllByRole('button', { name: /Emerald/i })[0];
     fireEvent.click(emeraldPreset);
 

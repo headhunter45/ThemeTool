@@ -1,6 +1,5 @@
 import { CheckCircle2, Layers, Link2, Palette, Sparkles, Terminal } from 'lucide-react';
 import React from 'react';
-import { ShadeScaleExplorer } from './components/color/ShadeScaleExplorer';
 import { AppShell } from './components/layout/AppShell';
 import { BasePaletteWorkflow, PaletteBar } from './components/palette';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/Card';
@@ -82,9 +81,6 @@ export const AppContent: React.FC = () => {
 
         {/* Active Semantic Palette Bar (TT-004) */}
         <PaletteBar />
-
-        {/* Live Color Math & Shade Engine Studio (TT-003) */}
-        <ShadeScaleExplorer />
 
         {/* Foundation Modules Grid */}
         <div>
