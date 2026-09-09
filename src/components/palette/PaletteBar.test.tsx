@@ -134,4 +134,14 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Export Android Material 3 Resources')).toBeInTheDocument();
   });
+
+  it('opens Export iOS modal when clicking Export iOS button', () => {
+    renderPaletteBar();
+
+    const exportIosBtn = screen.getByLabelText(/Export iOS Assets/i);
+    fireEvent.click(exportIosBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Export iOS Theme Assets')).toBeInTheDocument();
+  });
 });

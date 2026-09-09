@@ -231,7 +231,7 @@ The statuses function as an extended Kanban workflow:
   - Copyable single-file XML snippet tabs.
 
 ### TT-017: iOS Swift & xcassets Exporter
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Exporters
 - **Title**: iOS Swift & xcassets Exporter
 - **Description**: Generate iOS theme assets. Produce a copyable `Theme.swift` file with SwiftUI `Color` static constants (`Color.themePrimary`, `Color.themeBackground`, etc.) and UIKit `UIColor` extensions. Also generate a downloadable `.xcassets` color set folder structure packaged in a `.zip` file using `jszip` for Xcode Asset Catalogs.

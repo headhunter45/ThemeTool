@@ -1,4 +1,5 @@
 import {
+    Apple,
     ArrowLeftRight,
     Check,
     Copy,
@@ -25,6 +26,7 @@ import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { ExportAndroidModal } from './ExportAndroidModal';
+import { ExportIosModal } from './ExportIosModal';
 import { ExportTailwindModal } from './ExportTailwindModal';
 import { ExportThemeJsonModal } from './ExportThemeJsonModal';
 import { ImportPaletteModal } from './ImportPaletteModal';
@@ -60,6 +62,7 @@ export const PaletteBar: React.FC = () => {
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isTailwindExportOpen, setIsTailwindExportOpen] = useState(false);
   const [isAndroidExportOpen, setIsAndroidExportOpen] = useState(false);
+  const [isIosExportOpen, setIsIosExportOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -212,6 +215,18 @@ export const PaletteBar: React.FC = () => {
           >
             <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
             <span>Export Android</span>
+          </button>
+
+          {/* Export iOS Button */}
+          <button
+            type="button"
+            onClick={() => setIsIosExportOpen(true)}
+            aria-label="Export iOS Assets"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Export iOS Swift code and Xcode Asset Catalog (.xcassets)"
+          >
+            <Apple className="w-3.5 h-3.5 text-blue-500" />
+            <span>Export iOS</span>
           </button>
 
           {/* Reset Button */}
@@ -538,6 +553,11 @@ export const PaletteBar: React.FC = () => {
       <ExportAndroidModal
         isOpen={isAndroidExportOpen}
         onClose={() => setIsAndroidExportOpen(false)}
+      />
+
+      <ExportIosModal
+        isOpen={isIosExportOpen}
+        onClose={() => setIsIosExportOpen(false)}
       />
     </Card>
   );
