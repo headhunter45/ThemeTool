@@ -38,8 +38,8 @@ The statuses function as an extended Kanban workflow:
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `done` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Previews (Superseded) | `cancelled` | Previews |
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
-| **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
-| **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
+| **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `backlog` | Previews |
+| **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `backlog` | Previews |
 | **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `testing` | Exporters |
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `testing` | Exporters |
 | **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `testing` | Exporters |
@@ -47,7 +47,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-019](#tt-019-accessibility--wcag-contrast-validator)** | Accessibility & WCAG Contrast Validator | `testing` | Quality |
 | **[TT-020](#tt-020-gradient-palette-generation--export)** | Gradient Palette Generation & Export | `planning` | Enhancements |
 | **[TT-021](#tt-021-extended-theme-tokens-borders-shadows-radii)** | Extended Theme Tokens (Borders, Shadows, Radii) | `planning` | Enhancements |
-| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `triage` | Enhancements |
+| **[TT-022](#tt-022-dark-mode-duality-generator)** | Dark Mode Duality Generator | `backlog` | Enhancements |
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `testing` | Exporters |
@@ -187,24 +187,39 @@ The statuses function as an extended Kanban workflow:
   - Interactive elements: clickable buttons, togglable switches/checkboxes, and typed inputs.
 
 ### TT-013: Android UI Approximation Preview
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Previews
 - **Title**: Android UI Approximation Preview
-- **Description**: Build one or more realistic mobile device frames demonstrating an interactive Android app experience (Jetpack Compose / Material Design 3). Use multiple simulated device screens/frames to showcase distinct navigation patterns (e.g., Top App Bar + Bottom Navigation bar feed screen, and an interactive Form / Settings screen) with interactive controls demonstrating active theme colors in an authentic mobile context.
+- **Description**: Build a realistic mobile device frame demonstrating an authentic Android application experience (Jetpack Compose / Material Design 3). The preview renders inside an Android smartphone chassis (camera punch-hole cutout, status bar, gesture navigation pill, and chassis bevels) and provides an interactive toggle for **Edge-to-Edge rendering** (comparing modern Android 15 `enableEdgeToEdge()` transparent system bar bleeding vs. legacy solid system bars). Features a multi-screen switcher navigating between a **Feed & Media Dashboard** (Top App Bar, M3 filter chips, media cards with interactive like/bookmark actions, and an Extended Floating Action Button) and an **Interactive Settings & Forms Screen** (M3 switches, radio options, OutlinedTextField with floating label, and sliders).
 - **Acceptance Criteria**:
-  - Realistic Android mobile device silhouettes with status bar and navigation bar.
-  - Multiple device screens displaying different navigation paradigms and interactive components.
-  - Interactive controls (buttons, switches, inputs) reacting live to theme changes.
+  - Realistic Android smartphone chassis with status bar (clock, battery, Wi-Fi), top camera punch-hole, and bottom gesture navigation pill.
+  - **Interactive Edge-to-Edge Toggle**:
+    - `On` (Modern Android 15 default): App content extends seamlessly behind transparent status and navigation bars with contrast-aware system icons and a floating gesture pill.
+    - `Off` (Legacy mode): System bars render with dedicated opaque surface boundaries (`surfaceContainer`).
+  - **Dual Screen Switcher**:
+    - Feed / Media Dashboard (`Home`) with Top App Bar, M3 filter chips, feed cards with like/bookmark actions, and Extended Floating Action Button (FAB).
+    - Settings & Form Controls (`Settings`) with switches, radio options, OutlinedTextField, and sliders.
+  - Interactive state management for all controls (toggling switches, clicking chips/buttons, switching screens, typing in inputs, incrementing FAB counter).
+  - Real-time reactivity to active palette changes and M3 color roles (`primary`, `onPrimary`, `primaryContainer`, `surface`, `onSurface`, `tertiary`, `outline`).
+  - Quick-action "Export Android XML" button opening `ExportAndroidModal`.
+  - Comprehensive unit test suite in `src/components/preview/android/AndroidPreview.test.tsx` verifying screen transitions, edge-to-edge toggling, and interactive controls.
 
 ### TT-014: iOS UI Approximation Preview
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Previews
 - **Title**: iOS UI Approximation Preview
-- **Description**: Build one or more realistic Apple iPhone mobile device frames demonstrating an interactive iOS app experience (Apple Human Interface Guidelines / SwiftUI). Displays dynamic island, translucent navigation bar, grouped inset list style, Cupertino segmented controls, rounded action buttons, and bottom tab bar with interactive states.
+- **Description**: Build a realistic Apple iPhone mobile device frame demonstrating an authentic iOS application experience (Apple Human Interface Guidelines / SwiftUI). The preview renders inside an iPhone chassis silhouette (Dynamic Island sensor cutout, SF Pro typography, status bar, home indicator, and chassis bevels with Action Button / volume notches). Derives adaptive iOS Light/Dark appearance directly from active palette background luminance (`getRelativeLuminance(colors.background) < 0.5`). Features a multi-screen switcher navigating between an **App Store / Featured Feed View** (Large Title navigation bar, Cupertino segmented control, hero highlight card, and "GET" pill action buttons) and a **Grouped Inset Settings View** (`List(style: .insetGrouped)` cells, disclosure chevrons, system icon badges, interactive Cupertino toggle switches, and sliders). Features a frosted translucent bottom tab bar (`.ultraThinMaterial` / `backdrop-blur-md`) with tab switching.
 - **Acceptance Criteria**:
-  - Realistic iPhone mobile device frame matching iOS proportions and SF Pro typography aesthetics.
-  - Multiple device screens or navigation views with interactive Cupertino controls.
-  - Reactive color theming applied to system tint, backgrounds, and grouped surfaces.
+  - Realistic iPhone mobile device chassis with centered Dynamic Island, iOS status bar (time, cellular signal, Wi-Fi, battery pill), and bottom home indicator.
+  - Adaptive iOS Light/Dark appearance driven automatically by palette background luminance.
+  - Frosted translucent navigation bar and bottom tab bar with interactive tab switching (`Featured`, `Search`, `Settings`).
+  - **Dual Screen Switcher**:
+    - Featured / App Store screen (`Featured`) with Cupertino segmented controls, hero highlight cards, and "GET" pill action buttons.
+    - Grouped Inset Settings screen (`Settings`) with `List(style: .insetGrouped)` cells, disclosure chevrons, system icon badges, Cupertino toggle switches, and sliders.
+  - Interactive state management for all controls (tab navigation, segmented control toggling, Cupertino switch toggling, button clicks).
+  - Real-time reactivity to active palette changes and iOS system semantic roles (`systemTint` mapped to `colors.primary`, `systemBackground`, `label` mapped to `colors.text`, and `accentColor` mapped to `colors.accent`).
+  - Quick-action "Export iOS Assets" button opening `ExportIosModal` (TT-017).
+  - Comprehensive unit test suite in `src/components/preview/ios/IosPreview.test.tsx` verifying chassis, tab switching, and Cupertino controls.
 
 ### TT-015: Tailwind v3 and v4 Theme Exporter
 - **Status**: `testing`
@@ -283,15 +298,18 @@ The statuses function as an extended Kanban workflow:
   - Exported configs include extended tokens.
 
 ### TT-022: Dark Mode Duality Generator
-- **Status**: `triage`
+- **Status**: `backlog`
 - **Category**: Enhancements
 - **Title**: Dark Mode Duality Generator
-- **Description**: Maintain dual parallel palette configurations (Light Theme & Dark Theme). Provide a bidirectional translator that derives a dark theme from a light theme (or vice versa) while supporting round-tripping translations (preserving brand hues and chromatic balances across reciprocal conversions).
+- **Description**: Enable ThemeTool to manage parallel Light and Dark palette configurations simultaneously. Provides a bidirectional color generator in the perceptual OKLCH color space that automatically derives a balanced dark theme from a light theme (or vice-versa) while supporting round-trip fidelity, manual per-mode fine-tuning, and dual-mode exports. The generator maps light canvases to elevated dark surfaces while preserving subtle background hue tint, transforms dark text to high-legibility light text, scales brand role lightness ($L \to 0.70–0.80$), and softens chroma to prevent chromatic aberration against dark backgrounds without eye fatigue. Includes an active mode switcher on the palette bar (`☀️ Light` / `🌙 Dark`), a side-by-side comparison modal with live contrast audits before applying, and multi-target preview integration.
 - **Acceptance Criteria**:
-  - Separate state management for Light and Dark palette roles.
-  - Bidirectional generator (Light to Dark and Dark to Light).
-  - Round-trip fidelity preserving hue and perceptual contrast balance.
-  - Dual theme preview toggle across preview targets.
+  - Dual palette state management in `PaletteContext` maintaining independent `light` and `dark` configurations with backward-compatible accessors.
+  - Active mode switcher (`☀️ Light` / `🌙 Dark`) in `PaletteBar` with 1-click `Generate Dark Counterpart` / `Generate Light Counterpart` action buttons.
+  - Bidirectional OKLCH duality generator (`generateDarkPalette` and `generateLightPalette`) preserving hue fidelity within 2° across round-trips.
+  - Side-by-side comparison dialog displaying paired colors and contrast ratios before committing generated themes.
+  - Preview section controls to toggle or compare Light and Dark theme appearances across preview cards.
+  - Exporter integration packaging both light and dark definitions into Theme JSON, Tailwind, Android XML (`values` and `values-night`), and iOS (`Colors.xcassets`).
+  - Comprehensive unit test suite verifying duality math, round-trip fidelity, context state toggling, and UI components.
 
 ### TT-023: Automated Continuous Integration (CI) Pipeline
 - **Status**: `planning`
