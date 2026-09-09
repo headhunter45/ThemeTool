@@ -141,4 +141,208 @@ describe('PaletteContext', () => {
     expect(result.current.custom).toHaveLength(1);
     expect(result.current.custom[0].hex).toBe('#123456');
   });
+
+  describe('TT-008: Undo / Redo History Stack', () => {
+    it('tracks undo and redo state across color modifications', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      expect(result.current.canUndo).toBe(false);
+      expect(result.current.canRedo).toBe(false);
+
+      const originalPrimary = result.current.colors.primary;
+
+      act(() => {
+        result.current.setColor('primary', '#e11d48');
+      });
+
+      expect(result.current.colors.primary).toBe('#e11d48');
+      expect(result.current.canUndo).toBe(true);
+      expect(result.current.canRedo).toBe(false);
+
+      // Undo
+      act(() => {
+        result.current.undo();
+      });
+
+      expect(result.current.colors.primary).toBe(originalPrimary);
+      expect(result.current.canUndo).toBe(false);
+      expect(result.current.canRedo).toBe(true);
+
+      // Redo
+      act(() => {
+        result.current.redo();
+      });
+
+      expect(result.current.colors.primary).toBe('#e11d48');
+      expect(result.current.canUndo).toBe(true);
+      expect(result.current.canRedo).toBe(false);
+    });
+
+    it('triggers undo and redo via keyboard shortcuts (Cmd+Z, Cmd+Shift+Z, Cmd+Y)', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+      const originalText = result.current.colors.text;
+
+      act(() => {
+        result.current.setColor('text', '#ffffff');
+      });
+
+      expect(result.current.colors.text).toBe('#ffffff');
+
+      // Dispatch Cmd+Z
+      act(() => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', metaKey: true }));
+      });
+
+      expect(result.current.colors.text).toBe(originalText);
+
+      // Dispatch Cmd+Shift+Z
+      act(() => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', metaKey: true, shiftKey: true }));
+      });
+
+      expect(result.current.colors.text).toBe('#ffffff');
+
+      // Dispatch Ctrl+Z
+      act(() => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true }));
+      });
+
+      expect(result.current.colors.text).toBe(originalText);
+
+      // Dispatch Ctrl+Y
+      act(() => {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'y', ctrlKey: true }));
+      });
+
+      expect(result.current.colors.text).toBe('#ffffff');
+    });
+
+    it('ignores undo shortcut when active target is a text input', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      act(() => {
+        result.current.setColor('primary', '#123123');
+      });
+
+      const textInput = document.createElement('input');
+      textInput.type = 'text';
+      document.body.appendChild(textInput);
+
+      act(() => {
+        const event = new KeyboardEvent('keydown', { key: 'z', metaKey: true, bubbles: true });
+        textInput.dispatchEvent(event);
+      });
+
+      // Should not have undone because target was an input
+      expect(result.current.colors.primary).toBe('#123123');
+      document.body.removeChild(textInput);
+    });
+  });
+
+  describe('TT-008: Role Swap Tool', () => {
+    it('swaps colors between any two semantic roles and records undo state', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      const prevPrimary = result.current.colors.primary;
+      const prevSecondary = result.current.colors.secondary;
+
+      act(() => {
+        result.current.swapRoles('primary', 'secondary');
+      });
+
+      expect(result.current.colors.primary).toBe(prevSecondary);
+      expect(result.current.colors.secondary).toBe(prevPrimary);
+      expect(result.current.canUndo).toBe(true);
+
+      // Undo restores original roles
+      act(() => {
+        result.current.undo();
+      });
+
+      expect(result.current.colors.primary).toBe(prevPrimary);
+      expect(result.current.colors.secondary).toBe(prevSecondary);
+    });
+  });
+
+  describe('TT-008: Custom Extra Color Slots', () => {
+    it('adds, updates, locks, and deletes custom color slots', () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <PaletteProvider>{children}</PaletteProvider>
+      );
+
+      const { result } = renderHook(() => usePalette(), { wrapper });
+
+      expect(result.current.custom).toHaveLength(0);
+
+      // Add slot
+      act(() => {
+        result.current.addCustomSlot('Brand Tertiary', '#8b5cf6');
+      });
+
+      expect(result.current.custom).toHaveLength(1);
+      const slotId = result.current.custom[0].id;
+      expect(result.current.custom[0].name).toBe('Brand Tertiary');
+      expect(result.current.custom[0].hex).toBe('#8b5cf6');
+      expect(result.current.custom[0].locked).toBe(false);
+
+      // Update slot name and hex
+      act(() => {
+        result.current.updateCustomSlot(slotId, { name: 'Brand Neon', hex: '#00ffcc' });
+      });
+
+      expect(result.current.custom[0].name).toBe('Brand Neon');
+      expect(result.current.custom[0].hex).toBe('#00ffcc');
+
+      // Toggle lock
+      act(() => {
+        result.current.toggleCustomSlotLock(slotId);
+      });
+
+      expect(result.current.custom[0].locked).toBe(true);
+
+      // Randomize should NOT alter locked custom slot
+      act(() => {
+        result.current.randomizeUnlocked();
+      });
+
+      expect(result.current.custom[0].hex).toBe('#00ffcc');
+
+      // Unlock and randomize alters custom slot
+      act(() => {
+        result.current.toggleCustomSlotLock(slotId);
+      });
+      expect(result.current.custom[0].locked).toBe(false);
+
+      // Remove slot
+      act(() => {
+        result.current.removeCustomSlot(slotId);
+      });
+
+      expect(result.current.custom).toHaveLength(0);
+
+      // Undo brings back slot
+      act(() => {
+        result.current.undo();
+      });
+
+      expect(result.current.custom).toHaveLength(1);
+      expect(result.current.custom[0].id).toBe(slotId);
+    });
+  });
 });

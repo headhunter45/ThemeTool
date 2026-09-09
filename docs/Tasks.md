@@ -28,12 +28,12 @@ The statuses function as an extended Kanban workflow:
 | :--- | :--- | :--- | :--- |
 | **[TT-001](#tt-001-project-scaffolding--build-pipeline)** | Project Scaffolding & Build Pipeline | `released` | Infrastructure |
 | **[TT-002](#tt-002-github-pages-deployment-workflow)** | GitHub Pages Deployment Workflow | `released` | DevOps |
-| **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `testing` | Core Engine |
-| **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `testing` | Core Engine |
-| **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `testing` | Importers |
+| **[TT-003](#tt-003-core-color-math-and-shade-scale-engine)** | Core Color Math & Shade Scale Engine | `done` | Core Engine |
+| **[TT-004](#tt-004-palette-state-management--url-synchronization)** | Palette State Management & URL Synchronization | `done` | Core Engine |
+| **[TT-005](#tt-005-coolors--colorkit-url-import-parser)** | Coolors & ColorKit URL Import Parser | `done` | Importers |
 | **[TT-006](#tt-006-uicolors-tailwind-format-parser)** | UIColors (Tailwind 3 & 4) Format Parser | `done` | Importers |
-| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `testing` | Importers |
-| **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `backlog` | UI / Shell |
+| **[TT-007](#tt-007-realtime-colors--raw-format-importer)** | Realtime Colors & Raw Format Importer | `done` | Importers |
+| **[TT-008](#tt-008-interactive-palette-editor-ui)** | Interactive Palette Editor UI | `testing` | UI / Shell |
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `backlog` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Component Previews | `triage` | Previews |
@@ -51,9 +51,9 @@ The statuses function as an extended Kanban workflow:
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
-| **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `testing` | UI / Shell |
-| **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `testing` | UI / Shell |
-| **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `testing` | UI / Shell |
+| **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `done` | UI / Shell |
+| **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `done` | UI / Shell |
+| **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `done` | UI / Shell |
 
 ---
 
@@ -136,7 +136,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying Realtime Colors URL and JSON format parsing.
 
 ### TT-008: Interactive Palette Editor UI
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Interactive Palette Editor UI
 - **Description**: Enhance the palette editor with professional editing ergonomics: full Undo/Redo history stack for all palette actions, custom color slot management (adding, renaming, and deleting extra color slots beyond the 5 semantic roles), and a quick Role Swap tool to exchange hex values between any two semantic roles (e.g., swapping Primary <-> Secondary or Text <-> Background).
@@ -327,7 +327,7 @@ The statuses function as an extended Kanban workflow:
   - Automated unit tests validating exported JSON structures against the JSON Schema.
 
 ### TT-026: Base Palette Selection Workflow
-- **Status**: `testing`
+- **Status**: `done`
 - **Category**: UI / Shell
 - **Title**: Base Palette Selection Workflow (Single Color, Presets, Import)
 - **Description**: Implement a tutorial-style base palette selection workflow placed directly under the header at the top of the main studio page. The section unites three setup mechanisms into a single row/section:
@@ -346,7 +346,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying single color palette generation and collapsible UI interaction.
 
 ### TT-027: App Layout Restructure & System Architecture Navigation
-- **Status**: `testing`
+- **Status**: `done`
 - **Category**: UI / Shell
 - **Title**: App Layout Restructure, System Architecture Navigation & Public UI Cleanup
 - **Description**: Clean up internal development markers from the public user interface and re-organize the application layout to flow naturally like a step-by-step design studio:
@@ -364,7 +364,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests updated to reflect cleaned UI labels and view switching.
 
 ### TT-028: Contextual Color Inspector & On-Demand Shade Studio
-- **Status**: `testing`
+- **Status**: `done`
 - **Category**: UI / Shell
 - **Title**: Contextual Color Inspector & On-Demand Shade Studio
 - **Description**: Transform the static, always-visible Color Math & Shade Studio into an on-demand, contextual deep-dive tool:

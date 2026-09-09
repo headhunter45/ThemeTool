@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { generateShadeScale, ShadeScale } from '../core/color';
 import {
     CustomColorSlot,
@@ -31,6 +31,17 @@ export interface PaletteContextType {
   importPalette: (newColors: Partial<PaletteColors>, custom?: CustomColorSlot[]) => void;
   resetToDefault: () => void;
   shareableUrl: string;
+
+  // TT-008: Undo / Redo history & Custom Slots & Role Swap
+  canUndo: boolean;
+  canRedo: boolean;
+  undo: () => void;
+  redo: () => void;
+  swapRoles: (roleA: SemanticRole, roleB: SemanticRole) => void;
+  addCustomSlot: (name?: string, hex?: string) => void;
+  updateCustomSlot: (id: string, updates: Partial<CustomColorSlot>) => void;
+  removeCustomSlot: (id: string) => void;
+  toggleCustomSlotLock: (id: string) => void;
 }
 
 const DEFAULT_COLORS: PaletteColors = {
@@ -102,6 +113,130 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   const [activeRole, setActiveRole] = useState<SemanticRole>('primary');
   const debounceTimerRef = useRef<number | null>(null);
 
+  // TT-008: Undo / Redo history state stack
+  interface HistorySnapshot {
+    colors: PaletteColors;
+    custom: CustomColorSlot[];
+  }
+
+  const MAX_HISTORY = 50;
+  const [past, setPast] = useState<HistorySnapshot[]>([]);
+  const [future, setFuture] = useState<HistorySnapshot[]>([]);
+
+  const pastRef = useRef<HistorySnapshot[]>([]);
+  const futureRef = useRef<HistorySnapshot[]>([]);
+  pastRef.current = past;
+  futureRef.current = future;
+
+  const pushSnapshot = useCallback((snapshot: HistorySnapshot) => {
+    setPast((prev) => {
+      const updated = [...prev, snapshot];
+      const trimmed = updated.length > MAX_HISTORY ? updated.slice(updated.length - MAX_HISTORY) : updated;
+      pastRef.current = trimmed;
+      return trimmed;
+    });
+    setFuture([]);
+    futureRef.current = [];
+  }, []);
+
+  const undo = useCallback(() => {
+    const currentPast = pastRef.current;
+    if (currentPast.length === 0) return;
+    const previous = currentPast[currentPast.length - 1];
+    const newPast = currentPast.slice(0, -1);
+
+    setState((currentState) => {
+      const currentSnapshot: HistorySnapshot = {
+        colors: currentState.colors,
+        custom: currentState.custom,
+      };
+      setFuture((prevFuture) => {
+        const nextFuture = [currentSnapshot, ...prevFuture];
+        futureRef.current = nextFuture;
+        return nextFuture;
+      });
+      return {
+        ...currentState,
+        colors: previous.colors,
+        custom: previous.custom,
+      };
+    });
+
+    setPast(newPast);
+    pastRef.current = newPast;
+  }, []);
+
+  const redo = useCallback(() => {
+    const currentFuture = futureRef.current;
+    if (currentFuture.length === 0) return;
+    const next = currentFuture[0];
+    const newFuture = currentFuture.slice(1);
+
+    setState((currentState) => {
+      const currentSnapshot: HistorySnapshot = {
+        colors: currentState.colors,
+        custom: currentState.custom,
+      };
+      setPast((prevPast) => {
+        const nextPast = [...prevPast, currentSnapshot];
+        pastRef.current = nextPast;
+        return nextPast;
+      });
+      return {
+        ...currentState,
+        colors: next.colors,
+        custom: next.custom,
+      };
+    });
+
+    setFuture(newFuture);
+    futureRef.current = newFuture;
+  }, []);
+
+  const undoRef = useRef(undo);
+  undoRef.current = undo;
+  const redoRef = useRef(redo);
+  redoRef.current = redo;
+
+  // Global keyboard shortcuts for Undo / Redo (Cmd/Ctrl+Z, Cmd/Ctrl+Shift+Z, Cmd/Ctrl+Y)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'TEXTAREA' ||
+          (target.tagName === 'INPUT' &&
+            !['color', 'checkbox', 'radio', 'button', 'submit'].includes(
+              (target as HTMLInputElement).type
+            )))
+      ) {
+        return;
+      }
+
+      const isModifier = e.metaKey || e.ctrlKey;
+      if (!isModifier) return;
+
+      const key = e.key.toLowerCase();
+      if (key === 'z') {
+        if (e.shiftKey) {
+          e.preventDefault();
+          redoRef.current();
+        } else {
+          e.preventDefault();
+          undoRef.current();
+        }
+      } else if (key === 'y') {
+        e.preventDefault();
+        redoRef.current();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Bi-directional sync to URL
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -115,6 +250,15 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
       const encodedParam = encodeColorsToParam(state.colors);
       url.searchParams.set('colors', encodedParam);
 
+      if (state.custom && state.custom.length > 0) {
+        const encodedCustom = state.custom
+          .map((c) => `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`)
+          .join(',');
+        url.searchParams.set('custom', encodedCustom);
+      } else {
+        url.searchParams.delete('custom');
+      }
+
       // Cleanly replace URL with relative path without triggering reload
       window.history.replaceState(null, '', url.pathname + url.search + url.hash);
     }, 120);
@@ -124,7 +268,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
         window.clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [state.colors]);
+  }, [state.colors, state.custom]);
 
   // Listen to popstate (back / forward navigation)
   useEffect(() => {
@@ -150,6 +294,8 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   }, []);
 
   const setColor = (role: SemanticRole, hex: string) => {
+    if (state.colors[role] === hex) return;
+    pushSnapshot({ colors: state.colors, custom: state.custom });
     setState((prev) => ({
       ...prev,
       colors: {
@@ -179,7 +325,69 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     }));
   };
 
+  // TT-008: Role Swap
+  const swapRoles = (roleA: SemanticRole, roleB: SemanticRole) => {
+    if (roleA === roleB || state.colors[roleA] === state.colors[roleB]) return;
+    pushSnapshot({ colors: state.colors, custom: state.custom });
+    setState((prev) => ({
+      ...prev,
+      colors: {
+        ...prev.colors,
+        [roleA]: prev.colors[roleB],
+        [roleB]: prev.colors[roleA],
+      },
+    }));
+  };
+
+  // TT-008: Custom Extra Color Slots
+  const addCustomSlot = (name?: string, hex?: string) => {
+    pushSnapshot({ colors: state.colors, custom: state.custom });
+    const newSlot: CustomColorSlot = {
+      id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name: name?.trim() || `Custom ${state.custom.length + 1}`,
+      hex: hex || '#8b5cf6',
+      locked: false,
+    };
+    setState((prev) => ({
+      ...prev,
+      custom: [...prev.custom, newSlot],
+    }));
+  };
+
+  const updateCustomSlot = (id: string, updates: Partial<CustomColorSlot>) => {
+    const existing = state.custom.find((s) => s.id === id);
+    if (!existing) return;
+    if (
+      (updates.name !== undefined && updates.name !== existing.name) ||
+      (updates.hex !== undefined && updates.hex !== existing.hex)
+    ) {
+      pushSnapshot({ colors: state.colors, custom: state.custom });
+    }
+    setState((prev) => ({
+      ...prev,
+      custom: prev.custom.map((s) => (s.id === id ? { ...s, ...updates } : s)),
+    }));
+  };
+
+  const removeCustomSlot = (id: string) => {
+    const existing = state.custom.find((s) => s.id === id);
+    if (!existing) return;
+    pushSnapshot({ colors: state.colors, custom: state.custom });
+    setState((prev) => ({
+      ...prev,
+      custom: prev.custom.filter((s) => s.id !== id),
+    }));
+  };
+
+  const toggleCustomSlotLock = (id: string) => {
+    setState((prev) => ({
+      ...prev,
+      custom: prev.custom.map((s) => (s.id === id ? { ...s, locked: !s.locked } : s)),
+    }));
+  };
+
   const randomizeUnlocked = () => {
+    pushSnapshot({ colors: state.colors, custom: state.custom });
     // Select a random curated preset and apply only to unlocked slots
     const availablePresets = PALETTE_PRESETS;
     const randomPreset: PalettePreset =
@@ -192,7 +400,16 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
           nextColors[role] = randomPreset.colors[role];
         }
       }
-      return { ...prev, colors: nextColors };
+      const roleKeys: SemanticRole[] = ['primary', 'secondary', 'accent', 'text', 'background'];
+      const nextCustom = prev.custom.map((slot) => {
+        if (slot.locked) return slot;
+        const randomKey = roleKeys[Math.floor(Math.random() * roleKeys.length)];
+        return {
+          ...slot,
+          hex: randomPreset.colors[randomKey],
+        };
+      });
+      return { ...prev, colors: nextColors, custom: nextCustom };
     });
   };
 
@@ -200,6 +417,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     const preset = PALETTE_PRESETS.find((p) => p.id === presetId);
     if (!preset) return;
 
+    pushSnapshot({ colors: state.colors, custom: state.custom });
     setState((prev) => ({
       ...prev,
       colors: { ...preset.colors },
@@ -207,6 +425,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   };
 
   const importPalette = (newColors: Partial<PaletteColors>, custom?: CustomColorSlot[]) => {
+    pushSnapshot({ colors: state.colors, custom: state.custom });
     setState((prev) => ({
       ...prev,
       colors: {
@@ -218,6 +437,7 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
   };
 
   const resetToDefault = () => {
+    pushSnapshot({ colors: state.colors, custom: state.custom });
     setState({
       colors: DEFAULT_COLORS,
       locks: DEFAULT_LOCKS,
@@ -248,8 +468,16 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
     if (typeof window === 'undefined') return '';
     const url = new URL(window.location.href);
     url.searchParams.set('colors', encodeColorsToParam(state.colors));
+    if (state.custom && state.custom.length > 0) {
+      const encodedCustom = state.custom
+        .map((c) => `${encodeURIComponent(c.id)}:${encodeURIComponent(c.name)}:${c.hex.replace(/^#/, '')}`)
+        .join(',');
+      url.searchParams.set('custom', encodedCustom);
+    } else {
+      url.searchParams.delete('custom');
+    }
     return url.toString();
-  }, [state.colors]);
+  }, [state.colors, state.custom]);
 
   return (
     <PaletteContext.Provider
@@ -269,6 +497,15 @@ export const PaletteProvider: React.FC<PaletteProviderProps> = ({
         importPalette,
         resetToDefault,
         shareableUrl,
+        canUndo: past.length > 0,
+        canRedo: future.length > 0,
+        undo,
+        redo,
+        swapRoles,
+        addCustomSlot,
+        updateCustomSlot,
+        removeCustomSlot,
+        toggleCustomSlotLock,
       }}
     >
       {children}

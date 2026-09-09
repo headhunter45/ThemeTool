@@ -1,4 +1,19 @@
-import { Check, Copy, Dices, Download, Eye, Lock, RotateCcw, Share2, Unlock } from 'lucide-react';
+import {
+    ArrowLeftRight,
+    Check,
+    Copy,
+    Dices,
+    Download,
+    Eye,
+    Lock,
+    Plus,
+    Redo2,
+    RotateCcw,
+    Share2,
+    Trash2,
+    Undo2,
+    Unlock,
+} from 'lucide-react';
 import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
@@ -7,11 +22,13 @@ import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { ImportPaletteModal } from './ImportPaletteModal';
+import { RoleSwapModal } from './RoleSwapModal';
 
 export const PaletteBar: React.FC = () => {
   const {
     colors,
     locks,
+    custom,
     setColor,
     toggleLock,
     randomizeUnlocked,
@@ -20,11 +37,20 @@ export const PaletteBar: React.FC = () => {
     shareableUrl,
     activeRole,
     setActiveRole,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
+    addCustomSlot,
+    updateCustomSlot,
+    removeCustomSlot,
+    toggleCustomSlotLock,
   } = usePalette();
 
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
+  const [isSwapOpen, setIsSwapOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -46,6 +72,42 @@ export const PaletteBar: React.FC = () => {
 
         {/* Global Toolbar Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Undo Button */}
+          <button
+            type="button"
+            onClick={undo}
+            disabled={!canUndo}
+            aria-label="Undo palette action"
+            title="Undo (Cmd/Ctrl+Z)"
+            className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-750 transition-all cursor-pointer shadow-sm"
+          >
+            <Undo2 className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Redo Button */}
+          <button
+            type="button"
+            onClick={redo}
+            disabled={!canRedo}
+            aria-label="Redo palette action"
+            title="Redo (Cmd/Ctrl+Shift+Z, Cmd/Ctrl+Y)"
+            className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-750 transition-all cursor-pointer shadow-sm"
+          >
+            <Redo2 className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Role Swap Button */}
+          <button
+            type="button"
+            onClick={() => setIsSwapOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Swap colors between two semantic roles"
+            aria-label="Quick role swap"
+          >
+            <ArrowLeftRight className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Swap Roles</span>
+          </button>
+
           {/* Presets Dropdown */}
           <select
             onChange={(e) => {
@@ -248,6 +310,159 @@ export const PaletteBar: React.FC = () => {
             );
           })}
         </div>
+
+        {/* Custom Extra Color Slots Section */}
+        <div className="mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Custom Color Slots
+                </h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-900/40">
+                  {custom.length}
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Define additional brand tokens, secondary accents, or neutral tints beyond the 5 core roles.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => addCustomSlot()}
+              aria-label="Add custom color slot"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 shadow-xs transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add Color Slot</span>
+            </button>
+          </div>
+
+          {custom.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-6 text-center bg-slate-50/40 dark:bg-slate-900/40">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                No custom color slots added yet. Click <span className="font-semibold text-slate-700 dark:text-slate-300">"Add Color Slot"</span> to create extra tokens.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              {custom.map((slot) => {
+                const hex = slot.hex;
+                const isLocked = !!slot.locked;
+                const textColor = getRecommendedTextColor(hex);
+                const textContrast = getContrastRatio(hex, colors.background);
+
+                return (
+                  <div
+                    key={slot.id}
+                    className="relative flex flex-col rounded-2xl border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all overflow-hidden bg-white dark:bg-slate-900 shadow-xs"
+                  >
+                    {/* Slot Header */}
+                    <div className="p-3 pb-2 flex items-center justify-between gap-1 border-b border-slate-100 dark:border-slate-800/80">
+                      <input
+                        type="text"
+                        value={slot.name}
+                        aria-label={`Custom slot ${slot.id} name`}
+                        onChange={(e) => updateCustomSlot(slot.id, { name: e.target.value })}
+                        className="text-xs font-bold text-slate-900 dark:text-slate-100 bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-indigo-500 focus:outline-none px-0.5 w-28 truncate"
+                      />
+
+                      <div className="flex items-center gap-1">
+                        {/* Lock Toggle */}
+                        <button
+                          type="button"
+                          onClick={() => toggleCustomSlotLock(slot.id)}
+                          aria-label={`Toggle lock for ${slot.name}`}
+                          title={isLocked ? 'Locked (will not change on randomize)' : 'Unlocked'}
+                          className={`p-1 rounded-lg text-xs transition-colors cursor-pointer ${
+                            isLocked
+                              ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300'
+                              : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                          }`}
+                        >
+                          {isLocked ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+                        </button>
+
+                        {/* Delete Slot Button */}
+                        <button
+                          type="button"
+                          onClick={() => removeCustomSlot(slot.id)}
+                          aria-label={`Delete ${slot.name}`}
+                          title="Delete slot"
+                          className="p-1 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Swatch & Input Area */}
+                    <div className="p-3 space-y-2.5">
+                      <div
+                        className="relative h-20 w-full rounded-xl overflow-hidden shadow-inner flex flex-col justify-between p-2.5 transition-colors border border-black/5 dark:border-white/5"
+                        style={{ backgroundColor: hex }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span
+                            className="text-[11px] font-semibold truncate max-w-[90px]"
+                            style={{ color: textColor }}
+                          >
+                            {slot.name}
+                          </span>
+                          <span
+                            className="text-[10px] font-semibold px-1.5 py-0.5 rounded backdrop-blur-sm"
+                            style={{
+                              backgroundColor: textColor === '#ffffff' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.6)',
+                              color: textColor,
+                            }}
+                          >
+                            {textContrast}:1 on bg
+                          </span>
+                        </div>
+
+                        {/* Native Color Picker Input Overlay */}
+                        <input
+                          type="color"
+                          value={hex}
+                          aria-label={`${slot.name} color picker`}
+                          onChange={(e) => updateCustomSlot(slot.id, { hex: e.target.value })}
+                          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                        />
+
+                        <span
+                          className="text-xs font-mono font-medium"
+                          style={{ color: textColor }}
+                        >
+                          {hex}
+                        </span>
+                      </div>
+
+                      {/* Manual Hex Input */}
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={hex}
+                          onChange={(e) => updateCustomSlot(slot.id, { hex: e.target.value })}
+                          aria-label={`${slot.name} hex code`}
+                          className="w-full px-2.5 py-1 text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => navigator.clipboard.writeText(hex)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                          title="Copy hex code"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </CardContent>
 
       <ImportPaletteModal
@@ -258,6 +473,11 @@ export const PaletteBar: React.FC = () => {
       <ColorInspectorModal
         isOpen={isInspectorOpen}
         onClose={() => setIsInspectorOpen(false)}
+      />
+
+      <RoleSwapModal
+        isOpen={isSwapOpen}
+        onClose={() => setIsSwapOpen(false)}
       />
     </Card>
   );
