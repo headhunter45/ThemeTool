@@ -3,11 +3,12 @@ import React, { useMemo, useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { generateShadeScale, getRecommendedTextColor, SHADE_STEPS } from '../../core/color';
 import { parsePaletteUrl, parseTailwindImport } from '../../core/importers';
-import { ROLE_METADATA, SEMANTIC_ROLES, SemanticRole } from '../../core/palette/types';
+import { CustomColorSlot, PaletteColors, ROLE_METADATA, SEMANTIC_ROLES, SemanticRole } from '../../core/palette/types';
 
 interface ImportPaletteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onImport?: (colors: PaletteColors, custom?: CustomColorSlot[]) => void;
 }
 
 const SAMPLE_COOLORS = 'https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8';
@@ -50,6 +51,7 @@ const SAMPLE_TAILWIND_4 = `--color-lucky-50: #faf9ec;
 export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
   isOpen,
   onClose,
+  onImport,
 }) => {
   const { importPalette, setColor } = usePalette();
   const [urlInput, setUrlInput] = useState('');
@@ -83,9 +85,17 @@ export const ImportPaletteModal: React.FC<ImportPaletteModalProps> = ({
 
   const handleImport = () => {
     if (parsedPalette) {
-      importPalette(parsedPalette.mapped.colors, parsedPalette.mapped.custom);
+      if (onImport) {
+        onImport(parsedPalette.mapped.colors, parsedPalette.mapped.custom);
+      } else {
+        importPalette(parsedPalette.mapped.colors, parsedPalette.mapped.custom);
+      }
     } else if (parsedTailwind) {
-      setColor(targetRole, parsedTailwind.baseHex);
+      if (onImport) {
+        onImport({ [targetRole]: parsedTailwind.baseHex } as unknown as PaletteColors);
+      } else {
+        setColor(targetRole, parsedTailwind.baseHex);
+      }
     } else {
       return;
     }

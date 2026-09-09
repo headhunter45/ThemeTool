@@ -2,7 +2,7 @@ import { CheckCircle2, Layers, Link2, Palette, Sparkles, Terminal } from 'lucide
 import React from 'react';
 import { ShadeScaleExplorer } from './components/color/ShadeScaleExplorer';
 import { AppShell } from './components/layout/AppShell';
-import { PaletteBar } from './components/palette/PaletteBar';
+import { BasePaletteWorkflow, PaletteBar } from './components/palette';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/Card';
 import { PaletteProvider } from './context/PaletteContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -76,6 +76,9 @@ export const AppContent: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Step 1: Base Palette Setup Workflow (TT-026) */}
+        <BasePaletteWorkflow />
 
         {/* Active Semantic Palette Bar (TT-004) */}
         <PaletteBar />

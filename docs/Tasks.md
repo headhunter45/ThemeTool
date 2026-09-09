@@ -51,7 +51,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-023](#tt-023-automated-continuous-integration-ci-pipeline)** | Automated Continuous Integration (CI) Pipeline | `planning` | DevOps |
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
-| **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `backlog` | UI / Shell |
+| **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `testing` | UI / Shell |
 | **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `backlog` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `backlog` | UI / Shell |
 
@@ -327,7 +327,7 @@ The statuses function as an extended Kanban workflow:
   - Automated unit tests validating exported JSON structures against the JSON Schema.
 
 ### TT-026: Base Palette Selection Workflow
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: Base Palette Selection Workflow (Single Color, Presets, Import)
 - **Description**: Implement a tutorial-style base palette selection workflow placed directly under the header at the top of the main studio page. The section unites three setup mechanisms into a single row/section:
