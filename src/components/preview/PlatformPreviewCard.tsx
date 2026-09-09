@@ -4,6 +4,7 @@ import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
 import { TargetMetadata } from '../../core/preview/types';
 import { AndroidPreview } from './android/AndroidPreview';
+import { IosPreview } from './ios/IosPreview';
 import { MaterialM3Preview } from './material/MaterialM3Preview';
 import { TailwindWebPreview } from './tailwind/TailwindWebPreview';
 
@@ -87,6 +88,10 @@ export const PlatformPreviewCard: React.FC<PlatformPreviewCardProps> = ({
       ) : target.id === 'android' ? (
         <div className="p-3 sm:p-4 flex-1 flex justify-center">
           <AndroidPreview isFocused={isFocused} />
+        </div>
+      ) : target.id === 'ios' ? (
+        <div className="p-3 sm:p-4 flex-1 flex justify-center">
+          <IosPreview isFocused={isFocused} />
         </div>
       ) : (
         <div

@@ -39,7 +39,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Previews (Superseded) | `cancelled` | Previews |
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `testing` | Previews |
-| **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `backlog` | Previews |
+| **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `in-progress` | Previews |
 | **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `testing` | Exporters |
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `testing` | Exporters |
 | **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `testing` | Exporters |
@@ -205,7 +205,7 @@ The statuses function as an extended Kanban workflow:
   - Comprehensive unit test suite in `src/components/preview/android/AndroidPreview.test.tsx` verifying screen transitions, edge-to-edge toggling, and interactive controls.
 
 ### TT-014: iOS UI Approximation Preview
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Previews
 - **Title**: iOS UI Approximation Preview
 - **Description**: Build a realistic Apple iPhone mobile device frame demonstrating an authentic iOS application experience (Apple Human Interface Guidelines / SwiftUI). The preview renders inside an iPhone chassis silhouette (Dynamic Island sensor cutout, SF Pro typography, status bar, home indicator, and chassis bevels with Action Button / volume notches). Derives adaptive iOS Light/Dark appearance directly from active palette background luminance (`getRelativeLuminance(colors.background) < 0.5`). Features a multi-screen switcher navigating between an **App Store / Featured Feed View** (Large Title navigation bar, Cupertino segmented control, hero highlight card, and "GET" pill action buttons) and a **Grouped Inset Settings View** (`List(style: .insetGrouped)` cells, disclosure chevrons, system icon badges, interactive Cupertino toggle switches, and sliders). Features a frosted translucent bottom tab bar (`.ultraThinMaterial` / `backdrop-blur-md`) with tab switching.
