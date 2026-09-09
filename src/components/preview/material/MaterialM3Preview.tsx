@@ -1,7 +1,8 @@
-import { Check, Heart, Home, Menu, MoreVertical, Plus, Search, Settings } from 'lucide-react';
+import { Check, Heart, Home, Menu, MoreVertical, Plus, Search, Settings, Smartphone } from 'lucide-react';
 import React, { useState } from 'react';
 import { usePalette } from '../../../context/PaletteContext';
 import { computeMaterialTokens } from '../../../core/preview/materialTokens';
+import { ExportAndroidModal } from '../../palette/ExportAndroidModal';
 
 export interface MaterialM3PreviewProps {
   isFocused?: boolean;
@@ -24,6 +25,7 @@ export const MaterialM3Preview: React.FC<MaterialM3PreviewProps> = ({ isFocused 
   const [filledInput, setFilledInput] = useState('Dynamic M3 Material');
   const [outlinedInput, setOutlinedInput] = useState('Live reactive colors');
   const [fabCount, setFabCount] = useState(0);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   const toggleChip = (label: string) => {
     setActiveChips((prev) => ({
@@ -507,11 +509,26 @@ export const MaterialM3Preview: React.FC<MaterialM3PreviewProps> = ({ isFocused 
               borderColor: tokens.outlineVariant,
             }}
           >
-            <div className="font-bold flex items-center justify-between" style={{ color: tokens.onSurface }}>
-              <span>Material 3 Token Derivations</span>
-              <span className="text-[10px] font-mono opacity-70">
-                Primary: {tokens.primary} | Container: {tokens.primaryContainer}
-              </span>
+            <div className="font-bold flex items-center justify-between flex-wrap gap-2" style={{ color: tokens.onSurface }}>
+              <div className="flex items-center gap-2">
+                <span>Material 3 Token Derivations</span>
+                <span className="text-[10px] font-mono opacity-70">
+                  Primary: {tokens.primary} | Container: {tokens.primaryContainer}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsExportModalOpen(true)}
+                aria-label="Export Android XML"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold shadow-2xs hover:opacity-90 transition-opacity cursor-pointer"
+                style={{
+                  backgroundColor: tokens.primary,
+                  color: tokens.onPrimary,
+                }}
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span>Export Android XML</span>
+              </button>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[10px]">
               <div className="p-2 rounded-lg border" style={{ backgroundColor: tokens.primaryContainer, color: tokens.onPrimaryContainer, borderColor: tokens.outlineVariant }}>
@@ -634,6 +651,11 @@ export const MaterialM3Preview: React.FC<MaterialM3PreviewProps> = ({ isFocused 
           </span>
         </button>
       </div>
+
+      <ExportAndroidModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+      />
     </div>
   );
 };

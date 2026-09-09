@@ -124,4 +124,14 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Export Tailwind Theme')).toBeInTheDocument();
   });
+
+  it('opens Export Android modal when clicking Export Android button', () => {
+    renderPaletteBar();
+
+    const exportAndroidBtn = screen.getByLabelText(/Export Android Resources/i);
+    fireEvent.click(exportAndroidBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Export Android Material 3 Resources')).toBeInTheDocument();
+  });
 });

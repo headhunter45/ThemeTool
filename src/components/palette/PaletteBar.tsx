@@ -12,6 +12,7 @@ import {
     Redo2,
     RotateCcw,
     Share2,
+    Smartphone,
     Trash2,
     Undo2,
     Unlock,
@@ -23,6 +24,7 @@ import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { ExportAndroidModal } from './ExportAndroidModal';
 import { ExportTailwindModal } from './ExportTailwindModal';
 import { ExportThemeJsonModal } from './ExportThemeJsonModal';
 import { ImportPaletteModal } from './ImportPaletteModal';
@@ -57,6 +59,7 @@ export const PaletteBar: React.FC = () => {
   const [isSwapOpen, setIsSwapOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isTailwindExportOpen, setIsTailwindExportOpen] = useState(false);
+  const [isAndroidExportOpen, setIsAndroidExportOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -197,6 +200,18 @@ export const PaletteBar: React.FC = () => {
           >
             <FileCode className="w-3.5 h-3.5 text-cyan-500" />
             <span>Export Tailwind</span>
+          </button>
+
+          {/* Export Android Button */}
+          <button
+            type="button"
+            onClick={() => setIsAndroidExportOpen(true)}
+            aria-label="Export Android Resources"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Export Android Material 3 XML resources and zip archive"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Export Android</span>
           </button>
 
           {/* Reset Button */}
@@ -518,6 +533,11 @@ export const PaletteBar: React.FC = () => {
       <ExportTailwindModal
         isOpen={isTailwindExportOpen}
         onClose={() => setIsTailwindExportOpen(false)}
+      />
+
+      <ExportAndroidModal
+        isOpen={isAndroidExportOpen}
+        onClose={() => setIsAndroidExportOpen(false)}
       />
     </Card>
   );

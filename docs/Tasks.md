@@ -219,7 +219,7 @@ The statuses function as an extended Kanban workflow:
   - Clear usage instructions included in export drawer.
 
 ### TT-016: Android XML Resource Generator & Zip Packager
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Exporters
 - **Title**: Android XML Resource Generator & Zip Packager
 - **Description**: Generate native Android XML resource files targeting Material 3 (`Theme.Material3.DayNight.NoActionBar`). Bundles `res/values/colors.xml`, `res/values/themes.xml`, and `res/values-night/themes.xml` into a downloadable `.zip` archive using `jszip`, preserving the exact Android Studio `res/` hierarchy. Also provides copyable XML snippets.

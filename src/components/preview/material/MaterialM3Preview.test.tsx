@@ -125,5 +125,12 @@ describe('MaterialM3Preview (TT-012)', () => {
     );
     expect(screen.getByTestId('m3-token-specs')).toBeInTheDocument();
     expect(screen.getByText('Material 3 Token Derivations')).toBeInTheDocument();
+
+    const exportBtn = screen.getByRole('button', { name: 'Export Android XML' });
+    expect(exportBtn).toBeInTheDocument();
+    fireEvent.click(exportBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Export Android Material 3 Resources')).toBeInTheDocument();
   });
 });
