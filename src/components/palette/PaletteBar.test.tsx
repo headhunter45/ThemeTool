@@ -114,4 +114,14 @@ describe('PaletteBar (TT-008)', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Standard Theme JSON Exporter')).toBeInTheDocument();
   });
+
+  it('opens Export Tailwind modal when clicking Export Tailwind button', () => {
+    renderPaletteBar();
+
+    const exportTailwindBtn = screen.getByLabelText(/Export Tailwind Theme/i);
+    fireEvent.click(exportTailwindBtn);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText('Export Tailwind Theme')).toBeInTheDocument();
+  });
 });

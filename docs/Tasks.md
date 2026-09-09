@@ -40,7 +40,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
-| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `backlog` | Exporters |
+| **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `in-progress` | Exporters |
 | **[TT-016](#tt-016-android-xml-resource-generator--zip-packager)** | Android XML Resource Generator & Zip Packager | `backlog` | Exporters |
 | **[TT-017](#tt-017-ios-swift--xcassets-exporter)** | iOS Swift & xcassets Exporter | `backlog` | Exporters |
 | **[TT-018](#tt-018-shareable-url-generator-with-configurable-base-url)** | Shareable URL Generator with Configurable Base URL | `backlog` | Exporters |
@@ -207,7 +207,7 @@ The statuses function as an extended Kanban workflow:
   - Reactive color theming applied to system tint, backgrounds, and grouped surfaces.
 
 ### TT-015: Tailwind v3 and v4 Theme Exporter
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: Exporters
 - **Title**: Tailwind v3 and v4 Theme Exporter
 - **Description**: Implement export functionality for Tailwind CSS. For Tailwind v4, generate a single `.css` theme file using `@theme` and `--color-*` variables, with a one-click download button and code snippet for importing and setting default theme classes. For Tailwind v3, generate `tailwind.config.js` theme extension code with configurable brand token prefix.

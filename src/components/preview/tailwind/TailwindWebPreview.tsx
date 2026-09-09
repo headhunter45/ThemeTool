@@ -4,6 +4,7 @@ import {
   Check,
   CheckCircle2,
   Copy,
+  FileCode,
   RotateCcw,
   Sparkles,
   TrendingUp,
@@ -17,6 +18,7 @@ import {
   getRecommendedTextColor,
   getRelativeLuminance,
 } from '../../../core/color';
+import { ExportTailwindModal } from '../../palette/ExportTailwindModal';
 
 export interface TailwindWebPreviewProps {
   isFocused?: boolean;
@@ -32,6 +34,7 @@ export const TailwindWebPreview: React.FC<TailwindWebPreviewProps> = ({ isFocuse
   const [showAlert, setShowAlert] = useState(true);
   const [copiedCode, setCopiedCode] = useState(false);
   const [btnClickCount, setBtnClickCount] = useState(0);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   // Derived color tokens & text contrasts
   const primaryText = getRecommendedTextColor(colors.primary);
@@ -401,24 +404,36 @@ export const TailwindWebPreview: React.FC<TailwindWebPreviewProps> = ({ isFocuse
                 Copyable v4 @theme directive block matching active palette.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={handleCopySnippet}
-              className="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
-              style={{ borderColor: cardBorder, color: colors.text }}
-            >
-              {copiedCode ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-500" />
-                  <span className="text-emerald-600 font-bold">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>Copy CSS</span>
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsExportModalOpen(true)}
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
+                style={{ borderColor: cardBorder, color: colors.text }}
+                title="Open full Tailwind exporter with v3/v4 downloads and config options"
+              >
+                <FileCode className="w-3.5 h-3.5 text-cyan-500" />
+                <span>Full Exporter</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleCopySnippet}
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
+                style={{ borderColor: cardBorder, color: colors.text }}
+              >
+                {copiedCode ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-emerald-600 font-bold">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy CSS</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           <pre className="p-3.5 rounded-xl bg-slate-950 text-slate-100 overflow-x-auto text-[11px] leading-relaxed">
@@ -426,6 +441,11 @@ export const TailwindWebPreview: React.FC<TailwindWebPreviewProps> = ({ isFocuse
           </pre>
         </div>
       )}
+
+      <ExportTailwindModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+      />
     </div>
   );
 };

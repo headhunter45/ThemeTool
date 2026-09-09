@@ -5,6 +5,7 @@ import {
     Dices,
     Download,
     Eye,
+    FileCode,
     FileJson,
     Lock,
     Plus,
@@ -22,6 +23,7 @@ import { PALETTE_PRESETS } from '../../core/palette/presets';
 import { ROLE_METADATA, SEMANTIC_ROLES } from '../../core/palette/types';
 import { ColorInspectorModal } from '../color';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { ExportTailwindModal } from './ExportTailwindModal';
 import { ExportThemeJsonModal } from './ExportThemeJsonModal';
 import { ImportPaletteModal } from './ImportPaletteModal';
 import { RoleSwapModal } from './RoleSwapModal';
@@ -54,6 +56,7 @@ export const PaletteBar: React.FC = () => {
   const [isInspectorOpen, setIsInspectorOpen] = useState(false);
   const [isSwapOpen, setIsSwapOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isTailwindExportOpen, setIsTailwindExportOpen] = useState(false);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(shareableUrl);
@@ -182,6 +185,18 @@ export const PaletteBar: React.FC = () => {
           >
             <FileJson className="w-3.5 h-3.5 text-indigo-500" />
             <span>Export JSON</span>
+          </button>
+
+          {/* Export Tailwind Button */}
+          <button
+            type="button"
+            onClick={() => setIsTailwindExportOpen(true)}
+            aria-label="Export Tailwind Theme"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            title="Export Tailwind v3 & v4 theme files and CSS variables"
+          >
+            <FileCode className="w-3.5 h-3.5 text-cyan-500" />
+            <span>Export Tailwind</span>
           </button>
 
           {/* Reset Button */}
@@ -498,6 +513,11 @@ export const PaletteBar: React.FC = () => {
       <ExportThemeJsonModal
         isOpen={isExportOpen}
         onClose={() => setIsExportOpen(false)}
+      />
+
+      <ExportTailwindModal
+        isOpen={isTailwindExportOpen}
+        onClose={() => setIsTailwindExportOpen(false)}
       />
     </Card>
   );
