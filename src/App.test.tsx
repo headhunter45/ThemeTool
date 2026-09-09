@@ -22,10 +22,28 @@ describe('ThemeTool Shell & UI Integration', () => {
     expect(screen.getByText('iOS (Swift)')).toBeInTheDocument();
   });
 
-  it('renders architecture modules including TT-024 and TT-003', () => {
+  it('switches between Theme Studio and System Architecture views', () => {
     render(<App />);
-    expect(screen.getByText('UI Shell & Theme')).toBeInTheDocument();
-    expect(screen.getByText('Color Math & Shade Engine')).toBeInTheDocument();
+
+    // Initially on Studio view
+    expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
+    expect(screen.getByText('Component & Platform Previews')).toBeInTheDocument();
+    expect(screen.queryByText('Core Engine Modules')).not.toBeInTheDocument();
+
+    // Switch to Architecture tab
+    const archTab = screen.getByRole('button', { name: /System Architecture view/i });
+    fireEvent.click(archTab);
+
+    // Now on Architecture view
+    expect(screen.getByText('Core Engine Modules')).toBeInTheDocument();
+    expect(screen.getByText(/UI Shell & Theme Foundation/i)).toBeInTheDocument();
+    expect(screen.getByText(/Color Math & Shade Engine/i)).toBeInTheDocument();
+    expect(screen.queryByText('Choose Base Palette')).not.toBeInTheDocument();
+
+    // Switch back to Studio tab
+    const studioTab = screen.getByRole('button', { name: /Theme Studio view/i });
+    fireEvent.click(studioTab);
+    expect(screen.getByText('Choose Base Palette')).toBeInTheDocument();
   });
 
   it('interacts with the theme toggle and switches themes', () => {

@@ -84,9 +84,6 @@ export const ShadeScaleExplorer: React.FC = () => {
           <div>
             <CardTitle className="flex items-center gap-2">
               <span>Color Math & Shade Studio</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
-                TT-003 Live
-              </span>
             </CardTitle>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Enter any base color to inspect perceptual conversions and generate designer-calibrated 50–950 shade steps.

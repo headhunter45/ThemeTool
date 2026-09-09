@@ -1,9 +1,13 @@
-import { Palette, Sparkles } from 'lucide-react';
+import { Layers, Palette, Sparkles } from 'lucide-react';
 import React from 'react';
 import { ThemeToggle } from '../ui/ThemeToggle';
 
+export type AppNavTab = 'studio' | 'architecture';
+
 export interface HeaderProps {
   className?: string;
+  activeTab?: AppNavTab;
+  onTabChange?: (tab: AppNavTab) => void;
 }
 
 const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
@@ -20,7 +24,11 @@ const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' })
   </svg>
 );
 
-export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
+export const Header: React.FC<HeaderProps> = ({
+  className = '',
+  activeTab = 'studio',
+  onTabChange,
+}) => {
   return (
     <header
       className={`sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors ${className}`}
@@ -47,6 +55,38 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
           </div>
         </div>
 
+        {/* Navigation Tabs */}
+        {onTabChange && (
+          <nav className="flex items-center gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => onTabChange('studio')}
+              aria-label="Theme Studio view"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'studio'
+                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5" />
+              <span>Theme Studio</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onTabChange('architecture')}
+              aria-label="System Architecture view"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                activeTab === 'architecture'
+                  ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>System Architecture</span>
+            </button>
+          </nav>
+        )}
+
         {/* Actions & Theme Controls */}
         <div className="flex items-center gap-3">
           <a
@@ -64,4 +104,3 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
     </header>
   );
 };
-

@@ -52,7 +52,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-024](#tt-024-application-shell-ui-foundation--lightdark-theme)** | Application Shell, UI Foundation & Light/Dark Theme | `released` | UI / Shell |
 | **[TT-025](#tt-025-standard-theme-json-exporter--json-schema-specification)** | Standard Theme JSON Exporter & JSON Schema | `backlog` | Exporters |
 | **[TT-026](#tt-026-base-palette-selection-workflow)** | Base Palette Selection Workflow (Single Color, Presets, Import) | `testing` | UI / Shell |
-| **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `backlog` | UI / Shell |
+| **[TT-027](#tt-027-app-layout-restructure--system-architecture-navigation)** | App Layout Restructure & System Architecture Navigation | `testing` | UI / Shell |
 | **[TT-028](#tt-028-contextual-color-inspector--on-demand-shade-studio)** | Contextual Color Inspector & On-Demand Shade Studio | `testing` | UI / Shell |
 
 ---
@@ -346,7 +346,7 @@ The statuses function as an extended Kanban workflow:
   - Unit tests verifying single color palette generation and collapsible UI interaction.
 
 ### TT-027: App Layout Restructure & System Architecture Navigation
-- **Status**: `backlog`
+- **Status**: `testing`
 - **Category**: UI / Shell
 - **Title**: App Layout Restructure, System Architecture Navigation & Public UI Cleanup
 - **Description**: Clean up internal development markers from the public user interface and re-organize the application layout to flow naturally like a step-by-step design studio:
