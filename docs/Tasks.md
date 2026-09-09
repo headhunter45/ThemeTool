@@ -37,7 +37,7 @@ The statuses function as an extended Kanban workflow:
 | **[TT-009](#tt-009-preview-target-selection--visibility-controls)** | Preview Target Selection & Visibility Controls | `testing` | UI / Shell |
 | **[TT-010](#tt-010-tailwind-web-component-preview)** | Tailwind Web Component Preview | `triage` | Previews |
 | **[TT-011](#tt-011-react--angular-component-previews)** | React & Angular Component Previews | `triage` | Previews |
-| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `in-progress` | Previews |
+| **[TT-012](#tt-012-material-design-m3-component-preview)** | Material Design (M3) Component Preview | `testing` | Previews |
 | **[TT-013](#tt-013-android-ui-approximation-preview)** | Android UI Approximation Preview | `triage` | Previews |
 | **[TT-014](#tt-014-ios-ui-approximation-preview)** | iOS UI Approximation Preview | `triage` | Previews |
 | **[TT-015](#tt-015-tailwind-v3-and-v4-theme-exporter)** | Tailwind v3 and v4 Theme Exporter | `backlog` | Exporters |
@@ -177,7 +177,7 @@ The statuses function as an extended Kanban workflow:
   - Interactive controls with live reactive updates when palette changes.
 
 ### TT-012: Material Design (M3) Component Preview
-- **Status**: `in-progress`
+- **Status**: `testing`
 - **Category**: Previews
 - **Title**: Material Design (M3) Component Preview
 - **Description**: Build a comprehensive, authentic Material 3 design system component preview based on official M3 specifications (https://m3.material.io/components). Includes Top App Bar, Navigation Bar / Rail, common buttons (Filled, Elevated, Tonal, Outlined, Text, FAB), Cards (Elevated, Filled, Outlined), Text Fields (Filled and Outlined with floating labels), Filter Chips, Badges, and Switches/Checkboxes.

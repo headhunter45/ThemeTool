@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { usePalette } from '../../context/PaletteContext';
 import { getContrastRatio, getRecommendedTextColor } from '../../core/color';
 import { TargetMetadata } from '../../core/preview/types';
+import { MaterialM3Preview } from './material/MaterialM3Preview';
 
 export interface PlatformPreviewCardProps {
   target: TargetMetadata;
@@ -73,120 +74,126 @@ export const PlatformPreviewCard: React.FC<PlatformPreviewCardProps> = ({
       </div>
 
       {/* Preview Surface Canvas */}
-      <div
-        className="p-5 flex-1 space-y-4 transition-colors border-b border-black/5 dark:border-white/5"
-        style={{ backgroundColor: colors.background }}
-      >
-        {/* Themed Header / Hero Banner */}
-        <div className="flex items-center justify-between border-b pb-3 border-black/10 dark:border-white/10">
-          <div>
-            <h4
-              className="text-sm font-bold tracking-tight"
-              style={{ color: colors.text }}
+      {target.id === 'material' ? (
+        <div className="p-3 sm:p-4 flex-1">
+          <MaterialM3Preview isFocused={isFocused} />
+        </div>
+      ) : (
+        <div
+          className="p-5 flex-1 space-y-4 transition-colors border-b border-black/5 dark:border-white/5"
+          style={{ backgroundColor: colors.background }}
+        >
+          {/* Themed Header / Hero Banner */}
+          <div className="flex items-center justify-between border-b pb-3 border-black/10 dark:border-white/10">
+            <div>
+              <h4
+                className="text-sm font-bold tracking-tight"
+                style={{ color: colors.text }}
+              >
+                Interactive {target.label} Canvas
+              </h4>
+              <p
+                className="text-[11px] opacity-80"
+                style={{ color: colors.text }}
+              >
+                Active background surface ({colors.background})
+              </p>
+            </div>
+
+            <span
+              className="px-2.5 py-1 rounded-full text-[10px] font-bold shadow-2xs"
+              style={{ backgroundColor: colors.accent, color: accentTextColor }}
             >
-              Interactive {target.label} Canvas
-            </h4>
-            <p
-              className="text-[11px] opacity-80"
-              style={{ color: colors.text }}
-            >
-              Active background surface ({colors.background})
+              Accent Badge
+            </span>
+          </div>
+
+          {/* Themed Interactive Buttons */}
+          <div className="space-y-2">
+            <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70" style={{ color: colors.text }}>
+              Button & Action States
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm transition-transform active:scale-95 cursor-pointer"
+                style={{ backgroundColor: colors.primary, color: primaryTextColor }}
+              >
+                Primary CTA
+              </button>
+
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border shadow-2xs transition-transform active:scale-95 cursor-pointer"
+                style={{
+                  backgroundColor: colors.secondary,
+                  color: secondaryTextColor,
+                  borderColor: 'rgba(0,0,0,0.1)',
+                }}
+              >
+                Secondary Action
+              </button>
+
+              <button
+                type="button"
+                className="px-3 py-1.5 rounded-xl text-xs font-medium transition-colors hover:underline"
+                style={{ color: colors.primary }}
+              >
+                Text Link
+              </button>
+            </div>
+          </div>
+
+          {/* Themed Form & Input Controls */}
+          <div className="space-y-2">
+            <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70" style={{ color: colors.text }}>
+              Interactive Form Control
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder={`Enter text in ${target.label}...`}
+                aria-label={`Sample input for ${target.label}`}
+                className="w-full px-3 py-1.5 rounded-xl text-xs border shadow-2xs outline-none focus:ring-2"
+                style={{
+                  backgroundColor: colors.background,
+                  color: colors.text,
+                  borderColor: colors.secondary,
+                }}
+              />
+
+              <label className="flex items-center gap-1.5 text-xs font-medium cursor-pointer shrink-0" style={{ color: colors.text }}>
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
+                  className="w-3.5 h-3.5 rounded accent-indigo-600 cursor-pointer"
+                />
+                <span className="text-[11px]">Active</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Themed Card / Surface Tile */}
+          <div
+            className="p-3.5 rounded-xl border shadow-xs space-y-1.5"
+            style={{
+              backgroundColor: colors.background === '#ffffff' ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
+              borderColor: 'rgba(0,0,0,0.08)',
+            }}
+          >
+            <div className="flex items-center justify-between text-[11px] font-semibold" style={{ color: colors.text }}>
+              <span>Surface Card Elevation</span>
+              <span className="opacity-70 font-mono text-[10px]">{target.framework}</span>
+            </div>
+            <p className="text-[11px] leading-relaxed opacity-85" style={{ color: colors.text }}>
+              Demonstrating semantic contrast ratios: Text on background ({textContrastOnBg}:1) & Primary CTA ({primaryContrastOnBg}:1).
             </p>
           </div>
-
-          <span
-            className="px-2.5 py-1 rounded-full text-[10px] font-bold shadow-2xs"
-            style={{ backgroundColor: colors.accent, color: accentTextColor }}
-          >
-            Accent Badge
-          </span>
         </div>
-
-        {/* Themed Interactive Buttons */}
-        <div className="space-y-2">
-          <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70" style={{ color: colors.text }}>
-            Button & Action States
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              className="px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm transition-transform active:scale-95 cursor-pointer"
-              style={{ backgroundColor: colors.primary, color: primaryTextColor }}
-            >
-              Primary CTA
-            </button>
-
-            <button
-              type="button"
-              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border shadow-2xs transition-transform active:scale-95 cursor-pointer"
-              style={{
-                backgroundColor: colors.secondary,
-                color: secondaryTextColor,
-                borderColor: 'rgba(0,0,0,0.1)',
-              }}
-            >
-              Secondary Action
-            </button>
-
-            <button
-              type="button"
-              className="px-3 py-1.5 rounded-xl text-xs font-medium transition-colors hover:underline"
-              style={{ color: colors.primary }}
-            >
-              Text Link
-            </button>
-          </div>
-        </div>
-
-        {/* Themed Form & Input Controls */}
-        <div className="space-y-2">
-          <div className="text-[10px] font-semibold uppercase tracking-wider opacity-70" style={{ color: colors.text }}>
-            Interactive Form Control
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder={`Enter text in ${target.label}...`}
-              aria-label={`Sample input for ${target.label}`}
-              className="w-full px-3 py-1.5 rounded-xl text-xs border shadow-2xs outline-none focus:ring-2"
-              style={{
-                backgroundColor: colors.background,
-                color: colors.text,
-                borderColor: colors.secondary,
-              }}
-            />
-
-            <label className="flex items-center gap-1.5 text-xs font-medium cursor-pointer shrink-0" style={{ color: colors.text }}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={(e) => setIsChecked(e.target.checked)}
-                className="w-3.5 h-3.5 rounded accent-indigo-600 cursor-pointer"
-              />
-              <span className="text-[11px]">Active</span>
-            </label>
-          </div>
-        </div>
-
-        {/* Themed Card / Surface Tile */}
-        <div
-          className="p-3.5 rounded-xl border shadow-xs space-y-1.5"
-          style={{
-            backgroundColor: colors.background === '#ffffff' ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-            borderColor: 'rgba(0,0,0,0.08)',
-          }}
-        >
-          <div className="flex items-center justify-between text-[11px] font-semibold" style={{ color: colors.text }}>
-            <span>Surface Card Elevation</span>
-            <span className="opacity-70 font-mono text-[10px]">{target.framework}</span>
-          </div>
-          <p className="text-[11px] leading-relaxed opacity-85" style={{ color: colors.text }}>
-            Demonstrating semantic contrast ratios: Text on background ({textContrastOnBg}:1) & Primary CTA ({primaryContrastOnBg}:1).
-          </p>
-        </div>
-      </div>
+      )}
 
       {/* Target Card Footer */}
       <div className="px-4 py-2 bg-slate-50 dark:bg-slate-850 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
